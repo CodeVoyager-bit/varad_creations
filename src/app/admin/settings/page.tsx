@@ -1,5 +1,6 @@
 import { saveSettingsA } from "@/app/actions/admin";
 import { ActionForm } from "@/components/admin-ui";
+import { ImagePicker } from "@/components/image-picker";
 import { Button, Card, Field, Input, Notice, Textarea } from "@/components/ui";
 import { requireAdmin } from "@/lib/session";
 import { launchGaps } from "@/lib/settings-defaults";
@@ -22,7 +23,7 @@ export default async function Settings() {
   ];
   return (
     <div className="mx-auto max-w-4xl space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Business settings</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Business settings</h1>
       {gaps.length > 0 && (
         <Notice tone="warn" title="Missing before launch">
           {gaps.join(" · ")}
@@ -50,9 +51,10 @@ export default async function Settings() {
           <Field label="Tagline" className="sm:col-span-2">
             <Input name="tagline" defaultValue={s.tagline} />
           </Field>
-          <Field label="Logo (PNG/JPEG/WebP)">
-            <input type="file" name="logo" accept="image/png,image/jpeg,image/webp" className="text-sm" />
-          </Field>
+          <div className="sm:col-span-2">
+            <span className="mb-1 block text-sm font-medium text-ink-700">Logo</span>
+            <ImagePicker name="logo" current={s.logoUrl} label="Upload logo" hint="PNG with transparent background works best · JPEG, PNG or WebP · up to 5 MB" />
+          </div>
           {s.logoUrl && (
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" name="removeLogo" /> Remove current logo (use temporary wordmark)

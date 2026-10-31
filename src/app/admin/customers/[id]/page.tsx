@@ -30,7 +30,7 @@ export default async function Customer({ params }: PageProps<"/admin/customers/[
         ← Customers
       </Link>
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl font-semibold">{u.name}</h1>
+        <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">{u.name}</h1>
         <ActionButton size="sm" variant={u.disabled ? "secondary" : "ghost"} action={setDisabledA.bind(null, id, !u.disabled)} confirm={u.disabled ? undefined : "Disable this account? They will be signed out."}>
           {u.disabled ? "Enable account" : "Disable account"}
         </ActionButton>

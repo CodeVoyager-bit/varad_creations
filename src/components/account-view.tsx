@@ -26,6 +26,7 @@ export function AccountView({ user, addresses }: { user: { name: string; phone: 
             start(async () => {
               const r = await updateProfile(name);
               setMsg(r.ok ? { tone: "good", text: "Name updated." } : { tone: "bad", text: r.error });
+              if (r.ok) authClient.$store.notify("$sessionSignal");
               router.refresh();
             });
           }}
@@ -79,6 +80,7 @@ export function AccountView({ user, addresses }: { user: { name: string; phone: 
                     className="font-semibold text-danger-600"
                     onClick={() =>
                       start(async () => {
+                        if (!window.confirm(`Delete the address “${a.label}”?`)) return;
                         await deleteAddress(a.id);
                         router.refresh();
                       })

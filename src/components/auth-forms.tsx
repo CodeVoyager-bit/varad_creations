@@ -25,6 +25,7 @@ function PhoneInput({ value, onChange, autoFocus }: { value: string; onChange: (
           onChange={(e) => onChange(e.target.value.replace(/\D/g, "").slice(0, 10))}
           className="rounded-l-none"
           placeholder="98XXXXXXXX"
+          name="phone"
         />
       </div>
     </Field>
@@ -91,7 +92,7 @@ export function LoginForm() {
         </Field>
       ) : (
         <>
-          <PhoneInput value={phone} onChange={setPhone} autoFocus />
+          <PhoneInput value={phone} onChange={setPhone} />
           <PasswordInput label="Password" value={password} onChange={setPassword} autoComplete="current-password" />
         </>
       )}
@@ -142,6 +143,7 @@ export function RegisterForm() {
     setBusy(false);
     if (!r.ok) return setErr({ text: r.error, exists: r.exists });
     setPassword(""); // the route stays mounted (hidden) after navigation
+    authClient.$store.notify("$sessionSignal"); // signed in by a server action: refresh the header
     router.replace(safeNext(sp.get("next")) ?? "/");
     router.refresh();
   }
@@ -149,7 +151,7 @@ export function RegisterForm() {
   if (step === "phone")
     return (
       <form onSubmit={send} className="space-y-4">
-        <PhoneInput value={phone} onChange={setPhone} autoFocus />
+        <PhoneInput value={phone} onChange={setPhone} />
         <p className="text-xs text-ink-500">We’ll send a one-time code (WhatsApp or SMS) to confirm this number is yours. You’ll sign in with your number and password afterwards.</p>
         {err && <Notice tone="bad">{err.text}</Notice>}
         <Button block size="lg" disabled={busy || phone.length !== 10}>
@@ -235,7 +237,7 @@ export function ForgotPasswordForm() {
   if (step === "phone")
     return (
       <form onSubmit={request} className="space-y-4">
-        <PhoneInput value={phone} onChange={setPhone} autoFocus />
+        <PhoneInput value={phone} onChange={setPhone} />
         {err && <Notice tone="bad">{err}</Notice>}
         <Button block size="lg" disabled={busy || phone.length !== 10}>
           {busy ? "Please wait…" : "Send reset code"}

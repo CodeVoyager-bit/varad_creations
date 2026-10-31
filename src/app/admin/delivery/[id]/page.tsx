@@ -30,7 +30,7 @@ export default async function Batch({ params }: PageProps<"/admin/delivery/[id]"
         ← Delivery
       </Link>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="font-display text-2xl font-semibold">Batch {b.code}</h1>
+        <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Batch {b.code}</h1>
         <Badge tone={b.status === "completed" ? "good" : b.status === "revoked" ? "bad" : "info"}>{b.status.replace("_", " ")}</Badge>
       </div>
       <Card className="space-y-2 p-4 text-sm">

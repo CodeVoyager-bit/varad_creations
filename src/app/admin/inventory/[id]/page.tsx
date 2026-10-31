@@ -42,7 +42,7 @@ export default async function VariantStock({ params }: PageProps<"/admin/invento
       <Link href="/admin/inventory" className="text-sm font-semibold text-burgundy-700">
         ← Inventory
       </Link>
-      <h1 className="font-display text-2xl font-semibold">
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">
         {p?.name} · {v.label}
       </h1>
       <div className="grid grid-cols-3 gap-3 text-center">

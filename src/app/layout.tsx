@@ -1,12 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Lora } from "next/font/google";
+import { Inter, Lora, Plus_Jakarta_Sans } from "next/font/google";
 import { getSettings } from "@/server/storefront";
 import { SwRegister } from "@/components/sw-register";
 import { isIndexable, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const body = Inter({ variable: "--font-body", subsets: ["latin"], display: "swap" });
-const display = Lora({ variable: "--font-display-serif", subsets: ["latin"], weight: ["500", "600", "700"], display: "swap" });
+const heading = Plus_Jakarta_Sans({ variable: "--font-heading", subsets: ["latin"], weight: ["600", "700", "800"], display: "swap" });
+// serif only for the "Varad Creation" wordmark
+const brand = Lora({ variable: "--font-brand-serif", subsets: ["latin"], weight: ["600", "700"], display: "swap" });
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
@@ -24,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#861c30",
+  themeColor: "#ffffff", // matches the header surface
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -32,7 +34,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${body.variable} ${display.variable} h-full antialiased`}>
+    <html lang="en-IN" className={`${body.variable} ${heading.variable} ${brand.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         {children}
         <SwRegister />

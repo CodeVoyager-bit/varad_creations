@@ -26,7 +26,7 @@ export default async function NotFound() {
           </text>
         </svg>
         <div>
-          <h1 className="font-display text-3xl font-semibold text-burgundy-700">This page has gone missing</h1>
+          <h1 className="font-display text-[1.75rem] font-extrabold tracking-[-0.02em] text-burgundy-700">This page has gone missing</h1>
           <p className="mt-2 text-ink-500">Like the last piece of sev in the packet. Try searching, or pick a category below.</p>
         </div>
         <form action="/search" role="search" className="mx-auto flex h-12 max-w-md items-center gap-2 rounded-xl border border-cream-300 bg-white px-3">

@@ -1,0 +1,390 @@
+[
+  {
+    "brand": "Pushp",
+    "company": "Pushp Brand (India) Ltd., Sanwer Road, Indore (M.P.) - est. 1974",
+    "officialSite": "https://www.pushpmasale.com",
+    "logoUrl": "https://www.pushpmasale.com/wp-content/uploads/2024/12/Logo-2323-1.png",
+    "notes": "Identified with high confidence as Pushp Masale (Pushp Brand (India) Ltd., Indore; D2C store pushponline.com). It is a SPICES/TEA company: its full online catalogue (79 products) has no namkeen, snacks, bakery, sweets or pickles. Listed instead are the Pushp packs a namkeen shop is most likely to stock: Indori poha/jeeravan masala, chaat, jal-jeera, chhach, sandwich and achar (pickle) masalas. Category set to 'Masala' (outside the requested 5) - map or drop as you see fit. Logo is small (156x60 PNG). Veg mark not stated in page text, so veg=null. MRPs are the 'MRP' shown on Pushp's official store pushponline.com (Oct 2026); store sells below MRP. Category 'Masala': Pushp makes no namkeen/bakery/pickle/sweet product, so no store category fits.",
+    "products": [
+      {
+        "name": "Poha Masala (Jeeravan)",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "100 g pouch",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 53
+          },
+          {
+            "label": "500 g pouch",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 249
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2023/03/Poha-Masala-First-Image-100g.webp",
+        "imageSourcePage": "https://pushponline.com/jeeravan-poha-masala/",
+        "notes": "Store title 'Jeeravan Poha Masala'; pack front reads 'Poha Masala (जीरावन)'. Image is the 100 g pouch, 1500x1500, white bg."
+      },
+      {
+        "name": "Poha Masala (Jeeravan) Sprinkler",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "100 g sprinkler jar",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 68
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2024/05/Jeeravan-Masala-100g-Sprinkler_5.webp",
+        "imageSourcePage": "https://pushponline.com/jeeravan-masala-100g-sprinkler/",
+        "notes": "Store title 'Jeeravan (Poha) Masala 100g Sprinkler'; page shows 'MRP - Rs. 68.00'. 1080x1080 white bg."
+      },
+      {
+        "name": "Chat Masala",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "50 g box",
+            "netQty": 50,
+            "netUnit": "g",
+            "mrp": 47
+          },
+          {
+            "label": "100 g box",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 89
+          },
+          {
+            "label": "200 g pouch",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 174
+          },
+          {
+            "label": "500 g jar",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 439
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2023/03/Chat-Masala-Box-First-Image-100g-Box_2.webp",
+        "imageSourcePage": "https://pushponline.com/chat-masala/",
+        "notes": "Image is the 100 g box, 1500x1500 white bg."
+      },
+      {
+        "name": "Chat Masala Sprinkler",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "100 g sprinkler jar",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 94
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2024/03/Chat.webp",
+        "imageSourcePage": "https://pushponline.com/chat-masala-100g-sprinkler/",
+        "notes": "1080x1080 white bg."
+      },
+      {
+        "name": "Jal-Jeera Mix Masala",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "50 g box",
+            "netQty": 50,
+            "netUnit": "g",
+            "mrp": 37
+          },
+          {
+            "label": "100 g box",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 70
+          },
+          {
+            "label": "500 g pouch",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 180
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2023/05/Jal-Jeera-Box.webp",
+        "imageSourcePage": "https://pushponline.com/jal-jeera-masala/",
+        "notes": "Store title 'Jal Jeera Masala'; pack reads 'Jal-Jeera Mix Masala'. Image 800x800, light-grey vignette rather than pure white. A 100 g sprinkler jar (MRP 75) also exists: https://pushponline.com/jal-jeera-100g-sprinkler/"
+      },
+      {
+        "name": "Chhach Masala",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "150 g jar",
+            "netQty": 150,
+            "netUnit": "g",
+            "mrp": 70
+          },
+          {
+            "label": "100 g pouch",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 46
+          },
+          {
+            "label": "500 g pouch",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 220
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2025/01/Chhach.webp",
+        "imageSourcePage": "https://pushponline.com/chhach-masala-jar/",
+        "notes": "Buttermilk masala. Jar price from the jar page; pouch prices from https://pushponline.com/chhach-masala-pouch/ . Image is the 150 g jar, 1080x1080 white bg."
+      },
+      {
+        "name": "Sandwich Masala Sprinkler",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "100 g sprinkler jar",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 65
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2024/05/Sandwich-Masala-100g_5.webp",
+        "imageSourcePage": "https://pushponline.com/sandwich-masala-100g-sprinkler/",
+        "notes": "1080x1080 white bg."
+      },
+      {
+        "name": "Munimji Poha-Chiwda Masala",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "100 g pouch",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 40
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2025/11/Munimji-Poha-Masala-Pouch-First-Image-100g_8.webp",
+        "imageSourcePage": "https://pushponline.com/munimji-poha-chiwda-masala/",
+        "notes": "Munimji is Pushp's value sub-brand. 1500x1500 white bg."
+      },
+      {
+        "name": "Achar Masala",
+        "category": "Masala",
+        "veg": null,
+        "packs": [
+          {
+            "label": "100 g pouch",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "200 g pouch",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 94
+          },
+          {
+            "label": "200 g box",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 99
+          },
+          {
+            "label": "500 g pouch",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 233
+          }
+        ],
+        "imageUrl": "https://pushponline.com/wp-content/uploads/2023/03/Achar-Masala-First-Image-200g-2.webp",
+        "imageSourcePage": "https://pushponline.com/achar-masala/",
+        "notes": "Pickle-making masala, not a pickle. Image is the 200 g pouch, 1500x1500 white bg."
+      }
+    ]
+  },
+  {
+    "brand": "Athavale's",
+    "company": "Athavale's (आठवलेज्) - a unit of Sushila Gruh Udyog, Hingne Khurd, Pune 411051; since 1970; FSSAI 11517036000550",
+    "officialSite": "https://www.athavales.com",
+    "logoUrl": "https://cdn.shopify.com/s/files/1/0685/1058/0901/files/athavles_logo.jpg?v=1785342962&width=400",
+    "notes": "Owner wrote 'Aathavlez'. Identified with high confidence as Athavale's, a Pune Maharashtrian snack/sweet maker. Its logo is in Devanagari, 'आठवलेज्' (Aathavlej), and the site header and logo file read 'ATHAVLES'. 'Aathavlez' is a phonetic transliteration of that logo, and a Pune brand fits a Hadapsar shop. It is NOT an Indori brand. Range: chakli, chivda, bakarwadi, shankarpale, sev, upwas (fasting) snacks, ladoo, barfi and wadi. The official Shopify store is the primary source. Veg mark not stated in page text, so veg=null. Most official photos show the pack beside a bowl of product on a light-grey background; pack-only shots were used where they exist. Prices are the official athavales.com price ('Inclusive of all taxes', Oct 2026); the site does not label them 'MRP', so confirm against the printed pack MRP. ",
+    "products": [
+      {
+        "name": "Bhajani Chakli",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 120
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0685/1058/0901/files/bhajanichakli1.jpg?v=1736579929",
+        "imageSourcePage": "https://www.athavales.com/products/bhajani-chakali",
+        "notes": "Weight shown as the official variant '200 gm'. Pack-only shot, 2000x2000, light-grey bg."
+      },
+      {
+        "name": "Patal Poha Chivda",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 125
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Patal%20Poha%20Chivda-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/patal-poha-chivda",
+        "notes": "Weight shown as the official variant '200 gms'; price from https://www.athavales.com/products/patal-poha-chivda . Official photos are lifestyle/back shots, so the image is from retailer The Desi Food (pack + bowl, 800x800)."
+      },
+      {
+        "name": "Puneri Bakarwadi",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 125
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0685/1058/0901/files/puneribakarvadi1.jpg?v=1736579571",
+        "imageSourcePage": "https://www.athavales.com/products/bakarwadi-200-gms",
+        "notes": "Net qty taken from the official product URL slug ('-200-gms'); the official page itself does not print the weight. Pack-only shot, 2000x2000."
+      },
+      {
+        "name": "Khare Shankarpale (Salted Crisps)",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 125
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Khare%20Shankarpali%2C%20200%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/khare-shankarpali",
+        "notes": "Official page: https://www.athavales.com/products/salted-shankarpali-200-gms . 200 g confirmed by The Desi Food listing ('Khare Shankarpali, 200 g'). The official pack-only image is only 500x300, so the retailer image (pack + bowl, 800x800) is used."
+      },
+      {
+        "name": "Kadboli Sticks (Multigrain Traditional Sticks)",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 125
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Multigrain%20or%20Kadboli%20Sticks%2C%20200%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/multigrain-or-kadboli-sticks",
+        "notes": "Official page: https://www.athavales.com/products/kadboli-sticks-200-gms . 200 g confirmed by The Desi Food. The pack in the photo reads 'Multigrain Chakali Sticks'. The official pack-only image is only 500x300, so the retailer image (pack + bowl, 800x800) is used."
+      },
+      {
+        "name": "Lasoon Sev (Garlic Sev)",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 100
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0685/1058/0901/files/GARLICSEVFRONT.png?v=1736770782&width=1200",
+        "imageSourcePage": "https://www.athavales.com/products/lasoon-shev-200-gms",
+        "notes": "Net qty taken from the official product URL slug ('-200-gms'); the official page itself does not print the weight. Pack front reads 'Crunchy Garlic Sev'. Front-of-pack PNG, transparent background (Shopify resize to 1200x900; original 5000x3750)."
+      },
+      {
+        "name": "Batata Spicy Chivda",
+        "category": "Fasting",
+        "veg": null,
+        "packs": [
+          {
+            "label": null,
+            "netQty": null,
+            "netUnit": null,
+            "mrp": 125
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0685/1058/0901/files/batatachivdatikhat1.jpg?v=1736579669",
+        "imageSourcePage": "https://www.athavales.com/products/upwas-special-chivda",
+        "notes": "Upwas (fasting) range; pack reads 'Upwas Special - Batata Chivda (Tikhat)'. Net weight is not shown anywhere found, so label/netQty are null and the price is per pack. Pack-only shot, 2000x2000."
+      },
+      {
+        "name": "Sabudana Chivda (Sago Chivda)",
+        "category": "Fasting",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 100
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0685/1058/0901/files/Sago-Chiwada-Front.jpg?v=1737199357",
+        "imageSourcePage": "https://www.athavales.com/products/sabudana-chivda-200-gms",
+        "notes": "Net qty taken from the official product URL slug ('-200-gms'); the official page itself does not print the weight. Pack front reads 'Upwas Special - Sago Chivda'. Clean front-of-pack, white bg, 2250x2250."
+      },
+      {
+        "name": "Farali Bhel",
+        "category": "Fasting",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 125
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0685/1058/0901/files/faralibhel1.jpg?v=1736580625",
+        "imageSourcePage": "https://www.athavales.com/products/farali-bhel-200-gms",
+        "notes": "Net qty taken from the official product URL slug ('-200-gms'); the official page itself does not print the weight. Upwas Special pack. Pack-only shot, 2000x2000."
+      },
+      {
+        "name": "Goad Shankarpale (Sweet Shankarpale)",
+        "category": "Sweets",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 100
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Maida%20Goad%20Shankarpali%2C%20200%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/maida-goad-shankarpali",
+        "notes": "Official page: https://www.athavales.com/products/sweet-maida-shankarpali-200-gms . 200 g confirmed by The Desi Food ('Maida Goad Shankarpali, 200 g'). The official image is a 357x342 screenshot, so the retailer image (pack + bowl, 800x800) is used. Could also be filed under Bakery."
+      }
+    ]
+  }
+]

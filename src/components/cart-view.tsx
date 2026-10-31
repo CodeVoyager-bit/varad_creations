@@ -84,7 +84,7 @@ export function FreeDeliveryBar({ q }: { q: CartQuote }) {
             Add <b>{rupees(left)}</b> more (after discounts) for <b>free delivery</b>
           </>
         ) : (
-          <span className="text-leaf-700">🎉 You’ve unlocked free delivery</span>
+          <span className="flex items-center gap-1.5 text-leaf-700"><Icon name="gift" className="size-4" /> You’ve unlocked free delivery</span>
         )}
       </p>
       <div className="mt-2 h-2 overflow-hidden rounded-full bg-cream-200" aria-hidden>
@@ -97,8 +97,8 @@ export function FreeDeliveryBar({ q }: { q: CartQuote }) {
 function LineRow({ l, issue }: { l: CartLine; issue?: { kind: "unavailable" | "insufficient"; available: number } }) {
   return (
     <li className="flex gap-3 py-3">
-      <Link href={`/p/${l.slug}`} className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-cream-50">
-        {l.image ? <Image src={l.image} alt="" fill sizes="64px" className="object-contain" /> : <PackArt name={l.name} brand={l.brand} className="size-full" />}
+      <Link href={`/p/${l.slug}`} className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-[var(--color-tile)]">
+        {l.image ? <Image src={l.image} alt="" fill sizes="64px" className="object-contain p-1.5 mix-blend-multiply" /> : <PackArt name={l.name} brand={l.brand} className="size-full" />}
       </Link>
       <div className="min-w-0 flex-1">
         <p className="text-xs font-semibold uppercase text-ink-500">{l.brand}</p>
@@ -113,12 +113,12 @@ function LineRow({ l, issue }: { l: CartLine; issue?: { kind: "unavailable" | "i
       </div>
       <div className="flex flex-col items-end justify-between gap-2">
         <span className="font-semibold tabular-nums">{rupees(l.pricePaise * l.qty)}</span>
-        <div className="inline-flex h-9 items-center rounded-xl bg-burgundy-600 text-white" role="group" aria-label={`${l.name} quantity`}>
-          <button className="grid h-full w-9 place-items-center" onClick={() => cart.setQty(l, l.qty - 1)} aria-label="Decrease quantity">
+        <div className="inline-flex h-11 items-center rounded-xl bg-burgundy-600 text-white" role="group" aria-label={`${l.name} quantity`}>
+          <button className="grid h-full w-10 cursor-pointer place-items-center rounded-l-xl active:bg-burgundy-700" onClick={() => cart.setQty(l, l.qty - 1)} aria-label="Decrease quantity">
             <Icon name="minus" className="size-4" />
           </button>
           <span className="min-w-5 text-center text-sm font-bold tabular-nums">{l.qty}</span>
-          <button className="grid h-full w-9 place-items-center disabled:opacity-40" disabled={l.qty >= MAX_QTY} onClick={() => cart.setQty(l, l.qty + 1)} aria-label="Increase quantity">
+          <button className="grid h-full w-10 cursor-pointer place-items-center rounded-r-xl active:bg-burgundy-700 disabled:opacity-40" disabled={l.qty >= MAX_QTY} onClick={() => cart.setQty(l, l.qty + 1)} aria-label="Increase quantity">
             <Icon name="plus" className="size-4" />
           </button>
         </div>

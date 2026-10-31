@@ -2,12 +2,14 @@
 
 @theme {
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-display-serif), Georgia, serif;
+  --font-display: var(--font-heading), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-brand: var(--font-brand-serif), Georgia, serif;
 
-  --color-cream-50: #fffcf6;
-  --color-cream-100: #fbf5ea;
-  --color-cream-200: #f4e9d6;
-  --color-cream-300: #e9d8bb;
+  /* neutral surfaces: white cards on a barely-warm off-white page */
+  --color-cream-50: #ffffff;
+  --color-cream-100: #f6f6f3;
+  --color-cream-200: #ecece8;
+  --color-cream-300: #e1dfd9;
   --color-burgundy-50: #fbeef0;
   --color-burgundy-100: #f5d6db;
   --color-burgundy-500: #9b2238;
@@ -30,6 +32,9 @@
   --color-danger-50: #fdeeec;
   --color-danger-600: #c0392b;
 
+  --color-chart: #b5475d; /* single-series data mark; validated: L in band, >=3:1 on white */
+  --color-canvas: #f1f1ee; /* admin canvas behind white panels */
+  --color-tile: #f3f2ee; /* product/category image wells */
   --radius-card: 1rem;
   --shadow-card: 0 1px 2px rgb(36 23 15 / 0.06), 0 4px 16px -8px rgb(36 23 15 / 0.12);
 }
@@ -43,6 +48,27 @@
 html {
   -webkit-tap-highlight-color: transparent;
   text-size-adjust: 100%;
+  /* keep focused/anchored content clear of the sticky header */
+  scroll-padding-top: 8.5rem;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+a,
+button,
+input,
+select,
+textarea,
+summary,
+label {
+  touch-action: manipulation;
 }
 
 body {
@@ -67,6 +93,7 @@ dialog.sheet {
   background: var(--color-cream-50);
   color: inherit;
   padding-bottom: var(--safe-bottom);
+  overscroll-behavior: contain;
 }
 @media (min-width: 640px) {
   dialog.sheet {
@@ -97,6 +124,7 @@ dialog.sheet[open] {
 /* long-form policy content */
 .prose-vc h2 {
   font-family: var(--font-display);
+  letter-spacing: -0.01em;
   font-size: 1.25rem;
   font-weight: 600;
   margin: 1.5rem 0 0.5rem;

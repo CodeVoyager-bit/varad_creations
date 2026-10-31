@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { cancelMyOrder, createSupportRequest, respondToSubstitution, submitPayment } from "@/app/actions/customer";
+import { ImagePicker } from "./image-picker";
 import { Button, Field, Input, Notice, Select, Textarea } from "./ui";
 
 export function Countdown({ until }: { until: string }) {
@@ -57,9 +58,10 @@ export function PaymentForm({ orderId, existingRef }: { orderId: string; existin
       <Field label="UPI transaction ID / UTR" hint="12-digit number shown in your UPI app after paying.">
         <Input name="reference" required minLength={6} maxLength={35} defaultValue={existingRef} autoComplete="off" inputMode="text" />
       </Field>
-      <Field label="Payment screenshot (optional)" hint="JPEG, PNG or WebP up to 5 MB. Visible only to the shop.">
-        <input name="proof" type="file" accept="image/jpeg,image/png,image/webp" className="block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-cream-200 file:px-3 file:py-2 file:font-semibold" />
-      </Field>
+      <div>
+        <span className="mb-1 block text-sm font-medium text-ink-700">Payment screenshot (optional)</span>
+        <ImagePicker name="proof" label="Add screenshot" hint="Visible only to the shop · up to 5 MB" />
+      </div>
       {err && <Notice tone="bad">{err}</Notice>}
       <Button block disabled={pending}>
         {pending ? "Submitting…" : "I've paid — submit for verification"}

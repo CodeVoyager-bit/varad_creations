@@ -1,5 +1,6 @@
 import { saveBrandA, saveCategoryA } from "@/app/actions/admin";
 import { ActionForm } from "@/components/admin-ui";
+import { ImagePicker } from "@/components/image-picker";
 import { Badge, Button, Card, Field, Input, Select } from "@/components/ui";
 import { C } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
@@ -35,9 +36,10 @@ function CategoryForm({ c }: { c?: CategoryDoc }) {
       <Field label="SEO title" className="sm:col-span-3">
         <Input name="seoTitle" defaultValue={c?.seo?.title} />
       </Field>
-      <Field label="Image" className="sm:col-span-3">
-        <input type="file" name="image" accept="image/jpeg,image/png,image/webp" className="text-sm" />
-      </Field>
+      <div className="sm:col-span-3">
+        <span className="mb-1 block text-sm font-medium text-ink-700">Category image</span>
+        <ImagePicker name="image" current={c?.image} label="Upload image" />
+      </div>
       <div className="flex items-end sm:col-span-3">
         <Button size="sm" variant={c ? "secondary" : "primary"}>
           {c ? "Save" : "Add category"}
@@ -63,10 +65,11 @@ function BrandForm({ b }: { b?: BrandDoc }) {
       <label className="flex items-center gap-2 self-end pb-3 text-sm">
         <input type="checkbox" name="visible" defaultChecked={b ? b.visible : true} className="accent-burgundy-600" /> Visible
       </label>
-      <Field label="Logo">
-        <input type="file" name="logo" accept="image/jpeg,image/png,image/webp" className="w-full text-sm" />
-      </Field>
-      <Field label="SEO description" className="sm:col-span-4">
+      <div className="sm:col-span-3">
+        <span className="mb-1 block text-sm font-medium text-ink-700">Brand logo</span>
+        <ImagePicker name="logo" current={b?.logo} label="Upload logo" />
+      </div>
+      <Field label="SEO description" className="sm:col-span-3">
         <Input name="seoDescription" defaultValue={b?.seo?.description} />
       </Field>
       <div className="flex items-end sm:col-span-2">
@@ -83,7 +86,7 @@ export default async function Catalog() {
   const [cats, brands] = await Promise.all([C.categories.find({}).sort({ sortOrder: 1 }).toArray(), C.brands.find({}).sort({ sortOrder: 1, name: 1 }).toArray()]);
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Brands & categories</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Brands & categories</h1>
       <Card className="space-y-3 p-4">
         <h2 className="font-semibold">Categories</h2>
         <p className="text-xs text-ink-500">Hidden categories (e.g. Tupperware until launch) and all their products are invisible to customers and can’t be ordered.</p>

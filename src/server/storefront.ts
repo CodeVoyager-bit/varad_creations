@@ -85,6 +85,18 @@ export async function getCatalog() {
       })),
     });
   }
+  // give tiles a real pack shot (bestsellers first) until dedicated images are uploaded
+  const ranked = [...details].filter((p) => p.status === "active").sort((a, b) => Number(b.bestseller) - Number(a.bestseller) || Number(b.featured) - Number(a.featured));
+  for (const c of categories) {
+    const mine = ranked.filter((p) => p.category.slug === c.slug);
+    c.productCount = mine.length;
+    c.packImage = mine.find((p) => p.image)?.image;
+  }
+  for (const b of shopBrands) {
+    const mine = ranked.filter((p) => p.brand.slug === b.slug);
+    b.productCount = mine.length;
+    b.packImage = mine.find((p) => p.image)?.image;
+  }
   return { categories, brands: shopBrands, products: details };
 }
 

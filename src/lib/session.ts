@@ -9,7 +9,7 @@ import { partnerBatches } from "@/server/delivery-access";
 
 /** Admin sessions older than this must sign in again. */
 const ADMIN_MAX_SESSION_AGE_MS = 12 * 3600_000;
-const ADMIN_REQUIRE_2FA = process.env.NODE_ENV === "production" || process.env.ADMIN_REQUIRE_2FA === "true";
+export const ADMIN_REQUIRE_2FA = process.env.NODE_ENV === "production" || process.env.ADMIN_REQUIRE_2FA === "true";
 
 export async function getSession() {
   await connection(); // per-request, never prerendered

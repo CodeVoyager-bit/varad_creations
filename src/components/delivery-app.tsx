@@ -36,7 +36,7 @@ function Sheet({ open, onClose, title, children }: { open: boolean; onClose: () 
       <div className="space-y-4 p-5">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-xl font-semibold">{title}</h2>
-          <button type="button" onClick={onClose} className="grid size-10 place-items-center rounded-full bg-cream-200" aria-label="Close">
+          <button type="button" onClick={onClose} className="grid size-11 cursor-pointer place-items-center rounded-full bg-cream-200" aria-label="Close">
             <Icon name="close" className="size-4" />
           </button>
         </div>
@@ -201,7 +201,7 @@ export function DeliveryHome({ batches, shopPhone }: { batches: BatchView[]; sho
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl font-semibold text-burgundy-700">My deliveries</h1>
+        <h1 className="font-display text-2xl font-extrabold tracking-[-0.02em] text-ink-900">My deliveries</h1>
         <a href={`tel:${shopPhone.replace(/\s/g, "")}`} className="flex items-center gap-1 rounded-full bg-white px-3 py-2 text-sm font-semibold shadow-sm">
           <Icon name="phone" className="size-4" /> Shop
         </a>

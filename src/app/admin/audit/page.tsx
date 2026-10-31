@@ -23,7 +23,7 @@ export default async function Audit({ searchParams }: PageProps<"/admin/audit">)
   const rows = await C.audit.find(g[2] ? { action: g[2] } : {}).sort({ at: -1 }).limit(300).toArray();
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Audit log</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Audit log</h1>
       <nav className="flex flex-wrap gap-1">
         {GROUPS.map(([k, l]) => (
           <Link key={k} href={`/admin/audit?group=${k}`} className={cx("rounded-full px-3 py-1.5 text-sm font-semibold", g[0] === k ? "bg-burgundy-600 text-white" : "bg-white")}>

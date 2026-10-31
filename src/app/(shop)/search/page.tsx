@@ -34,7 +34,7 @@ async function Results({ searchParams }: PageProps<"/search">) {
   const catHits = terms.length ? categories.filter((c) => terms.every((t) => norm(c.name).includes(t))) : [];
   return (
     <>
-      <h1 className="mb-3 font-display text-2xl font-semibold text-burgundy-700">{q ? <>Results for “{q}”</> : "Search"}</h1>
+      <h1 className="mb-3 font-display text-2xl font-extrabold tracking-[-0.02em] text-ink-900">{q ? <>Results for “{q}”</> : "Search"}</h1>
       {(brandHits.length > 0 || catHits.length > 0) && (
         <div className="mb-4 flex flex-wrap gap-2">
           {brandHits.map((b) => (

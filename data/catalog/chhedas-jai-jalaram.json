@@ -1,0 +1,358 @@
+[
+  {
+    "brand": "Chheda's",
+    "company": "Chheda Specialities Foods Pvt. Ltd. (Kandivali West, Mumbai; started 1993 as Chheda Wafers)",
+    "officialSite": "https://chhedas.com",
+    "logoUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/Chheda_s_New_Logo_d586e945-75f9-4b71-a8bd-22b668d4704e.png?v=1783510311",
+    "notes": "Official Shopify store chhedas.com (chhedaspecialities.com redirects there). MRPs are from BigBasket listings (bigbasket.com/pb/chhedas/, read Oct 2026), not the brand site: chhedas.com shows only a 'Regular price' (not labelled MRP) and it is often below BigBasket's MRP (e.g. Long Masala ₹89 vs MRP ₹95), so it was not used as MRP. Pack names on chhedas.com and BigBasket differ slightly (e.g. 'Salt N Pepper' vs 'Salt & Pepper'). Veg = page shows '100% VEGETARIAN'. Some chhedas.com pack shots sit on a beige background rather than pure white (noted per product). Note: Chheda's is a Mumbai brand, not Indori.",
+    "products": [
+      {
+        "name": "Yellow Banana Chips",
+        "category": "Fasting",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": 100
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/Yellow_Banana_Chips.png?v=1791544575",
+        "imageSourcePage": "https://chhedas.com/products/yellow-banana-chips-170g",
+        "notes": "Brand tags it 'Best Seller', 'Fasting essentials', 'Jain friendly' — could equally sit under Namkeen. MRP ₹100 for 170 g from BigBasket (https://www.bigbasket.com/pd/40137105/). 500 g sold on chhedas.com only in multi-packs (2 x 500 g ₹656); 500 g MRP not found. Image 2041x2495 white background."
+      },
+      {
+        "name": "Long Masala Banana Chips",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": 95
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/LBC.png?v=1791544721",
+        "imageSourcePage": "https://chhedas.com/products/long-masala-banana-chips-170g",
+        "notes": "New pack front reads 'Long Banana Masala'. MRP from BigBasket (https://www.bigbasket.com/pd/40137108/). chhedas.com price ₹89. Image 2041x2495 white background."
+      },
+      {
+        "name": "Salt N Pepper Banana Chips",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": 90
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/Salt_N_Pepper_Banana_Chips_170g_Front_-_Copy.jpg?v=1771318350",
+        "imageSourcePage": "https://chhedas.com/products/salt-n-pepper-banana-chips-170g",
+        "notes": "BigBasket names it 'Salt & Pepper Banana Chips'; MRP ₹90 for 170 g from BigBasket (https://www.bigbasket.com/pd/40137106/). 500 g pack listed on chhedas.com at ₹145 (not labelled MRP), MRP null. Image 1000x1000, front of pack on beige background."
+      },
+      {
+        "name": "Tomato Banana Chips",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": 90
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/40137107_Chheda_sTomatoBananaChips170gFront.png?v=1767677247",
+        "imageSourcePage": "https://chhedas.com/products/tomato-banana-chips-170g",
+        "notes": "BigBasket names it 'Banana Chips - Tomato'; MRP from BigBasket (https://www.bigbasket.com/pd/40137107/). Image 900x900 white background."
+      },
+      {
+        "name": "Farali Potato Chivda",
+        "category": "Fasting",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": 90
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/FaraliPotatoChivda170gmFront.png?v=1768367788",
+        "imageSourcePage": "https://chhedas.com/products/farali-potato-chivda-170g",
+        "notes": "MRP from BigBasket (https://www.bigbasket.com/pd/40137110/). Image 3000x3000 white background."
+      },
+      {
+        "name": "Dry Fruit Farali Mixture",
+        "category": "Fasting",
+        "veg": true,
+        "packs": [
+          {
+            "label": "150 g",
+            "netQty": 150,
+            "netUnit": "g",
+            "mrp": 100
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/Dry_Fruit_Farali_Mixture_150g_Front_1_1.png?v=1791877103",
+        "imageSourcePage": "https://chhedas.com/products/dry-fruit-farali-chivda-170g",
+        "notes": "Pack front and BigBasket say 'Dry Fruit Farali Mixture'; chhedas.com product title is 'Dry Fruit Farali Chivda 150g'. MRP from BigBasket (https://www.bigbasket.com/pd/40361932/). Image 3000x3000 white background."
+      },
+      {
+        "name": "Mix Farsan",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": 55
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/MixfarsanFront_d32be017-e2f0-40ec-8386-aa5ce7776a3c.png?v=1791565645",
+        "imageSourcePage": "https://chhedas.com/products/mix-farsan",
+        "notes": "MRP from BigBasket (https://www.bigbasket.com/pd/40137127/). Image 1200x1200 white background."
+      },
+      {
+        "name": "Mahalaxmi Chivda",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": 55
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/Mahalaxmi_Chivda_170g_Front_-_Copy.jpg?v=1771313245",
+        "imageSourcePage": "https://chhedas.com/products/mahalaxmi-chivda-170g",
+        "notes": "MRP from BigBasket (https://www.bigbasket.com/pd/40137123/). Image 3000x3000, front of pack on beige background."
+      },
+      {
+        "name": "Ratlami Sev",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "170 g",
+            "netQty": 170,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/Ratlami_Sev_170g_Front_-_Copy.jpg?v=1771318006",
+        "imageSourcePage": "https://chhedas.com/products/ratlami-sev-170g",
+        "notes": "Not on BigBasket's Chheda's page; MRP not confirmed (chhedas.com price ₹52). Image 3000x3000, front of pack on beige background."
+      },
+      {
+        "name": "Gulab Jamun",
+        "category": "Sweets",
+        "veg": true,
+        "packs": [
+          {
+            "label": "1 kg",
+            "netQty": 1,
+            "netUnit": "kg",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0782/8674/9934/files/1KgGulabJamunFront_bc9e8326-5d37-4913-836c-0a1a4f52cdc1.jpg?v=1771926702",
+        "imageSourcePage": "https://chhedas.com/products/gulab-jamun-1kg",
+        "notes": "Tin pack. MRP not found on any retailer; chhedas.com price ₹225 (not labelled MRP). Image 3000x3000 white background."
+      }
+    ]
+  },
+  {
+    "brand": "Jai Jalaram",
+    "company": "Jai Jalaram Food Products (pack label: 'Jalaram Biscuits'), Plot No. 82, Ahmednagar Industrial Estate, Nagar–Pune Road, Kedgaon, Ahmednagar 414005, Maharashtra; since 1997",
+    "officialSite": "https://jaijalaramfoods.com",
+    "logoUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/Jai_Jalaram_Svg_Logo.svg",
+    "notes": "Several businesses use the 'Jalaram' name: 'Jalaram' on BigBasket (mukhwas, papad, dates), Jalaram Foods in Mulund, Mumbai (fresh farsan), Jay Shree Jalaram (Bardoli patra), and Jai Jalaram Food in Valsad (gunda pickle). Picked Jai Jalaram Food Products because it is a packaged, branded brand that calls itself 'Maharashtra's First 100% Pure Veg Bakery Brand'. It makes khari, toast, cookies, cream rolls and khakhra, and its factory is on the Nagar–Pune Road, near Pune. That makes it the one most likely stocked by a Hadapsar shop. Not confirmed with the shop owner: please check against a pack in the shop. This is a bakery brand, not a namkeen brand. Not found on BigBasket or Amazon.in. Every price comes from jaijalaramfoods.com, which labels it 'Regular price', not MRP, so mrp is null except where the MRP is printed on a pack label shown on the official site. Several pack shots are brand-made 3D mockups on white background and may show a different pack size than the one now sold (noted per product). Veg = site says '100% Pure Veg Bakery' on every product page.",
+    "products": [
+      {
+        "name": "Real Khari Premium Pack",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/Real_Khari_400g_1.png?v=1772602141",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/real-khari",
+        "notes": "Official site price ₹125 (250 gm); pack of 2 ₹250 (compare-at ₹275). Image is the brand's 'Real Khari' 400 g pack mockup (1000x1000 white). The 250 gm Premium Pack currently sold may look different. A 200 g mockup also exists: Real_Khari_200g_1.png."
+      },
+      {
+        "name": "Brown Khari Premium Pack",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "300 g",
+            "netQty": 300,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/BrownKhari200g1.png?v=1755873397",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/brown-khari",
+        "notes": "Official site price ₹170 (300 gm, single pack shown sold out; pack of 2 ₹340). Image is the brand's 200 g Brown Khari pack mockup (1000x1000 white), not the 300 gm Premium Pack."
+      },
+      {
+        "name": "Real Toast",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/RealToast400g_1.png?v=1755876727",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/real-toast",
+        "notes": "Official site price ₹135. 200 g pack mockup images also on the page. Image 1000x1000 white."
+      },
+      {
+        "name": "Brown Toast",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/BrownToast400g1.png?v=1755873744",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/brown-toast",
+        "notes": "Official site price ₹145. Brand says 70% whole wheat, 30% maida. Image 1000x1000 white."
+      },
+      {
+        "name": "Upwas Cookies",
+        "category": "Fasting",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/UpwasCookiesMockup001.png?v=1755878047",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/upwas-cookies",
+        "notes": "Sold online only as Pack of 2 (200 gm + 200 gm) for ₹210. Brand says rajgira flour, coconut, groundnut, made for upwas. Image 1080x1080 white mockup."
+      },
+      {
+        "name": "Paushtik Cookies",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/Paushtikcookies.png?v=1755878403",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/paushtik-cookies",
+        "notes": "Official site price ₹120. Image 1080x1080 white mockup."
+      },
+      {
+        "name": "Special Nankhatai Cookies",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "125 g",
+            "netQty": 125,
+            "netUnit": "g",
+            "mrp": null
+          },
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/SPNankhatiCookiesMockup0001.png?v=1755877961",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/sp-nankhatai-cookies",
+        "notes": "Official site prices ₹85 (125 gm) and ₹170 (250 gm), both shown unavailable online. Image 1080x1080 white mockup."
+      },
+      {
+        "name": "Nankhat Cookies",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/NankhatCookie_1.png?v=1755875886",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/nankhat-cookies",
+        "notes": "Official site price ₹75. Image 1000x1000 white mockup."
+      },
+      {
+        "name": "Creamroll Vanilla Flavour 4PCS",
+        "category": "Bakery",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/CreamRoll_1.png?v=1755874850",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/creamroll-vanilla-4pcs",
+        "notes": "Variant on site is '200 gm' at ₹75. Image is a generic 'Cream Roll' pack mockup (1000x1000 white) that the brand also uses for its chocolate, pista, orange, pineapple, mango, rose and strawberry cream rolls."
+      },
+      {
+        "name": "Chatpata Flavoured Dosa Khakra",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "90 g",
+            "netQty": 90,
+            "netUnit": "g",
+            "mrp": 75
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0638/2233/2000/files/ChatpataKhakra.png?v=1777634687",
+        "imageSourcePage": "https://jaijalaramfoods.com/products/chatpata-flavoured-dosa-khakra",
+        "notes": "Name as on the site. The curved pack label spells it roughly 'Dosa Khakhara'. Pack label in the official image shows Net Wt 90 g, MRP ₹75/- (₹0.83/gm). The site lists it at ₹85, which is higher than the printed MRP, so recheck. Image 1044x1008 shows the top of a round tub on a marble backdrop, not a white background."
+      }
+    ]
+  }
+]

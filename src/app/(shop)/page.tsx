@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BrandChips, CategoryTiles, JsonLd, ProductRow } from "@/components/catalog";
-import { Icon, SectionTitle } from "@/components/ui";
+import { BrandCards, CategoryTiles, JsonLd, ProductRow, SectionHeader } from "@/components/catalog";
+import { LocationPill } from "@/components/shop-chrome";
+import { Icon } from "@/components/ui";
 import { rupees } from "@/lib/money";
 import { siteUrl } from "@/lib/site";
 import { getCatalog, getOffers, getSettings, getStorefront, toCard } from "@/server/storefront";
@@ -12,6 +13,18 @@ export default async function HomePage() {
   const cards = live.map(toCard);
   const banner = front.banners.find((b) => b.active);
   const a = s.address;
+  const ranked = [...live].sort((x, y) => Number(y.bestseller) - Number(x.bestseller) || Number(y.featured) - Number(x.featured));
+  const packsOf = (slug?: string) => ranked.filter((p) => p.image && (!slug || p.category.slug === slug)).map((p) => p.image!);
+  // shelves with enough products to fill a row, largest first
+  const shelves = categories.filter((c) => (c.productCount ?? 0) >= 4).sort((x, y) => (y.productCount ?? 0) - (x.productCount ?? 0));
+  const hero = shelves[0];
+  const promos = shelves.slice(1, 3).map((c) => ({
+    href: `/c/${c.slug}`,
+    title: `${c.name} favourites`,
+    sub: c.description ?? `${c.productCount} picks from ${new Set(live.filter((p) => p.category.slug === c.slug).map((p) => p.brand.slug)).size} brands`,
+    packs: packsOf(c.slug),
+  }));
+  const shelf = (c: (typeof shelves)[number]) => <ProductRow key={c.id} title={c.name} href={`/c/${c.slug}`} products={cards.filter((p) => p.category.slug === c.slug)} />;
 
   return (
     <>
@@ -30,82 +43,80 @@ export default async function HomePage() {
       />
       {front.announcement && <p className="bg-saffron-100 px-4 py-2 text-center text-sm font-medium text-saffron-700">{front.announcement}</p>}
 
-      <section className="mx-auto max-w-6xl px-4 pt-4">
-        {banner && (
-          <Link
-            href={banner.href ?? "/products"}
-            className="relative flex min-h-36 overflow-hidden rounded-2xl bg-gradient-to-br from-burgundy-700 via-burgundy-600 to-burgundy-800 p-5 text-white md:min-h-48 md:p-8"
-          >
-            <div className="relative z-10 max-w-[62%] space-y-2 md:max-w-md">
-              <h1 className="font-display text-2xl font-semibold leading-tight md:text-4xl">{banner.title}</h1>
-              {banner.subtitle && <p className="text-sm text-burgundy-100 md:text-base">{banner.subtitle}</p>}
-              <p className="inline-flex items-center gap-1.5 rounded-full bg-saffron-400 px-3 py-1 text-xs font-bold text-ink-900">
-                <Icon name="truck" className="size-4" /> Within {s.delivery.windowHours} hours of confirmation
-              </p>
-            </div>
-            {banner.image ? (
-              <Image src={banner.image} alt="" fill priority sizes="(max-width:768px) 100vw, 1100px" className="object-cover object-right opacity-90" />
-            ) : (
-              <svg aria-hidden viewBox="0 0 200 160" className="absolute -right-6 bottom-0 h-full opacity-90">
-                <ellipse cx="120" cy="130" rx="80" ry="22" fill="#561020" />
-                <path d="M48 118c6 30 138 30 144 0z" fill="#e9d8bb" />
-                <path d="M52 118c10-22 30-30 46-24 10-14 34-16 46-2 14-6 34 4 44 26z" fill="#f5a524" />
-                <g fill="#9a5a03">
-                  <circle cx="90" cy="104" r="3" />
-                  <circle cx="120" cy="98" r="3" />
-                  <circle cx="150" cy="106" r="3" />
-                  <circle cx="106" cy="112" r="2.5" />
-                  <circle cx="136" cy="112" r="2.5" />
-                </g>
-                <path d="M160 60c-4 8-4 16 0 22 4-6 4-14 0-22z" fill="#1e8a43" />
-              </svg>
-            )}
-          </Link>
-        )}
-        <ul className="mt-3 grid grid-cols-3 gap-2 text-center text-[11px] font-medium text-ink-700 md:text-sm">
-          <li className="rounded-xl bg-white px-2 py-2.5 shadow-sm">
-            <Icon name="pin" className="mx-auto mb-1 size-5 text-burgundy-600" />
-            Delivering across {s.service.areasLabel}
+      <section aria-label="Highlights" className="mx-auto max-w-6xl pt-3 md:px-4 md:pt-5">
+        <ul className="scrollbar-none flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 md:px-0 lg:grid lg:grid-cols-[1.45fr_1fr_1fr] lg:overflow-visible">
+          <li className="w-[88%] shrink-0 snap-start md:w-[60%] lg:w-auto">
+            <Promo
+              heading
+              href={banner?.href ?? (hero ? `/c/${hero.slug}` : "/products")}
+              title={banner?.title ?? "Indori namkeen, delivered home"}
+              sub={banner?.subtitle ?? `Sealed packs from Indore's favourite makers, delivered across ${s.service.areasLabel}.`}
+              cta="Shop now"
+              tone="bg-[#ffe6b3]"
+              image={banner?.image}
+              packs={packsOf(hero?.slug)}
+            />
           </li>
-          <li className="rounded-xl bg-white px-2 py-2.5 shadow-sm">
-            <Icon name="clock" className="mx-auto mb-1 size-5 text-burgundy-600" />
-            Within {s.delivery.windowHours} hrs of confirmation
-          </li>
-          <li className="rounded-xl bg-white px-2 py-2.5 shadow-sm">
-            <Icon name="truck" className="mx-auto mb-1 size-5 text-burgundy-600" />
-            Free delivery from {rupees(s.delivery.freeAbovePaise)}*
-          </li>
+          {promos.map((p, i) => (
+            <li key={p.href} className="w-[88%] shrink-0 snap-start md:w-[45%] lg:w-auto">
+              <Promo {...p} cta="Explore" tone={["bg-[#dcefd6]", "bg-[#f9dde3]"][i]} />
+            </li>
+          ))}
         </ul>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-5">
-        <SectionTitle title="Shop by category" href="/categories" />
-        <CategoryTiles categories={categories} row />
+      <section aria-label="Delivery" className="mx-auto max-w-6xl px-4 pt-3">
+        <div className="md:hidden">
+          <LocationPill areasLabel={s.service.areasLabel} />
+        </div>
+        <ul className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:px-0">
+          {[
+            { icon: "clock" as const, text: `Delivery within ${s.delivery.windowHours} hours` },
+            { icon: "truck" as const, text: `Free delivery over ${rupees(s.delivery.freeAbovePaise)}*` },
+            { icon: "wallet" as const, text: "UPI or cash on delivery" },
+            { icon: "shield" as const, text: "Sealed, branded packs" },
+          ].map((x) => (
+            <li key={x.text} className="flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-white px-3 text-[13px] font-medium text-ink-700 ring-1 ring-black/[0.06]">
+              <Icon name={x.icon} className="size-4 text-leaf-600" />
+              {x.text}
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-2">
-        <SectionTitle title="Shop by brand" href="/brands" />
-        <BrandChips brands={brands} />
+      <section className="mx-auto max-w-6xl px-4 pt-6">
+        <SectionHeader title="Shop by category" href="/categories" />
+        <CategoryTiles categories={categories} />
       </section>
 
       <ProductRow title="Bestsellers" href="/products" products={cards.filter((p) => p.bestseller)} />
 
       {offers.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-4">
-          <SectionTitle title="Offers" />
-          <ul className="scrollbar-none -mx-4 flex gap-3 overflow-x-auto px-4 md:mx-0 md:px-0">
+          <SectionHeader title="Offers for you" />
+          <ul className="scrollbar-none -mx-4 flex gap-3 overflow-x-auto px-4 md:mx-0 md:grid md:grid-cols-3 md:px-0">
             {offers.map((o) => (
-              <li key={o.code} className="w-72 shrink-0 rounded-2xl border border-dashed border-saffron-500 bg-saffron-50 p-4">
-                <p className="flex items-center gap-2 font-bold text-saffron-700">
-                  <Icon name="tag" className="size-4" /> {o.code}
-                </p>
-                <p className="mt-1 text-sm text-ink-700">{o.description}</p>
-                <p className="mt-1 text-xs text-ink-500">Apply in your cart. One coupon per order.</p>
+              <li key={o.code} className="flex w-72 shrink-0 items-stretch overflow-hidden rounded-2xl bg-white ring-1 ring-black/[0.06] md:w-auto">
+                <span className="grid w-14 shrink-0 place-items-center border-r-2 border-dashed border-cream-300 bg-saffron-50 text-saffron-700">
+                  <Icon name="tag" className="size-5" />
+                </span>
+                <span className="min-w-0 p-3.5">
+                  <b className="block font-mono text-[15px] tracking-wider text-ink-900">{o.code}</b>
+                  <span className="mt-0.5 block text-sm leading-snug text-ink-700">{o.description}</span>
+                  <span className="mt-1 block text-xs text-ink-500">Apply in your cart · one coupon per order</span>
+                </span>
               </li>
             ))}
           </ul>
         </section>
       )}
+
+      {shelves.slice(0, 2).map(shelf)}
+
+      <section className="mx-auto max-w-6xl px-4 py-4">
+        <SectionHeader title="Shop by brand" href="/brands" />
+        <BrandCards brands={brands} />
+      </section>
 
       {front.collections
         .filter((c) => c.active)
@@ -113,35 +124,69 @@ export default async function HomePage() {
           <ProductRow key={c.id} title={c.title} products={cards.filter((p) => p.tags.includes(c.tag))} />
         ))}
 
-      <ProductRow title="Featured" href="/products" products={cards.filter((p) => p.featured)} />
+      {shelves.slice(2).map(shelf)}
+
+      <ProductRow title="Handpicked for you" href="/products" products={cards.filter((p) => p.featured)} />
 
       <section className="mx-auto max-w-6xl px-4 py-6">
-        <div className="grid gap-3 rounded-2xl bg-white p-5 shadow-[var(--shadow-card)] md:grid-cols-3">
-          <div className="flex gap-3">
-            <Icon name="shield" className="size-6 shrink-0 text-leaf-600" />
-            <p className="text-sm text-ink-700">
-              <b className="block text-ink-900">Sealed, branded packs</b>We sell packaged products from the brands you know — never loose or repacked.
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <Icon name="pin" className="size-6 shrink-0 text-leaf-600" />
-            <p className="text-sm text-ink-700">
-              <b className="block text-ink-900">A real local shop</b>
-              {a.line1}, {a.city} {a.pincode}.{" "}
-              <a className="font-semibold text-burgundy-700 underline" href={`tel:${s.phone.replace(/\s/g, "")}`}>
-                {s.phone}
-              </a>
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <Icon name="wallet" className="size-6 shrink-0 text-leaf-600" />
-            <p className="text-sm text-ink-700">
-              <b className="block text-ink-900">Pay by UPI or cash on delivery</b>No hidden fees — just the {rupees(s.delivery.feePaise)} delivery charge on orders under {rupees(s.delivery.freeAbovePaise)}.
-            </p>
-          </div>
+        <div className="grid gap-4 rounded-3xl bg-white p-5 ring-1 ring-black/[0.06] md:grid-cols-3 md:p-6">
+          {[
+            { icon: "shield" as const, title: "Sealed, branded packs", body: "Packaged products from the brands you know — never loose or repacked." },
+            {
+              icon: "store" as const,
+              title: "A real shop in Hadapsar",
+              body: (
+                <>
+                  {a.line1}, {a.city} {a.pincode} ·{" "}
+                  <a className="font-semibold text-burgundy-700 underline" href={`tel:${s.phone.replace(/\s/g, "")}`}>
+                    {s.phone}
+                  </a>
+                </>
+              ),
+            },
+            { icon: "wallet" as const, title: "Honest pricing", body: `No hidden fees — only a ${rupees(s.delivery.feePaise)} delivery charge below ${rupees(s.delivery.freeAbovePaise)}.` },
+          ].map((x) => (
+            <div key={x.title} className="flex gap-3">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-leaf-50 text-leaf-700">
+                <Icon name={x.icon} className="size-5" />
+              </span>
+              <p className="text-sm text-ink-700">
+                <b className="mb-0.5 block text-ink-900">{x.title}</b>
+                {x.body}
+              </p>
+            </div>
+          ))}
         </div>
-        <p className="mt-2 text-xs text-ink-500">*Free delivery when your order total after coupon discounts is {rupees(s.delivery.freeAbovePaise)} or more.</p>
+        <p className="mt-3 px-1 text-xs text-ink-500">*Free delivery when your order total after coupon discounts is {rupees(s.delivery.freeAbovePaise)} or more.</p>
       </section>
     </>
+  );
+}
+
+/** Promo card: real pack shots (white backgrounds multiply into the tint) beside a short headline. */
+function Promo({ href, title, sub, cta, tone, packs, image, heading }: { href: string; title: string; sub: string; cta: string; tone: string; packs: string[]; image?: string; heading?: boolean }) {
+  const H = heading ? "h1" : "p";
+  return (
+    <Link href={href} className={`group relative isolate flex h-[12.5rem] overflow-hidden rounded-3xl p-5 md:h-52 ${tone}`}>
+      {image && <Image src={image} alt="" fill priority={heading} sizes="(max-width:768px) 90vw, 520px" className="-z-10 object-cover opacity-25" />}
+      <span className="relative z-10 flex max-w-[54%] flex-col">
+        <H className="font-display text-[1.25rem] font-extrabold leading-[1.08] tracking-[-0.02em] text-ink-900 md:text-[1.625rem]">{title}</H>
+        <span className="mt-1.5 line-clamp-2 text-[13px] leading-snug text-ink-700 md:line-clamp-3">{sub}</span>
+        <span className="mt-auto inline-flex h-9 w-fit items-center gap-1 rounded-full bg-ink-900 pl-4 pr-3 text-[13px] font-semibold text-white transition-transform group-active:scale-[0.97] motion-reduce:transform-none">
+          {cta} <Icon name="chevron" className="size-4" />
+        </span>
+      </span>
+      <span aria-hidden className="absolute inset-y-0 right-0 w-[46%]">
+        {packs.slice(0, 2).map((src, i) => (
+          <span
+            key={src}
+            className="absolute aspect-square mix-blend-multiply transition-transform duration-300 group-hover:-translate-y-1 motion-reduce:transform-none"
+            style={i ? { width: "58%", left: "2%", top: "8%", rotate: "-10deg", zIndex: 0 } : { width: "76%", right: "2%", bottom: "4%", rotate: "5deg", zIndex: 1 }}
+          >
+            <Image src={src} alt="" fill priority={heading} sizes="200px" className="object-contain" />
+          </span>
+        ))}
+      </span>
+    </Link>
   );
 }

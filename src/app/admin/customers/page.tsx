@@ -15,7 +15,7 @@ export default async function Customers({ searchParams }: PageProps<"/admin/cust
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="font-display text-2xl font-semibold text-burgundy-700">Customers</h1>
+        <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Customers</h1>
         <form>
           <input name="q" defaultValue={q} placeholder="Name or phone" aria-label="Search customers" className="h-10 rounded-xl border border-cream-300 bg-white px-3 text-sm" />
         </form>

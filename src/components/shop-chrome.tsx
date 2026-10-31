@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
 import { checkPincode, locate } from "@/app/actions/public";
+import { authClient } from "@/lib/auth-client";
 import { rupees } from "@/lib/money";
 import { cart, countOf, estimateOf, useCart } from "./cart-store";
 import { cx, Icon, Input } from "./ui";
@@ -40,7 +41,7 @@ export function LocationPill({ areasLabel }: { areasLabel: string }) {
 
   return (
     <>
-      <button onClick={() => ref.current?.showModal()} className="inline-flex max-w-full items-center gap-1.5 text-sm text-ink-700" aria-haspopup="dialog">
+      <button onClick={() => ref.current?.showModal()} className="-mx-1 inline-flex min-h-11 max-w-full cursor-pointer items-center gap-1.5 rounded-lg px-1 text-sm text-ink-700 hover:bg-cream-200" aria-haspopup="dialog">
         <Icon name="pin" className="size-4 shrink-0 text-burgundy-600" />
         <span className="truncate">
           Deliver to <b className="font-semibold text-ink-900">{state.pincode ? `${state.area ?? ""} ${state.pincode}`.trim() : areasLabel}</b>
@@ -54,7 +55,7 @@ export function LocationPill({ areasLabel }: { areasLabel: string }) {
               <h2 className="font-display text-xl font-semibold">Where should we deliver?</h2>
               <p className="text-sm text-ink-500">We deliver across {areasLabel}, within 48 hours of order confirmation.</p>
             </div>
-            <button onClick={() => ref.current?.close()} className="grid size-9 place-items-center rounded-full bg-cream-200" aria-label="Close">
+            <button onClick={() => ref.current?.close()} className="grid size-11 cursor-pointer place-items-center rounded-full bg-cream-200 hover:bg-cream-300" aria-label="Close">
               <Icon name="close" className="size-4" />
             </button>
           </div>
@@ -68,7 +69,7 @@ export function LocationPill({ areasLabel }: { areasLabel: string }) {
               check(pin);
             }}
           >
-            <Input inputMode="numeric" pattern="\d{6}" maxLength={6} placeholder="Enter 6-digit pincode" value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, ""))} aria-label="Pincode" />
+            <Input inputMode="numeric" pattern="\d{6}" maxLength={6} placeholder="6-digit pincode, e.g. 411028…" value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, ""))} aria-label="Pincode" />
             <button disabled={pending || pin.length !== 6} className="h-11 shrink-0 rounded-xl bg-burgundy-600 px-5 font-semibold text-white disabled:opacity-50">
               Check
             </button>
@@ -103,18 +104,35 @@ const NAV = [
   { href: "/account", label: "Account", icon: "user" as const },
 ];
 
+/** Signed-in state comes from the browser, so cached public pages stay identical for everyone. */
+function useAccount() {
+  const { data, isPending } = authClient.useSession();
+  const u = data?.user;
+  return { pending: isPending, user: u ? { first: u.name.trim().split(/\s+/)[0], role: String(u.role ?? "customer") } : null };
+}
+
+const AUTH_PAGES = ["/login", "/register", "/forgot-password"];
+const signInHref = (path: string) => (path === "/" || AUTH_PAGES.some((p) => path.startsWith(p)) ? "/login" : `/login?next=${encodeURIComponent(path)}`);
+const portalOf = (role: string) => (role === "admin" ? { href: "/admin", label: "Admin" } : role === "delivery" ? { href: "/delivery", label: "Deliveries" } : null);
+
 export function BottomNav() {
   const path = usePathname();
+  const { pending, user } = useAccount();
   return (
     <nav aria-label="Primary" className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-cream-300 bg-white/95 pb-[var(--safe-bottom)] backdrop-blur md:hidden">
       <ul className="grid grid-cols-4">
         {NAV.map((n) => {
-          const active = n.href === "/" ? path === "/" : path.startsWith(n.href);
+          const active = n.href === "/" ? path === "/" : path.startsWith(n.href) || (n.href === "/account" && AUTH_PAGES.some((p) => path.startsWith(p)));
+          const signedOut = n.href === "/account" && !pending && !user;
           return (
             <li key={n.href}>
-              <Link href={n.href} aria-current={active ? "page" : undefined} className={cx("flex h-14 flex-col items-center justify-center gap-0.5 text-[11px] font-medium", active ? "text-burgundy-600" : "text-ink-500")}>
+              <Link
+                href={signedOut ? signInHref(path) : n.href}
+                aria-current={active ? "page" : undefined}
+                className={cx("flex h-14 flex-col items-center justify-center gap-0.5 text-[11px] font-medium", active ? "text-burgundy-600" : "text-ink-500")}
+              >
                 <Icon name={n.icon} className="size-[22px]" />
-                {n.label}
+                {signedOut ? "Sign in" : n.label}
               </Link>
             </li>
           );
@@ -127,12 +145,41 @@ export function BottomNav() {
 export function DesktopNav() {
   return (
     <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
-      {NAV.slice(1).map((n) => (
+      {NAV.slice(1, 3).map((n) => (
         <Link key={n.href} href={n.href} className="rounded-lg px-3 py-2 text-sm font-semibold text-ink-700 hover:bg-cream-200">
           {n.label}
         </Link>
       ))}
     </nav>
+  );
+}
+
+/** Header account control: "Sign in" when signed out, "Hi, <name>" when signed in. */
+export function AccountMenu() {
+  const path = usePathname();
+  const { pending, user } = useAccount();
+  if (pending) return <span aria-hidden className="block h-9 w-9 animate-pulse rounded-full bg-cream-200 md:w-24 md:rounded-lg" />;
+  if (!user)
+    return (
+      <Link href={signInHref(path)} className="inline-flex h-9 items-center rounded-lg border border-burgundy-600/30 bg-white px-3 text-sm font-semibold text-burgundy-700 hover:bg-burgundy-50">
+        Sign in
+      </Link>
+    );
+  const portal = portalOf(user.role);
+  return (
+    <span className="flex items-center gap-1">
+      {portal && (
+        <Link href={portal.href} className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-burgundy-700 hover:bg-burgundy-50 md:inline-block">
+          {portal.label}
+        </Link>
+      )}
+      <Link href="/account" aria-label={`My account (${user.first})`} className="flex items-center gap-2 rounded-full py-1 pl-1 pr-1 text-sm font-semibold text-ink-900 hover:bg-cream-200 md:rounded-lg md:pr-3">
+        <span aria-hidden className="grid size-8 place-items-center rounded-full bg-burgundy-600 text-sm font-bold text-white">
+          {user.first[0]?.toUpperCase()}
+        </span>
+        <span className="hidden md:inline">Hi, {user.first}</span>
+      </Link>
+    </span>
   );
 }
 

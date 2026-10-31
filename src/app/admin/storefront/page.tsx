@@ -18,7 +18,7 @@ export default async function Storefront() {
   const banner = draft.banners.find((b) => b.active);
   return (
     <div className="mx-auto max-w-4xl space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Storefront</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Storefront</h1>
       <p className="text-sm text-ink-500">
         Bestsellers and Featured come from the product checkboxes; category order from Brands & categories. {doc?.publishedAt && `Last published ${fmtDate(doc.publishedAt)}.`}
       </p>
@@ -28,7 +28,7 @@ export default async function Storefront() {
         {draft.announcement && <p className="rounded-lg bg-saffron-100 px-3 py-2 text-center text-sm text-saffron-700">{draft.announcement}</p>}
         {banner ? (
           <div className="rounded-2xl bg-gradient-to-br from-burgundy-700 to-burgundy-800 p-5 text-white">
-            <p className="font-display text-2xl font-semibold">{banner.title}</p>
+            <p className="text-[1.75rem] font-semibold tracking-tight text-ink-900">{banner.title}</p>
             <p className="text-sm text-burgundy-100">{banner.subtitle}</p>
             <p className="mt-1 text-xs opacity-70">→ {banner.href ?? "/products"}</p>
           </div>

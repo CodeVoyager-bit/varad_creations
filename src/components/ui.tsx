@@ -5,11 +5,12 @@ import type { Tone } from "@/lib/order-rules";
 export const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
 
 const btnBase =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors disabled:opacity-50 disabled:pointer-events-none select-none";
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl font-semibold transition-[transform,background-color,color,border-color] duration-150 active:scale-[0.98] motion-reduce:active:scale-100 disabled:pointer-events-none disabled:opacity-50 select-none";
 const btnVariants = {
   primary: "bg-burgundy-600 text-white hover:bg-burgundy-700 active:bg-burgundy-800",
   secondary: "border border-burgundy-600/30 bg-white text-burgundy-700 hover:bg-burgundy-50",
   ghost: "text-burgundy-700 hover:bg-burgundy-50",
+  dark: "bg-ink-900 text-white hover:bg-ink-700",
   saffron: "bg-saffron-400 text-ink-900 hover:bg-saffron-500",
   danger: "bg-danger-600 text-white hover:brightness-95",
   success: "bg-leaf-600 text-white hover:bg-leaf-700",
@@ -54,7 +55,8 @@ export function Field({ label, hint, error, children, className }: { label: stri
 }
 
 export const inputClass =
-  "w-full rounded-xl border border-cream-300 bg-white px-3 h-11 text-[15px] text-ink-900 placeholder:text-ink-300 focus:border-burgundy-500 focus:outline-none focus:ring-2 focus:ring-burgundy-500/20 disabled:bg-cream-100";
+  // 16px text: smaller inputs make iOS Safari zoom the page on focus
+  "w-full rounded-xl border border-cream-300 bg-white px-3 h-11 text-base text-ink-900 placeholder:text-ink-500 focus:border-burgundy-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-burgundy-500/25 disabled:bg-cream-100";
 
 export function Input(p: ComponentProps<"input">) {
   return <input {...p} className={cx(inputClass, p.className)} />;
@@ -90,7 +92,7 @@ export function EmptyState({ title, body, action }: { title: string; body?: Reac
   );
 }
 
-export function Spinner({ label = "Loading" }: { label?: string }) {
+export function Spinner({ label = "Loading…" }: { label?: string }) {
   return (
     <span role="status" className="inline-flex items-center gap-2 text-sm text-ink-500">
       <span className="size-4 animate-spin rounded-full border-2 border-burgundy-500 border-t-transparent motion-reduce:animate-none" />
@@ -105,7 +107,7 @@ export function PageLoading() {
       <div className="h-7 w-48 animate-pulse rounded-lg bg-cream-200" />
       <div className="h-28 animate-pulse rounded-2xl bg-cream-200" />
       <div className="h-28 animate-pulse rounded-2xl bg-cream-200" />
-      <span className="sr-only">Loading</span>
+      <span className="sr-only">Loading…</span>
     </div>
   );
 }
@@ -160,6 +162,15 @@ const paths = {
   logout: <path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10" />,
   upload: <path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />,
   refresh: <path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" />,
+  locate: <path d="M12 19a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM12 3v2M12 19v2M3 12h2M19 12h2M12 14.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />,
+  gift: <path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3.5-5-1.2C7 7 9 7 12 7zM12 7c1.5-3 5-3.5 5-1.2C17 7 15 7 12 7z" />,
+  bell: <path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9zM10 20a2 2 0 0 0 4 0" />,
+  chart: <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />,
+  users: <path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M17 11a3 3 0 1 0 0-6M22 21a6 6 0 0 0-4-5.6" />,
+  settings: <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />,
+  doc: <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h5" />,
+  store: <path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6" />,
+  history: <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2" />,
 };
 
 export const fmtDate = (d: string | Date | undefined | null, withTime = true) =>

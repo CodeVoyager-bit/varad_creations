@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { rupees, percentOff } from "@/lib/money";
 import { inStock, type ShopProduct, type ShopVariant } from "@/lib/shop-types";
 import { cart, MAX_QTY, qtyOf, useCart } from "./cart-store";
-import { Badge, cx, Icon } from "./ui";
+import { cx, Icon } from "./ui";
 
 /** Stand-in pack illustration until real product photography is uploaded. */
 export function PackArt({ name, brand, className }: { name: string; brand: string; className?: string }) {
@@ -51,28 +51,28 @@ export function Stepper({ product, variant, size = "md" }: { product: ShopProduc
     image: product.image,
     slug: product.slug,
   };
-  const h = size === "sm" ? "h-9" : "h-10";
+  const h = size === "sm" ? "h-10" : "h-11";
   if (!variant.inStock)
     return <span className={cx(h, "inline-flex items-center rounded-xl bg-cream-200 px-3 text-xs font-semibold text-ink-500")}>Out of stock</span>;
   if (!qty)
     return (
       <button
         onClick={() => cart.setQty(line, 1)}
-        className={cx(h, "min-w-20 rounded-xl border-2 border-burgundy-600 bg-white px-4 text-sm font-bold text-burgundy-700 hover:bg-burgundy-50")}
+        className={cx(h, "min-w-[4.75rem] cursor-pointer rounded-xl border-[1.5px] border-burgundy-600 bg-white px-4 text-sm font-bold text-burgundy-700 transition-transform hover:bg-burgundy-50 active:scale-[0.97] motion-reduce:active:scale-100")}
         aria-label={`Add ${product.name} ${variant.label} to cart`}
       >
         ADD
       </button>
     );
   return (
-    <div className={cx(h, "inline-flex min-w-20 items-center justify-between rounded-xl bg-burgundy-600 text-white")} role="group" aria-label={`${product.name} ${variant.label} quantity`}>
-      <button className="grid h-full w-9 place-items-center" onClick={() => cart.setQty(line, qty - 1)} aria-label="Decrease quantity">
+    <div className={cx(h, "inline-flex min-w-[5.5rem] items-center justify-between rounded-xl bg-burgundy-600 text-white")} role="group" aria-label={`${product.name} ${variant.label} quantity`}>
+      <button className="grid h-full w-10 cursor-pointer place-items-center rounded-l-xl active:bg-burgundy-700" onClick={() => cart.setQty(line, qty - 1)} aria-label="Decrease quantity">
         <Icon name="minus" className="size-4" />
       </button>
       <span className="min-w-5 text-center text-sm font-bold tabular-nums" aria-live="polite">
         {qty}
       </span>
-      <button className="grid h-full w-9 place-items-center disabled:opacity-40" onClick={() => cart.setQty(line, qty + 1)} disabled={qty >= MAX_QTY} aria-label="Increase quantity">
+      <button className="grid h-full w-10 cursor-pointer place-items-center rounded-r-xl active:bg-burgundy-700 disabled:opacity-40" onClick={() => cart.setQty(line, qty + 1)} disabled={qty >= MAX_QTY} aria-label="Increase quantity">
         <Icon name="plus" className="size-4" />
       </button>
     </div>
@@ -82,16 +82,13 @@ export function Stepper({ product, variant, size = "md" }: { product: ShopProduc
 function Price({ v }: { v: ShopVariant }) {
   const off = percentOff(v.mrpPaise, v.pricePaise);
   return (
-    <div className="leading-tight">
-      <span className="font-bold text-ink-900">{rupees(v.pricePaise)}</span>
+    <div className="leading-tight tabular-nums">
+      <span className="block text-base font-bold text-ink-900">{rupees(v.pricePaise)}</span>
       {off > 0 && (
-        <>
-          <span className="ml-1 text-xs text-ink-500 line-through">
-            <span className="sr-only">MRP </span>
-            {rupees(v.mrpPaise)}
-          </span>
-          <span className="block text-[11px] font-semibold text-leaf-700">{off}% below MRP</span>
-        </>
+        <span className="text-xs text-ink-500 line-through">
+          <span className="sr-only">MRP </span>
+          {rupees(v.mrpPaise)}
+        </span>
       )}
     </div>
   );
@@ -104,52 +101,57 @@ export function ProductCard({ p }: { p: ShopProduct }) {
   const v0 = p.variants.find((v) => v.inStock) ?? p.variants[0];
   const multi = p.variants.length > 1;
   const inCart = p.variants.reduce((a, v) => a + qtyOf(state, v.id), 0);
+  const off = percentOff(v0.mrpPaise, v0.pricePaise);
   return (
-    <article className="group relative flex flex-col rounded-2xl bg-white p-2.5 shadow-[var(--shadow-card)]">
-      <Link href={`/p/${p.slug}`} className="block">
-        <div className="relative aspect-square overflow-hidden rounded-xl bg-cream-50">
-          <ProductImage p={p} />
-          <div className="absolute left-1.5 top-1.5 flex flex-col items-start gap-1">
-            {p.isDemo && <Badge tone="neutral">Sample</Badge>}
-            {!inStock(p) && <Badge tone="bad">Out of stock</Badge>}
-            {v0.fewLeft && <Badge tone="warn">Only {v0.fewLeft} left</Badge>}
+    <article className="group relative flex h-full flex-col rounded-2xl bg-white p-2 ring-1 ring-black/[0.06] transition-shadow duration-200 hover:shadow-[0_12px_32px_-16px_rgb(36_23_15/0.35)]">
+      <div className="relative">
+        <Link href={`/p/${p.slug}`} className="block rounded-xl" aria-label={`${p.brand.name} ${p.name}`}>
+          <div className="relative aspect-square overflow-hidden rounded-xl bg-[var(--color-tile)]">
+            <ProductImage p={p} className={cx(p.image && "p-3 mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.05] motion-reduce:transform-none", !inStock(p) && "opacity-50 grayscale")} />
+            {off > 0 && <span className="absolute left-0 top-2.5 rounded-r-md bg-leaf-600 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-white">{off}% OFF</span>}
+            {!inStock(p) && <span className="absolute inset-x-2 bottom-2 rounded-lg bg-ink-900/80 py-1 text-center text-xs font-semibold text-white">Out of stock</span>}
           </div>
-        </div>
-        <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-ink-500">{p.brand.name}</p>
-        <h3 className="line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-ink-900">{p.name}</h3>
-      </Link>
-      <p className="mb-2 text-xs text-ink-500">{multi ? `${p.variants.length} sizes · from ${v0.label}` : v0.label}</p>
-      <div className="mt-auto flex items-end justify-between gap-2">
-        <Price v={v0} />
-        {multi ? (
-          inStock(p) ? (
-            <button
-              onClick={() => ref.current?.showModal()}
-              className={cx(
-                "h-10 min-w-20 rounded-xl px-3 text-sm font-bold",
-                inCart ? "bg-burgundy-600 text-white" : "border-2 border-burgundy-600 bg-white text-burgundy-700 hover:bg-burgundy-50",
-              )}
-              aria-haspopup="dialog"
-            >
-              {inCart ? `${inCart} added` : "ADD"}
-              <span className="sr-only"> — choose pack size for {p.name}</span>
-            </button>
-          ) : (
-            <Stepper product={p} variant={v0} />
-          )
-        ) : (
-          <Stepper product={p} variant={v0} />
+        </Link>
+        {inStock(p) && (
+          <div className="absolute -bottom-3 right-1.5 drop-shadow-[0_4px_10px_rgb(36_23_15/0.18)]">
+            {multi ? (
+              <button
+                onClick={() => ref.current?.showModal()}
+                className={cx(
+                  "h-10 min-w-[4.75rem] cursor-pointer rounded-xl px-3 text-sm font-bold transition-[transform,background-color] active:scale-[0.97] motion-reduce:active:scale-100",
+                  inCart ? "bg-burgundy-600 text-white" : "border-[1.5px] border-burgundy-600 bg-white text-burgundy-700 hover:bg-burgundy-50",
+                )}
+                aria-haspopup="dialog"
+              >
+                {inCart ? `${inCart} added` : "ADD"}
+                <span className="sr-only"> — choose pack size for {p.name}</span>
+              </button>
+            ) : (
+              <Stepper product={p} variant={v0} size="sm" />
+            )}
+          </div>
         )}
       </div>
+      <Link href={`/p/${p.slug}`} tabIndex={-1} className="mt-4 flex flex-1 flex-col px-1 pb-1">
+        <span className="flex items-baseline gap-1.5 tabular-nums">
+          <b className="text-[15px] font-bold text-ink-900">{rupees(v0.pricePaise)}</b>
+          {off > 0 && <s className="text-xs text-ink-500">{rupees(v0.mrpPaise)}</s>}
+        </span>
+        <h3 className="mt-1 line-clamp-2 text-[13.5px] font-semibold leading-[1.3] text-ink-900">{p.name}</h3>
+        <span className="mt-auto pt-1.5 text-xs text-ink-500">
+          {multi ? `${p.variants.length} sizes` : v0.label} · {p.brand.name}
+        </span>
+        {v0.fewLeft && <span className="text-xs font-semibold text-saffron-700">Only {v0.fewLeft} left</span>}
+      </Link>
       {multi && (
         <dialog ref={ref} className="sheet" aria-label={`Choose pack size for ${p.name}`} onClick={(e) => e.target === ref.current && ref.current?.close()}>
           <div className="p-4">
             <div className="mb-3 flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase text-ink-500">{p.brand.name}</p>
-                <p className="font-display text-lg font-semibold">{p.name}</p>
+                <p className="font-display text-lg font-bold">{p.name}</p>
               </div>
-              <button onClick={() => ref.current?.close()} className="grid size-9 place-items-center rounded-full bg-cream-200" aria-label="Close">
+              <button onClick={() => ref.current?.close()} className="grid size-11 cursor-pointer place-items-center rounded-full bg-cream-200 hover:bg-cream-300" aria-label="Close">
                 <Icon name="close" className="size-4" />
               </button>
             </div>

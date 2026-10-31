@@ -11,7 +11,8 @@
     "seed:demo": "tsx --env-file=.env.local scripts/seed-demo.ts",
     "admin:create": "tsx --env-file=.env.local scripts/create-admin.ts",
     "db:indexes": "tsx --env-file=.env.local scripts/indexes.ts",
-    "db:dev": "mkdir -p .mongo-data && mongod --dbpath .mongo-data --replSet rs0 --port 27018 --bind_ip 127.0.0.1"
+    "db:dev": "mkdir -p .mongo-data && mongod --dbpath .mongo-data --replSet rs0 --port 27018 --bind_ip 127.0.0.1",
+    "import:catalog": "tsx --env-file=.env.local scripts/import-catalog.ts"
   },
   "dependencies": {
     "better-auth": "^1.7.14",

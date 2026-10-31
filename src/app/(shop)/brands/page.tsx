@@ -9,7 +9,7 @@ export default async function BrandsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-4">
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Brands" }]} />
-      <h1 className="mb-4 font-display text-2xl font-semibold text-burgundy-700">Shop by brand</h1>
+      <h1 className="mb-4 font-display text-2xl font-extrabold tracking-[-0.02em] text-ink-900">Shop by brand</h1>
       <BrandChips brands={brands} />
     </div>
   );

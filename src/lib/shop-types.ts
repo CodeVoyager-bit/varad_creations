@@ -48,6 +48,9 @@ export interface ShopCategory {
   name: string;
   description?: string;
   image?: string;
+  /** a pack shot from one of its products, used when no category/brand image is uploaded */
+  packImage?: string;
+  productCount?: number;
   seo?: { title?: string; description?: string };
 }
 export type ShopBrand = ShopCategory & { logo?: string };

@@ -1,0 +1,631 @@
+[
+  {
+    "brand": "Agrawal 420",
+    "company": "Agrawal's 420 group, Indore (est. 1962). Namkeen is sold as 'Agrawal's 420 Namkeen' and made by Agrawal Snacks Food India LLP (Limbodagari, Hatod, Indore; catalogue site 420namkeen.in). Papad/instant mixes are made by Agrawal Papad Pvt. Ltd. (374 Hukumchand Colony, Panchkuiya Road, Indore; 420papad.com).",
+    "officialSite": "https://www.agrawals420online.com/",
+    "logoUrl": "https://www.420papad.com/images/icons/logo-02.png",
+    "notes": "officialSite is the group's own online store (linked from 420papad.com) and has Namkeen, Bakery, Sweets, Papad and Instant Mix sections. agrawal420.com is a parked domain, not the brand. All MRPs are the official store's selling prices; the store doesn't label them 'MRP'. 400 g price = 200 g price + Rs 57 option surcharge, and 900 g = + Rs 200. Mirchi.com sells 400 g packs at Rs 145 (Rs 141 after discount), shipping included, so we didn't use those prices. Logo is only 150x150 px. Several images come from Mirchi.com, a marketplace whose listings say the goods ship directly from 'Agrawal's 420 Bites, Indore'.",
+    "products": [
+      {
+        "name": "Ratlami Sev",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 112
+          }
+        ],
+        "imageUrl": "https://mirchi.com/os/cdn/content/images/ratlami%20sev%20agrawal%20s%20420%20bites_large650081.webp",
+        "imageSourcePage": "https://mirchi.com/ratlami-sev-agrawal%27s-420-bites",
+        "notes": "Official store: 200GM Rs 55, 400GM +Rs 57; also says 'Available In: 350 Gm & 900 Gm' (no price shown). Veg from official 'Ingredient Type: Vegetarian'. Page: https://www.agrawals420online.com/products/420-Ratlami-Sev-p585831084"
+      },
+      {
+        "name": "Ujjaini Sev",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 112
+          }
+        ],
+        "imageUrl": "https://mirchi.com/os/cdn/content/images/ujjain%20sev%20agrawal%20s%20420%20bites_large442110.webp",
+        "imageSourcePage": "https://mirchi.com/ujjain-sev-agrawal%27s-420-bites",
+        "notes": "Pack and official store spell it 'Ujjaini Sev'; Mirchi and 420namkeen.in say 'Ujjain Sev'. Image shows the stand-up pouch. Page: https://www.agrawals420online.com/products/420-Ujjaini-Sev-p585779476"
+      },
+      {
+        "name": "Laung Sev",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 112
+          },
+          {
+            "label": "900 g",
+            "netQty": 900,
+            "netUnit": "g",
+            "mrp": 255
+          }
+        ],
+        "imageUrl": "https://d2j6dbq0eux0bg.cloudfront.net/images/91888515/products/585833328/3856953376.png",
+        "imageSourcePage": "https://www.agrawals420online.com/products/420-Laung-Sev-p585833328",
+        "notes": "Image is from the official store and is a PNG with a transparent background."
+      },
+      {
+        "name": "All In One Mix",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 112
+          },
+          {
+            "label": "900 g",
+            "netQty": 900,
+            "netUnit": "g",
+            "mrp": 255
+          }
+        ],
+        "imageUrl": "https://mirchi.com/os/cdn/content/images/all%20in%20one%20mix%20agrawal%20s%20420%20bites_large543015.webp",
+        "imageSourcePage": "https://mirchi.com/all-in-one-mix-agrawal%27s-420-bites",
+        "notes": "Amazon.in has a 200 g listing (B0F3J5Y1J7) that shows no MRP and is currently unavailable. Page: https://www.agrawals420online.com/products/420-All-In-One-Mix-p585779705"
+      },
+      {
+        "name": "Khatta Meetha Mix",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 112
+          },
+          {
+            "label": "900 g",
+            "netQty": 900,
+            "netUnit": "g",
+            "mrp": 255
+          }
+        ],
+        "imageUrl": "https://mirchi.com/os/cdn/content/images/khatta%20meetha%20mix%20agrawal%20s%20420%20bites_large897123.webp",
+        "imageSourcePage": "https://mirchi.com/khatta-meetha-mix-agrawal%27s-420-bites",
+        "notes": "Veg comes from Mirchi's 'Vegetarian Product' tag; the official page has no ingredient note. Page: https://www.agrawals420online.com/products/420-Khatta-Meetha-Mix-p585779668"
+      },
+      {
+        "name": "Gujarati Mixture",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 112
+          }
+        ],
+        "imageUrl": "https://mirchi.com/os/cdn/content/images/gujarati%20mixture%20agrawal%20s%20420%20bites_large907813.webp",
+        "imageSourcePage": "https://mirchi.com/gujarati-mixture--agrawal%27s-420-bites",
+        "notes": "Page: https://www.agrawals420online.com/products/420-Gujarati-Mixture-p585833331"
+      },
+      {
+        "name": "Aloo Bhujiya",
+        "category": "Namkeen",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 112
+          }
+        ],
+        "imageUrl": "https://mirchi.com/os/cdn/content/images/aloo%20bhujiya%20agrawal%20s%20420%20bites_large712253.webp",
+        "imageSourcePage": "https://mirchi.com/aloo-bhujiya-agrawal%27s-420-bites",
+        "notes": "Page: https://www.agrawals420online.com/products/420-Aloo-Bhujiya-p585829871"
+      },
+      {
+        "name": "Aloo Fariyali Kali Mirch",
+        "category": "Fasting",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 60
+          }
+        ],
+        "imageUrl": "https://d2j6dbq0eux0bg.cloudfront.net/images/91888515/5038157770.jpg",
+        "imageSourcePage": "https://www.agrawals420online.com/products/420-Namkeen-c155889319",
+        "notes": "Pack-size conflict on the official page: the selector says 200GM but 'Product Details' says 150.00 g. Check the physical pack. Image is the category-grid image on the official store. Page: https://www.agrawals420online.com/products/420-Aloo-Fariyali-Kali-Mirch-p585779493"
+      },
+      {
+        "name": "Rusk",
+        "category": "Bakery",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 37
+          },
+          {
+            "label": "300 g",
+            "netQty": 300,
+            "netUnit": "g",
+            "mrp": 55
+          },
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 99
+          }
+        ],
+        "imageUrl": "https://d2j6dbq0eux0bg.cloudfront.net/images/91888515/products/585834664/3856963008.jpg",
+        "imageSourcePage": "https://www.agrawals420online.com/products/420-Rusk-p585834664",
+        "notes": "Packs come from the official option selector (200GM Rs 37, 300GM +Rs 18, 400GM +Rs 62). The page also says '300 Gm (Pouch Pack) / 400 Gm (Box Pack)'. The image is only 400x392 px (below 500) and is the best the official store has. The pack is branded 'Agrawal's 420 Bites'."
+      },
+      {
+        "name": "Soan Papdi",
+        "category": "Sweets",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": null
+          }
+        ],
+        "imageUrl": "https://m.media-amazon.com/images/I/61tLsBVLEWL._SL1280_.jpg",
+        "imageSourcePage": "https://www.amazon.in/dp/B07YHVJ1HJ",
+        "notes": "The Amazon.in listing is 'Agrawal's 420 Soan Papdi, 200g (Pack of 2)'. It is currently unavailable and shows no MRP. 420namkeen.in also lists Regular, Orange and Chocolate Soan Papdi. The image background is light grey, not white."
+      }
+    ]
+  },
+  {
+    "brand": "Mahendra",
+    "company": "Mahendra Ke Namkeen, 63 Malganj Chouraha, Jawahar Marg, Indore 452002 (MP). The pack reads 'Mahendra Ke Namkeen'.",
+    "officialSite": "https://mahendrakenamkeen.com/",
+    "logoUrl": "https://cdn3.shopvii.com/1213/977/mahendra_ke_namkeen_1.png",
+    "notes": "Identified from the pack wordmark 'MAHENDRA KE NAMKEEN', which matches the official site. Indore has other similarly named, unrelated firms in directories (e.g. 'Mahendra Namkeen', Old Palasia; 'Mahendra Sev Bhandar', Malharganj). Confirm with your distributor that you stock Mahendra Ke Namkeen. MRPs are the per-pack prices on the official site, which doesn't label them 'MRP'. The site also shows 'Minimum order quantity - 5 Kg', template '-90%' badges and lorem-ipsum text, so treat its prices as indicative. Every variant comes in the same red pouch. The official site only has bowl photos, so most pack shots come from TheDesiFood.com, an export reseller whose USD prices we ignored. Each variant there is identified only by the reseller's label. Logo is 270x69 px.",
+    "products": [
+      {
+        "name": "Ratlami Sev",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 65
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 130
+          }
+        ],
+        "imageUrl": "https://cdn3.shopvii.com/1213/977/8366.JPG",
+        "imageSourcePage": "https://mahendrakenamkeen.com/product/ratlami-sev-5",
+        "notes": "No pack shot found. The image is the official site's product-in-bowl photo (white background, 1000 px), and the official site uses the same photo for Hing Sev."
+      },
+      {
+        "name": "Ujjaini Sev",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 65
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 130
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Ujjaini%20Sev%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-ujjaini-sev",
+        "notes": "Image shows the pack with a bowl beside it. Prices from https://mahendrakenamkeen.com/product/ujjaini-sev"
+      },
+      {
+        "name": "Laung Sev",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 65
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 130
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Double%20Laung%20Sev%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-double-laung-sev",
+        "notes": "The official page is titled 'Laung Sev' but its URL slug is 'double-laung-sev', and TheDesiFood calls it 'Mahendra Double Laung Sev'. Prices from https://mahendrakenamkeen.com/product/double-laung-sev"
+      },
+      {
+        "name": "Lahsun Sev",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 75
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 150
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Lahsun%20Sev%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-lahsun-sev",
+        "notes": "Image shows the pack with a bowl on a light-grey background. Prices from https://mahendrakenamkeen.com/product/lahsun-sev"
+      },
+      {
+        "name": "Jeeravan Sev",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 70
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 140
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Jeeravan%20Sev%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-jeeravan-sev",
+        "notes": "Prices from https://mahendrakenamkeen.com/product/jeeravan-sev"
+      },
+      {
+        "name": "Pudina Sev",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 70
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 140
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Pudina%20Sev%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-pudina-sev",
+        "notes": "Prices from https://mahendrakenamkeen.com/product/pudina-sev"
+      },
+      {
+        "name": "Moth Ki Sev",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 90
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 180
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Moth%20Ki%20Sev%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-moth-ki-sev",
+        "notes": "Prices from https://mahendrakenamkeen.com/product/moth-ki-sev"
+      },
+      {
+        "name": "Khatta Meetha Mixture",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 65
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 130
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Khatta%20Meetha%20Mixture%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-khatta-meetha-mixture",
+        "notes": "Prices from https://mahendrakenamkeen.com/product/khatta-meetha-mixture"
+      },
+      {
+        "name": "Poha Mix",
+        "category": "Namkeen",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 65
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 130
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/product_uploads/mahendra-poha-mix/image-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-poha-mix",
+        "notes": "A mix of barik sev, plain sev and nukti, used as a poha topping (official description). Image is 600x600. Prices from https://mahendrakenamkeen.com/product/poha-mix"
+      },
+      {
+        "name": "Kali Mirch Dana",
+        "category": "Fasting",
+        "veg": null,
+        "packs": [
+          {
+            "label": "250 g",
+            "netQty": 250,
+            "netUnit": "g",
+            "mrp": 75
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 150
+          }
+        ],
+        "imageUrl": "https://thedesifood.com/media/Mahendra%20Fariyai%20Kali%20Mirch%20Dana%2C%20500%20g-1.webp",
+        "imageSourcePage": "https://thedesifood.com/products/mahendra-fariyai-kali-mirch-dana",
+        "notes": "A spiced peanut snack. The official site lists it under 'Fariyali'. Before tagging it Fasting, check that the pack's ingredients suit fasting. The image is a clean front-of-pack shot. Prices from https://mahendrakenamkeen.com/product/kali-mirch-dana"
+      }
+    ]
+  },
+  {
+    "brand": "Gangwal",
+    "company": "Gangwal Flour Foods LLP, Indore (MP). BigBasket gives the manufacturer address as Off 125 Tilak Path, Indore.",
+    "officialSite": "https://gangwalfoods.com/",
+    "logoUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/GANGWAL_LOGO_NEW.png?v=1761980029",
+    "notes": "Gangwal does NOT make namkeen, bakery items or ready sweets. Its official store (98 products) covers atta/flours and staples, instant mixes, papad, blended spices and dessert mixes. Only the fasting flours fit your categories; the others have category null. Swiggy Instamart (Surat) lists 'Gangwal' under namkeens, but we found no Gangwal namkeen product. MRPs are the official store's 'Sale price', which here equals its 'Regular price'. BigBasket shows older, lower MRPs, noted per product. Logo is 3375x1012 px.",
+    "products": [
+      {
+        "name": "Fasting Special Rajgira Aata",
+        "category": "Fasting",
+        "veg": true,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 58
+          },
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 127
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/GANGWAL-RAJGIRAATTA200g1.png?v=1733645286",
+        "imageSourcePage": "https://gangwalfoods.com/products/rajgira-aata-200gm",
+        "notes": "500 g listing: https://gangwalfoods.com/products/gangwal-rajgira-atta-500g ('Fasting Special Rajgira Atta', which shows a different pack design and says '100% Vegetarian'). BigBasket lists 'Atta - Rajgira 200 g' at MRP Rs 53."
+      },
+      {
+        "name": "Fasting Special Singhada Aata",
+        "category": "Fasting",
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 65
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/GANGWAL-SINGHARAATTA200g1.png?v=1733645592",
+        "imageSourcePage": "https://gangwalfoods.com/products/singhada-aata",
+        "notes": ""
+      },
+      {
+        "name": "Faliyari Bhajni",
+        "category": "Fasting",
+        "veg": null,
+        "packs": [
+          {
+            "label": "400 g",
+            "netQty": 400,
+            "netUnit": "g",
+            "mrp": 93
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/Bhajni400g-Front.jpg?v=1723023767&width=1200",
+        "imageSourcePage": "https://gangwalfoods.com/products/gangwal-faliyari-bhajni-400gm",
+        "notes": "Image is a pack on a green window-light backdrop, not white."
+      },
+      {
+        "name": "Jeerawan Masala",
+        "category": null,
+        "veg": true,
+        "packs": [
+          {
+            "label": "100 g",
+            "netQty": 100,
+            "netUnit": "g",
+            "mrp": 70
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/1_GANGWAL_Jeerawan_Masala_100gm_-_1200_x_1286_A.png?v=1786695284",
+        "imageSourcePage": "https://gangwalfoods.com/products/jeerawan-100gm-pack",
+        "notes": "Indori poha/chaat spice blend. Doesn't fit the five store categories."
+      },
+      {
+        "name": "Instant Khaman Mix",
+        "category": null,
+        "veg": true,
+        "packs": [
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 158
+          }
+        ],
+        "imageUrl": "https://www.bbassets.com/media/uploads/p/l/40097054_5-gangwal-instant-mix-khaman-dhokla.jpg",
+        "imageSourcePage": "https://www.bigbasket.com/pd/40097054/gangwal-instant-mix-khaman-dhokla-500-g/",
+        "notes": "MRP is from the official store: https://gangwalfoods.com/products/khaman-mix-500gm. BigBasket lists 'Instant Mix - Khaman Dhokla 500 g' at MRP Rs 122. The official image has a window backdrop, so the BigBasket pack shot (500 px) is used instead. Instant mix, so category null."
+      },
+      {
+        "name": "Instant Sev Mix",
+        "category": null,
+        "veg": true,
+        "packs": [
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 126
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/GangwalSevMix-500g1.png?v=1755154692",
+        "imageSourcePage": "https://gangwalfoods.com/products/sev-mix",
+        "notes": "A make-at-home sev premix, not ready-to-eat namkeen."
+      },
+      {
+        "name": "Gol Matol Sada Papad",
+        "category": null,
+        "veg": null,
+        "packs": [
+          {
+            "label": "200 g",
+            "netQty": 200,
+            "netUnit": "g",
+            "mrp": 90
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/8906021510264GangwalSadaPapad200gWhiteBackground.jpg?v=1751792032&width=1200",
+        "imageSourcePage": "https://gangwalfoods.com/products/gangwal-golmatol-sada-papad-200g",
+        "notes": "A 400 g pack also exists on the official store (Rs 146, sold out). Papad doesn't fit the five store categories."
+      },
+      {
+        "name": "Shahi Bafla Batti Atta",
+        "category": null,
+        "veg": null,
+        "packs": [
+          {
+            "label": "1 kg",
+            "netQty": 1,
+            "netUnit": "kg",
+            "mrp": 90
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/GangwalBAFLAATTA1Kg1.png?v=1747833844",
+        "imageSourcePage": "https://gangwalfoods.com/products/bafla-aata",
+        "notes": "BigBasket lists 'Atta - Shahi Bafla 1 kg' at MRP Rs 55. A staple flour, so category null."
+      },
+      {
+        "name": "Besan Sada (Gram Flour)",
+        "category": null,
+        "veg": null,
+        "packs": [
+          {
+            "label": "500 g",
+            "netQty": 500,
+            "netUnit": "g",
+            "mrp": 99
+          }
+        ],
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0558/9375/3921/files/GangwalBesanSADA500g1.png?v=1733650019",
+        "imageSourcePage": "https://gangwalfoods.com/products/gangwal-besan-sada-gram-flour-500gm-pack",
+        "notes": "A staple flour, so category null."
+      }
+    ]
+  }
+]

@@ -20,7 +20,7 @@ export async function PolicyPage({ slug }: { slug: string }) {
     <div className="mx-auto max-w-3xl px-4 py-6">
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: p.title }]} />
       <article className="rounded-2xl bg-white p-5 shadow-[var(--shadow-card)] md:p-8">
-        <h1 className="font-display text-3xl font-semibold text-burgundy-700">{p.title}</h1>
+        <h1 className="font-display text-[1.75rem] font-extrabold tracking-[-0.02em] text-burgundy-700">{p.title}</h1>
         <div className="prose-vc mt-4" dangerouslySetInnerHTML={{ __html: renderPolicy(p.body, policyVars(s as never)) }} />
       </article>
     </div>

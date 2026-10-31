@@ -38,7 +38,7 @@ export default async function Payments() {
   );
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Payments</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Payments</h1>
       <p className="text-sm text-ink-500">Customer “I have paid” submissions and screenshots are never proof. Mark a UPI payment received only after you see it in the bank or UPI business account.</p>
       <Card className="p-4">
         <h2 className="mb-2 font-semibold">UPI to verify ({verify.length})</h2>

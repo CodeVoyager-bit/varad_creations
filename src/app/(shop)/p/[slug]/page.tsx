@@ -176,7 +176,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
             <Link href={`/b/${p.brand.slug}`} className="text-sm font-bold uppercase tracking-wide text-burgundy-600 hover:underline">
               {p.brand.name}
             </Link>
-            <h1 className="mt-1 font-display text-2xl font-semibold leading-tight md:text-3xl">{p.name}</h1>
+            <h1 className="mt-1 font-display text-2xl font-extrabold leading-tight tracking-[-0.02em] md:text-[1.75rem]">{p.name}</h1>
             <div className="mt-2 flex flex-wrap gap-2">
               {p.isDemo && <Badge>Sample product — demonstration price</Badge>}
               {p.bestseller && <Badge tone="warn">Bestseller</Badge>}

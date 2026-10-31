@@ -2,7 +2,7 @@
 import { useState, useTransition } from "react";
 import { locate } from "@/app/actions/public";
 import { saveAddress, type AddressInput } from "@/app/actions/customer";
-import { Button, Field, Input, Notice, Textarea } from "./ui";
+import { Button, Field, Icon, Input, Notice, Textarea } from "./ui";
 
 export interface SavedAddress extends AddressInput {
   id: string;
@@ -57,7 +57,7 @@ export function AddressForm({ initial, defaultName, defaultPhone, onSaved, onCan
   return (
     <form onSubmit={submit} className="space-y-3">
       <button type="button" onClick={useLocation} disabled={pending} className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-burgundy-600/30 bg-white text-sm font-semibold text-burgundy-700">
-        📍 Use my location
+        <Icon name="locate" className="size-5" /> Use my location
       </button>
       {msg && (
         <Notice tone={msg.tone}>
@@ -99,7 +99,7 @@ export function AddressForm({ initial, defaultName, defaultPhone, onSaved, onCan
           <Input required autoComplete="address-level2" value={a.city} onChange={set("city")} />
         </Field>
         <Field label="Delivery instructions (optional)" className="col-span-2">
-          <Textarea rows={2} maxLength={200} value={a.instructions ?? ""} onChange={set("instructions")} placeholder="e.g. Call before arriving, ring the bell twice" />
+          <Textarea rows={2} maxLength={200} value={a.instructions ?? ""} onChange={set("instructions")} placeholder="e.g. Call before arriving…" />
         </Field>
         <Field label="Save as" className="col-span-2">
           <div className="flex gap-2">

@@ -23,7 +23,7 @@ export default async function Content({ searchParams }: PageProps<"/admin/conten
 
   return (
     <div className="mx-auto max-w-5xl space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Policies & SEO</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Policies & SEO</h1>
       <Notice tone="warn">These are starting drafts written for this business. Have them reviewed by a lawyer or CA before launch. Values in {"{{double braces}}"} come from Settings; missing ones show as “to be added” on the live page.</Notice>
       <Card className="p-4">
         <ul className="divide-y divide-cream-100">

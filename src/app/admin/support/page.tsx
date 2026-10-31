@@ -20,7 +20,7 @@ export default async function Support() {
   const now = nowMs();
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Support & grievances</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Support & grievances</h1>
       <p className="text-sm text-ink-500">E-commerce rules: acknowledge each complaint within 48 hours and resolve it within one month. Account-deletion requests come in here too.</p>
       {open.length ? (
         open.map((t) => {

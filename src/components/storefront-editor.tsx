@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { saveStorefrontDraft, uploadBannerImage } from "@/app/actions/admin";
 import type { Banner, Collection, StorefrontContent } from "@/lib/types";
+import { ImagePicker } from "./image-picker";
 import { Button, Card, Field, Input, Notice } from "./ui";
 
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -34,14 +35,13 @@ export function StorefrontEditor({ initial }: { initial: StorefrontContent }) {
             <Field label="Link">
               <Input value={b.href ?? ""} onChange={(e) => setBanner(i, { href: e.target.value })} placeholder="/c/namkeen" />
             </Field>
-            <Field label="Image (optional; keep food imagery restrained)">
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                className="text-sm"
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  if (!f) return;
+            <div className="sm:col-span-2">
+              <span className="mb-1 block text-sm font-medium text-ink-700">Banner image (optional — keep food imagery restrained)</span>
+              <ImagePicker
+                current={b.image}
+                label="Upload banner image"
+                hint="Wide image, at least 1600 px across · up to 5 MB"
+                onFiles={([f]) => {
                   const fd = new FormData();
                   fd.set("file", f);
                   start(async () => {
@@ -52,11 +52,11 @@ export function StorefrontEditor({ initial }: { initial: StorefrontContent }) {
                 }}
               />
               {b.image && (
-                <button type="button" className="mt-1 text-xs text-danger-600" onClick={() => setBanner(i, { image: undefined })}>
-                  Remove image
+                <button type="button" className="mt-1 min-h-9 cursor-pointer text-xs font-semibold text-danger-600" onClick={() => setBanner(i, { image: undefined })}>
+                  Remove image from banner
                 </button>
               )}
-            </Field>
+            </div>
             <div className="flex items-center gap-4 text-sm">
               <label className="flex items-center gap-2">
                 <input type="checkbox" checked={b.active} onChange={(e) => setBanner(i, { active: e.target.checked })} className="accent-burgundy-600" /> Active

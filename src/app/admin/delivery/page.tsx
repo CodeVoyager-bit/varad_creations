@@ -25,7 +25,7 @@ export default async function Delivery() {
     .toArray();
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Delivery</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Delivery</h1>
       {failed.length > 0 && (
         <Card className="border-2 border-danger-600/30 p-4">
           <h2 className="mb-1 font-semibold text-danger-600">Unsuccessful deliveries to resolve ({failed.length})</h2>

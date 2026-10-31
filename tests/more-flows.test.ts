@@ -135,9 +135,12 @@ describe("Cloudinary", () => {
     expect(cloudinarySignature(params, "abcd")).toBe("bfd09f95f331f558cbd1320e67aa8d488770583e");
     expect(cloudinarySignature({ timestamp: 1315060510 }, "abcd")).toBe("a21ad0f63beb4de2e5575204b79ab90bffb02c10");
   });
-  it("asks Cloudinary for a resized, auto-format image; leaves other sources alone", () => {
+  it("asks Cloudinary for a resized, auto-format image (pack shots trimmed); leaves other sources alone", () => {
     expect(imageLoader({ src: "https://res.cloudinary.com/demo/image/upload/v1/varad/products/a.jpg", width: 384 })).toBe(
-      "https://res.cloudinary.com/demo/image/upload/f_auto,q_auto,c_limit,w_384/v1/varad/products/a.jpg",
+      "https://res.cloudinary.com/demo/image/upload/e_trim:10/f_auto,q_auto,c_limit,w_384/v1/varad/products/a.jpg",
+    );
+    expect(imageLoader({ src: "https://res.cloudinary.com/demo/image/upload/v1/varad/banners/a.jpg", width: 384 })).toBe(
+      "https://res.cloudinary.com/demo/image/upload/f_auto,q_auto,c_limit,w_384/v1/varad/banners/a.jpg",
     );
     expect(imageLoader({ src: "/uploads/products/a.jpg", width: 640 })).toBe("/uploads/products/a.jpg?w=640");
   });

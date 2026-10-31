@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 import { useEffect, useRef, useState } from "react";
 import { Button, Notice, Spinner } from "./ui";
 
@@ -21,7 +22,10 @@ export function InviteRedeem() {
     if (!token) return void Promise.resolve().then(() => setState("missing"));
     fetch("/api/auth/delivery-invite/redeem", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token }), credentials: "include" })
       .then(async (r) => {
-        if (r.ok) return router.replace("/delivery");
+        if (r.ok) {
+          authClient.$store.notify("$sessionSignal");
+          return router.replace("/delivery");
+        }
         const j = await r.json().catch(() => ({}));
         setMsg(r.status === 429 ? "Too many attempts. Wait a minute and ask the shop for a new link." : (j.message ?? "This link has expired or was already used."));
         setState("error");
@@ -33,7 +37,7 @@ export function InviteRedeem() {
   }, [router]);
   return (
     <div className="space-y-4 pt-10 text-center">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Varad Creation deliveries</h1>
+      <h1 className="font-display text-2xl font-extrabold tracking-[-0.02em] text-ink-900">Varad Creation deliveries</h1>
       {state === "working" && <Spinner label="Opening your deliveries…" />}
       {state === "missing" && <Notice tone="warn">Open the link exactly as the shop sent it.</Notice>}
       {state === "error" && (

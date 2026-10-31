@@ -49,7 +49,7 @@ export default async function BrandPage({ params }: PageProps<"/b/[slug]">) {
         }}
       />
       <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Brands", href: "/brands" }, { name: cat.name }]} />
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">{cat.name}</h1>
+      <h1 className="font-display text-[1.75rem] font-extrabold tracking-[-0.02em] text-ink-900">{cat.name}</h1>
       {cat.description && <p className="mt-1 max-w-2xl text-sm text-ink-500">{cat.description}</p>}
       <div className="mt-4">
         <ProductBrowser products={products} facet="category" />

@@ -38,7 +38,7 @@ export default async function AdminOrders({ searchParams }: PageProps<"/admin/or
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <h1 className="font-display text-2xl font-semibold text-burgundy-700">Orders</h1>
+        <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Orders</h1>
         <form className="flex gap-2">
           <input type="hidden" name="tab" value={tab[0]} />
           <input name="q" defaultValue={q} placeholder="Order #, phone, name, UTR" className="h-10 w-64 rounded-xl border border-cream-300 bg-white px-3 text-sm" aria-label="Search orders" />

@@ -34,7 +34,7 @@ export default async function PackingList({ params }: PageProps<"/admin/orders/[
     <article className="mx-auto max-w-2xl space-y-4 bg-white p-6 shadow-[var(--shadow-card)] print:shadow-none">
       <header className="flex justify-between">
         <div>
-          <h1 className="font-display text-2xl font-semibold">Packing list · #{o.number}</h1>
+          <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Packing list · #{o.number}</h1>
           <p className="text-sm text-ink-500">
             {o.address.name} · {o.address.pincode} · {o.paymentMethod === "cod" ? "COD" : "Prepaid"}
           </p>

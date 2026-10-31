@@ -19,7 +19,7 @@ export default async function Products({ searchParams }: PageProps<"/admin/produ
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="font-display text-2xl font-semibold text-burgundy-700">Products</h1>
+        <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Products</h1>
         <div className="flex gap-2">
           <form>
             <input name="q" defaultValue={q} placeholder="Search" aria-label="Search products" className="h-10 rounded-xl border border-cream-300 bg-white px-3 text-sm" />

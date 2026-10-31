@@ -18,7 +18,7 @@ export default async function Reports({ searchParams }: PageProps<"/admin/report
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <h1 className="font-display text-2xl font-semibold text-burgundy-700">Reports</h1>
+        <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Reports</h1>
         <form className="flex flex-wrap items-end gap-2 text-sm">
           <label>
             From <input type="date" name="from" defaultValue={day(from)} className="h-10 rounded-xl border border-cream-300 bg-white px-2" />

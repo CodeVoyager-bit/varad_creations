@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ObjectId } from "mongodb";
 import { editProductImages, saveProductA, saveVariantA, uploadProductImage } from "@/app/actions/admin";
 import { ActionButton, ActionForm } from "@/components/admin-ui";
+import { ImagePicker } from "@/components/image-picker";
 import { Button, Card, Field, Input, Notice, Select, Textarea } from "@/components/ui";
 import { C } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
@@ -58,7 +59,7 @@ export default async function EditProduct({ params }: PageProps<"/admin/products
       <Link href="/admin/products" className="text-sm font-semibold text-burgundy-700">
         ← Products
       </Link>
-      <h1 className="font-display text-2xl font-semibold">{isNew ? "New product" : p.name}</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">{isNew ? "New product" : p.name}</h1>
       {!isNew && p.slug && (
         <a href={`/p/${p.slug}`} target="_blank" className="text-sm text-burgundy-700 underline">
           View on store
@@ -186,11 +187,9 @@ export default async function EditProduct({ params }: PageProps<"/admin/products
                   </li>
                 ))}
               </ul>
-              <ActionForm action={uploadProductImage.bind(null, id, field)} resetOnSuccess className="flex flex-wrap items-center gap-2">
-                <input type="file" name="files" accept="image/jpeg,image/png,image/webp" multiple required className="text-sm file:mr-2 file:rounded-lg file:border-0 file:bg-cream-200 file:px-3 file:py-2 file:font-semibold" />
-                <Button size="sm" variant="secondary">
-                  Upload
-                </Button>
+              <ActionForm action={uploadProductImage.bind(null, id, field)} resetOnSuccess className="space-y-2">
+                <ImagePicker name="files" multiple required label={field === "images" ? "Add product photos" : "Add label photos"} hint="Select several at once · JPEG, PNG or WebP · up to 5 MB each" />
+                <Button size="sm">Upload</Button>
               </ActionForm>
             </Card>
           ))}

@@ -29,7 +29,7 @@ export default async function Inventory({ searchParams }: PageProps<"/admin/inve
   ];
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl font-semibold text-burgundy-700">Inventory</h1>
+      <h1 className="text-[1.75rem] font-semibold tracking-tight text-ink-900">Inventory</h1>
       <nav className="flex flex-wrap gap-1">
         {tabs.map(([k, l]) => (
           <Link key={k} href={`/admin/inventory?filter=${k}`} className={cx("rounded-full px-3 py-1.5 text-sm font-semibold", filter === k ? "bg-burgundy-600 text-white" : "bg-white")}>

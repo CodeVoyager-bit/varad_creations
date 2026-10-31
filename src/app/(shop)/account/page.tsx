@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "My account", robots: { index: false 
 export default function AccountPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-4">
-      <h1 className="mb-3 font-display text-2xl font-semibold text-burgundy-700">My account</h1>
+      <h1 className="mb-3 font-display text-2xl font-extrabold tracking-[-0.02em] text-ink-900">My account</h1>
       <Suspense fallback={<PageLoading />}>
         <Account />
       </Suspense>

@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { percentOff, rupees } from "@/lib/money";
 import type { ShopProduct } from "@/lib/shop-types";
+import Link from "next/link";
+import { cart, qtyOf, useCart } from "./cart-store";
 import { PackArt, Stepper } from "./product-card";
 import { Badge, cx } from "./ui";
 
@@ -12,7 +14,7 @@ export function Gallery({ images, labels, name, brand }: { images: string[]; lab
   if (!all.length)
     return (
       <div>
-        <div className="mx-auto aspect-[4/3] overflow-hidden rounded-2xl bg-white sm:aspect-square">
+        <div className="mx-auto aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-cream-300/70 sm:aspect-square">
           <PackArt name={name} brand={brand} className="size-full" />
         </div>
         <p className="mt-2 text-xs text-ink-500">Illustration — product and label photos will be added.</p>
@@ -20,15 +22,15 @@ export function Gallery({ images, labels, name, brand }: { images: string[]; lab
     );
   return (
     <div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white sm:aspect-square">
-        <Image src={all[i].src} alt={all[i].alt} fill priority sizes="(max-width:768px) 100vw, 520px" className="object-contain" />
+      <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-[var(--color-tile)] sm:aspect-square">
+        <Image src={all[i].src} alt={all[i].alt} fill priority sizes="(max-width:768px) 100vw, 520px" className="object-contain p-8 mix-blend-multiply" />
       </div>
       {all.length > 1 && (
         <ul className="mt-2 flex gap-2 overflow-x-auto" aria-label="Product images">
           {all.map((im, k) => (
             <li key={im.src}>
-              <button onClick={() => setI(k)} aria-current={k === i} className={cx("relative size-16 overflow-hidden rounded-lg border-2 bg-white", k === i ? "border-burgundy-600" : "border-transparent")}>
-                <Image src={im.src} alt={im.alt} fill sizes="64px" className="object-contain" />
+              <button onClick={() => setI(k)} aria-current={k === i} aria-label={`Show image ${k + 1}`} className={cx("relative size-16 cursor-pointer overflow-hidden rounded-xl border-2 bg-[var(--color-tile)]", k === i ? "border-burgundy-600" : "border-cream-300")}>
+                <Image src={im.src} alt={im.alt} fill sizes="64px" className="object-contain p-1 mix-blend-multiply" />
               </button>
             </li>
           ))}
@@ -83,13 +85,37 @@ export function BuyBox({ p, discontinued }: { p: ShopProduct; discontinued: bool
       {discontinued ? (
         <Badge tone="bad">Discontinued</Badge>
       ) : (
-        <div className="flex items-center gap-3">
-          <Stepper product={p} variant={v} />
-          <span className={cx("text-sm font-semibold", v.inStock ? "text-leaf-700" : "text-danger-600")}>
+        <div className="space-y-2">
+          <p className={cx("flex items-center gap-1.5 text-sm font-semibold", v.inStock ? "text-leaf-700" : "text-danger-600")}>
+            <span aria-hidden className={cx("size-2 rounded-full", v.inStock ? "bg-leaf-600" : "bg-danger-600")} />
             {v.inStock ? (v.fewLeft ? `In stock — only ${v.fewLeft} left` : "In stock") : "Out of stock"}
-          </span>
+          </p>
+          <AddToCart p={p} v={v} />
         </div>
       )}
+    </div>
+  );
+}
+
+/** Product page: one clear primary action; once added, a stepper and a path to the cart. */
+function AddToCart({ p, v }: { p: ShopProduct; v: ShopProduct["variants"][number] }) {
+  const qty = qtyOf(useCart(), v.id);
+  if (!v.inStock) return null;
+  if (!qty)
+    return (
+      <button
+        onClick={() => cart.setQty({ variantId: v.id, name: p.name, brand: p.brand.name, label: v.label, pricePaise: v.pricePaise, mrpPaise: v.mrpPaise, image: p.image, slug: p.slug }, 1)}
+        className="flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-burgundy-600 text-base font-semibold text-white transition-[transform,background-color] hover:bg-burgundy-700 active:scale-[0.99] motion-reduce:active:scale-100 sm:max-w-sm"
+      >
+        Add to cart · {rupees(v.pricePaise)}
+      </button>
+    );
+  return (
+    <div className="flex items-center gap-3">
+      <Stepper product={p} variant={v} />
+      <Link href="/cart" className="inline-flex h-11 items-center rounded-xl px-4 font-semibold text-burgundy-700 ring-1 ring-burgundy-600/30 hover:bg-burgundy-50">
+        View cart
+      </Link>
     </div>
   );
 }
