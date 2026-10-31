@@ -4,15 +4,15 @@
 
 | Service | Why | Notes |
 |---|---|---|
-| **MongoDB Atlas** (Mumbai region, M10+ recommended; M0 works for trials) | All data; transactions for checkout/inventory | Create a DB user with readWrite on one database. Allow Vercel egress (Atlas → Network Access; or use the Vercel–Atlas integration). |
-| **Vercel** project | Hosting, Cron, Blob | Region `bom1` is set in `vercel.json`. |
-| **Vercel Blob** store | Product/brand/banner/logo images (public) | Connect the store to the project; it injects `BLOB_READ_WRITE_TOKEN`. Payment screenshots are **not** stored here — they go to MongoDB GridFS and are served only through `/api/files/[id]` with a 10-minute signed link plus an admin session. |
+| **MongoDB Atlas** (Mumbai region, M10+ recommended; M0 works for trials) | All data; transactions for checkout/inventory | Use one cluster with two databases: `varad` (production, used by Vercel) and `varad_dev` (local development and demo data). Give the app its own database user with **readWrite on `varad` only** — not the auto-created Atlas Admin user. Network Access: Vercel functions have no fixed IPs, so either add `0.0.0.0/0` (keep a long random password) or use the Vercel ↔ MongoDB Atlas integration. |
+| **Vercel** project | Hosting, Cron | Region `bom1` is set in `vercel.json`. |
+| **Cloudinary** (free plan is enough to start) | Product/brand/banner/logo photos (public) | Copy the API environment variable into `CLOUDINARY_URL`. Uploads are signed on the server (the secret never reaches the browser) and stored under `varad/<folder>`; pages request resized WebP/AVIF from Cloudinary via a custom `next/image` loader. Payment screenshots are **not** stored here — they stay in MongoDB GridFS and are served only through `/api/files/[id]` with a 10-minute signed link plus an admin session. |
 | **MiniMoth** project | OTP for registration and password reset | Use the `mm_live_` key in production. Codes go by WhatsApp first, SMS fallback (MiniMoth's sender name). MiniMoth's own session tokens are discarded; Better Auth is the only session authority. |
 | Geocoder (optional) | "Use my location" address suggestion | Default is public OSM Nominatim (≤1 req/s, no autocomplete, attribution shown). For real volume set `GEOCODER_URL`/`GEOCODER_KEY` to a Nominatim-compatible provider (e.g. LocationIQ). |
 
 ## 2. Environment variables
 
-See `.env.example`. Production must have `MONGODB_URI`, `BETTER_AUTH_SECRET`, `NEXT_PUBLIC_SITE_URL` (the final https domain), `MINIMOTH_API_KEY`, `BLOB_READ_WRITE_TOKEN`, `CRON_SECRET`. Missing integrations fail safely: OTP sending refuses, uploads refuse, the cron endpoint returns 401 — Settings → Integrations shows the status. Set **different** values for Preview deployments (separate database recommended).
+See `.env.example`. Production must have `MONGODB_URI`, `BETTER_AUTH_SECRET`, `NEXT_PUBLIC_SITE_URL` (the final https domain), `MINIMOTH_API_KEY`, `CLOUDINARY_URL`, `CRON_SECRET`. Missing integrations fail safely: OTP sending refuses, uploads refuse, the cron endpoint returns 401 — Settings → Integrations shows the status. Set **different** values for Preview deployments (separate database recommended).
 
 ## 3. First deploy
 
@@ -55,7 +55,7 @@ See `.env.example`. Production must have `MONGODB_URI`, `BETTER_AUTH_SECRET`, `N
 ## 7. Backups & recovery
 
 - Atlas M10+: enable **Cloud Backup** with point-in-time restore (e.g. 7-day PITR + daily snapshots kept 30 days). M0 has no automated backups — export regularly with `mongodump --uri "$MONGODB_URI" --gzip --archive=varad-$(date +%F).gz` and keep copies off-site.
-- Vercel Blob images: keep the originals you upload; Blob has no point-in-time restore.
+- Cloudinary photos: keep the originals you upload (Cloudinary backups are a paid add-on).
 - Restore drill (quarterly): restore a snapshot to a new cluster, point a Preview deployment's `MONGODB_URI` at it, sign in and open recent orders.
 - Secrets: rotating `BETTER_AUTH_SECRET` signs everyone out and invalidates outstanding payment-file links.
 
@@ -63,4 +63,4 @@ See `.env.example`. Production must have `MONGODB_URI`, `BETTER_AUTH_SECRET`, `N
 
 Verified in this repository: `npm test` (28 tests, including concurrency on a real replica set), `npm run build`, lint/type-check, and a manual browser run of register (dev OTP) → cart → checkout → admin payment verification → packing → ready → temporary-partner batch → invite link → delivery → batch completion and access revocation; HTTP status checks for 404s, redirects and cache headers on a production build.
 
-Not verified (needs live credentials or real devices): MiniMoth delivery with a live key, Vercel Blob uploads, Vercel Cron invocation, UPI deep links on Android/iOS UPI apps, geolocation prompts on real phones, PWA install prompts, WebView wrapper behaviour.
+Not verified (needs live credentials or real devices): MiniMoth delivery with a live key, Cloudinary uploads with real credentials, Vercel Cron invocation, UPI deep links on Android/iOS UPI apps, geolocation prompts on real phones, PWA install prompts, WebView wrapper behaviour.

@@ -27,7 +27,8 @@ const nextConfig: NextConfig = {
     instantInsights: { validationLevel: "manual-warning" },
   },
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "*.public.blob.vercel-storage.com" }],
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
   },
   async headers() {
     return [

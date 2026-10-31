@@ -7,7 +7,8 @@ import type { Actor } from "@/server/core";
 import { expireBatches, moveBatch, receiveStock } from "@/server/inventory";
 import { buildQuote, cancelOrder, confirmOrder, decideSubstitution, placeOrder, proposeSubstitution } from "@/server/orders";
 import { verifyUpiPayment } from "@/server/payments";
-import { readPrivateFile, savePrivateFile, signFileUrl, verifyFileSig } from "@/server/storage";
+import { cloudinarySignature, readPrivateFile, savePrivateFile, signFileUrl, verifyFileSig } from "@/server/storage";
+import imageLoader from "@/lib/image-loader";
 
 const admin: Actor = { id: "admin1", role: "admin", name: "Admin" };
 let n = 0;
@@ -125,6 +126,20 @@ describe("private uploads", () => {
     expect(f!.buf.equals(png)).toBe(true);
     const fake = new File(["<svg onload=alert(1)>"], "x.png", { type: "image/png" });
     await expect(savePrivateFile(fake, { ownerId: "u1", orderId: "o1", kind: "payment_proof" })).rejects.toThrow(/Only JPEG, PNG or WebP/);
+  });
+});
+
+describe("Cloudinary", () => {
+  it("signs uploads exactly like Cloudinary's documented example", () => {
+    const params = { eager: "w_400,h_300,c_pad|w_260,h_200,c_crop", public_id: "sample_image", timestamp: 1315060510 };
+    expect(cloudinarySignature(params, "abcd")).toBe("bfd09f95f331f558cbd1320e67aa8d488770583e");
+    expect(cloudinarySignature({ timestamp: 1315060510 }, "abcd")).toBe("a21ad0f63beb4de2e5575204b79ab90bffb02c10");
+  });
+  it("asks Cloudinary for a resized, auto-format image; leaves other sources alone", () => {
+    expect(imageLoader({ src: "https://res.cloudinary.com/demo/image/upload/v1/varad/products/a.jpg", width: 384 })).toBe(
+      "https://res.cloudinary.com/demo/image/upload/f_auto,q_auto,c_limit,w_384/v1/varad/products/a.jpg",
+    );
+    expect(imageLoader({ src: "/uploads/products/a.jpg", width: 640 })).toBe("/uploads/products/a.jpg?w=640");
   });
 });
 

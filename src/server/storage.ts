@@ -1,4 +1,4 @@
-import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { GridFSBucket, ObjectId } from "mongodb";
@@ -6,8 +6,8 @@ import { db } from "@/lib/db";
 import { AppError } from "./core";
 
 /**
- * Public product/brand/banner images: Vercel Blob in production (BLOB_READ_WRITE_TOKEN),
- * local public/uploads in development. Production without a token refuses uploads.
+ * Public product/brand/banner/logo images: Cloudinary (CLOUDINARY_URL) via signed server-side
+ * uploads; local public/uploads in development. Production without Cloudinary refuses uploads.
  * Private payment screenshots: GridFS in MongoDB, never public, served only through an
  * authenticated route with short-lived signed links.
  */
@@ -29,15 +29,43 @@ async function readImage(file: File) {
   return { buf, contentType: type[0], ext: type[1].ext };
 }
 
+/** CLOUDINARY_URL=cloudinary://<api_key>:<api_secret>@<cloud_name> (Cloudinary dashboard → API Keys). */
+function cloudinary() {
+  const raw = process.env.CLOUDINARY_URL;
+  if (!raw) return null;
+  const u = new URL(raw);
+  return { cloud: u.hostname, key: decodeURIComponent(u.username), secret: decodeURIComponent(u.password) };
+}
+
+/** Cloudinary upload signature: params sorted by name as k=v joined by &, API secret appended, SHA-1. */
+export function cloudinarySignature(params: Record<string, string | number>, secret: string) {
+  const s = Object.keys(params)
+    .sort()
+    .map((k) => `${k}=${params[k]}`)
+    .join("&");
+  return createHash("sha1").update(s + secret).digest("hex");
+}
+
 export async function savePublicImage(file: File, folder: "products" | "brands" | "banners" | "categories" | "site") {
   const { buf, contentType, ext } = await readImage(file);
-  const name = `${folder}/${Date.now()}-${randomBytes(6).toString("hex")}.${ext}`;
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const { put } = await import("@vercel/blob");
-    const r = await put(name, buf, { access: "public", contentType, addRandomSuffix: false });
-    return r.url;
+  const c = cloudinary();
+  if (c) {
+    const params = { folder: `varad/${folder}`, timestamp: Math.floor(Date.now() / 1000) };
+    const form = new FormData();
+    form.set("file", new Blob([new Uint8Array(buf)], { type: contentType }));
+    form.set("api_key", c.key);
+    for (const [k, v] of Object.entries(params)) form.set(k, String(v));
+    form.set("signature", cloudinarySignature(params, c.secret));
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${c.cloud}/image/upload`, { method: "POST", body: form, signal: AbortSignal.timeout(30_000) });
+    const body = (await res.json().catch(() => ({}))) as { secure_url?: string; error?: { message?: string } };
+    if (!res.ok || !body.secure_url) {
+      console.error("[storage] Cloudinary upload failed", res.status, body.error?.message);
+      throw new AppError("Image upload failed. Please try again.");
+    }
+    return body.secure_url;
   }
-  if (process.env.NODE_ENV === "production") throw new AppError("Image storage is not configured (BLOB_READ_WRITE_TOKEN missing).");
+  if (process.env.NODE_ENV === "production") throw new AppError("Image storage is not configured (CLOUDINARY_URL missing).");
+  const name = `${folder}/${Date.now()}-${randomBytes(6).toString("hex")}.${ext}`;
   const dest = path.join(process.cwd(), "public", "uploads", name);
   await mkdir(path.dirname(dest), { recursive: true });
   await writeFile(dest, buf);

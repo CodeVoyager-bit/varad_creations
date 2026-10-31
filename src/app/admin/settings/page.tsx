@@ -16,7 +16,7 @@ export default async function Settings() {
   const gaps = launchGaps(s);
   const integrations: [string, boolean, string][] = [
     ["OTP (MiniMoth)", otpMode === "minimoth", otpMode === "dev-console" ? "development: codes printed in server log" : otpMode === "unconfigured" ? "MINIMOTH_API_KEY missing — registration & password reset are disabled" : "configured"],
-    ["Image storage (Vercel Blob)", !!process.env.BLOB_READ_WRITE_TOKEN, process.env.BLOB_READ_WRITE_TOKEN ? "configured" : process.env.NODE_ENV === "production" ? "BLOB_READ_WRITE_TOKEN missing — uploads disabled" : "development: saved to public/uploads"],
+    ["Image storage (Cloudinary)", !!process.env.CLOUDINARY_URL, process.env.CLOUDINARY_URL ? "configured" : process.env.NODE_ENV === "production" ? "CLOUDINARY_URL missing — uploads disabled" : "development: saved to public/uploads"],
     ["Address lookup", true, process.env.GEOCODER_URL ? `custom: ${new URL(process.env.GEOCODER_URL).host}` : "public OpenStreetMap Nominatim (low volume only)"],
     ["Scheduled jobs", !!process.env.CRON_SECRET, process.env.CRON_SECRET ? "CRON_SECRET set" : "CRON_SECRET missing — cron endpoint refuses requests"],
   ];

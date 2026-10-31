@@ -2,7 +2,7 @@
 
 Customer storefront, admin portal and delivery-partner app for Varad Creation (Sadhana Society, Hadapsar, Pune): branded packaged Indori namkeen, snacks, bakery items and pickles, delivered across Pune and PCMC.
 
-- **Stack:** Next.js 16 (App Router, Cache Components, TypeScript), Tailwind CSS 4, MongoDB (native driver, transactions), Better Auth (phone + password, TOTP for admins), MiniMoth OTP, Vercel Blob, Vercel Cron.
+- **Stack:** Next.js 16 (App Router, Cache Components, TypeScript), Tailwind CSS 4, MongoDB (native driver, transactions), Better Auth (phone + password, TOTP for admins), MiniMoth OTP, Cloudinary (photos), Vercel Cron.
 - **Docs:** [Deployment & operations](docs/DEPLOYMENT.md) · [Compliance notes & launch checklist](docs/COMPLIANCE.md)
 
 ## Run it locally
@@ -24,7 +24,7 @@ First-time replica-set initiation for `npm run db:dev`:
 node -e 'new (require("mongodb").MongoClient)("mongodb://127.0.0.1:27018/?directConnection=true").db("admin").command({replSetInitiate:{_id:"rs0",members:[{_id:0,host:"127.0.0.1:27018"}]}}).then(console.log).finally(()=>process.exit())'
 ```
 
-Without `MINIMOTH_API_KEY`, one-time codes are printed in the dev server log (`[dev OTP] +91… → 123456`). Without `BLOB_READ_WRITE_TOKEN`, uploads go to `public/uploads`. In development the dev UPI ID is `demo-do-not-pay@invalid`.
+Without `MINIMOTH_API_KEY`, one-time codes are printed in the dev server log (`[dev OTP] +91… → 123456`). Without `CLOUDINARY_URL`, uploads go to `public/uploads`. In development the dev UPI ID is `demo-do-not-pay@invalid`.
 
 | Script | What it does |
 |---|---|
