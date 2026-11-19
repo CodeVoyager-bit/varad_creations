@@ -20,7 +20,7 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-lg focus:bg-white focus:px-3 focus:py-2">
         Skip to content
       </a>
-      <header className="no-print sticky top-0 z-30 border-b border-black/[0.06] bg-white/95 pt-[var(--safe-top)] backdrop-blur-md">
+      <header style={{ viewTransitionName: "site-header" }} className="header-elevate no-print sticky top-0 z-30 border-b border-black/[0.06] bg-white/95 pt-[var(--safe-top)] backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 pb-2 pt-2.5 md:gap-5 md:py-3">
           <Logo name={s.businessName} logoUrl={s.logoUrl} />
           <div className="hidden min-w-0 md:block md:max-w-56">
@@ -52,11 +52,26 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
   );
 }
 
+const HINTS = ["ratlami sev", "khari", "poha masala", "bhujia", "chivda"];
+
 function SearchBox({ className = "flex" }: { className?: string }) {
   return (
-    <form action="/search" role="search" className={`${className} h-11 items-center gap-2.5 rounded-xl border border-transparent bg-cream-100 px-3.5 transition-colors focus-within:border-burgundy-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-burgundy-500/15`}>
-      <Icon name="search" className="size-5 text-ink-500" />
-      <input name="q" type="search" placeholder="Search namkeen, brands, pickles…" aria-label="Search products and brands" autoComplete="off" className="h-full w-full bg-transparent text-base outline-none placeholder:text-ink-500 md:text-[15px]" enterKeyHint="search" />
+    <form action="/search" role="search" className={`${className} relative h-11 items-center gap-2.5 rounded-xl border border-transparent bg-cream-100 px-3.5 transition-colors focus-within:border-burgundy-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-burgundy-500/15`}>
+      <Icon name="search" className="size-5 shrink-0 text-ink-500" />
+      <input name="q" type="search" placeholder=" " aria-label="Search products and brands" autoComplete="off" className="peer h-full w-full bg-transparent text-base outline-none md:text-[15px]" enterKeyHint="search" />
+      {/* animated placeholder: hidden as soon as there's text */}
+      <span aria-hidden className="pointer-events-none absolute inset-y-0 left-11 flex items-center gap-1 text-base text-ink-500 peer-[:not(:placeholder-shown)]:hidden md:text-[15px]">
+        Search
+        <span className="relative h-6 overflow-hidden">
+          <span className="block animate-[hints_12s_cubic-bezier(.7,0,.3,1)_infinite]">
+            {[...HINTS, HINTS[0]].map((h, i) => (
+              <span key={i} className="block h-6 leading-6">
+                “{h}”
+              </span>
+            ))}
+          </span>
+        </span>
+      </span>
     </form>
   );
 }
@@ -82,7 +97,7 @@ async function Footer({ s }: { s: PublicSettings }) {
         <p className="max-w-xl font-display text-2xl font-extrabold leading-tight tracking-[-0.02em] text-ink-900 md:text-3xl">
           Indori swad, <span className="text-burgundy-600">ab Pune aur PCMC mein.</span>
         </p>
-        <Skyline className="mt-6 h-auto w-full max-w-3xl text-ink-300" />
+        <Skyline draw className="mt-6 h-auto w-full max-w-3xl text-ink-300" />
       </div>
       <div className="mx-auto grid max-w-6xl gap-8 border-t border-black/[0.06] px-4 py-10 md:grid-cols-3">
         <div className="space-y-2 text-sm">

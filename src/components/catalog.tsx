@@ -1,8 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import type { ShopBrand, ShopCategory, ShopProduct } from "@/lib/shop-types";
 import { ProductCard } from "./product-card";
 import { Icon } from "./ui";
+
+/** Page content fades up on navigation; header and bottom bars stay anchored (see globals.css). */
+export function PageMotion({ children }: { children: React.ReactNode }) {
+  return (
+    <ViewTransition enter="page-in" exit="page-out" default="none">
+      <div>{children}</div>
+    </ViewTransition>
+  );
+}
 
 export function SectionHeader({ title, eyebrow, href, linkLabel = "See all" }: { title: string; eyebrow?: string; href?: string; linkLabel?: string }) {
   return (
@@ -21,15 +31,15 @@ export function SectionHeader({ title, eyebrow, href, linkLabel = "See all" }: {
 }
 
 /** Swipeable row on phones; on wider screens one tidy grid row of six (the rest sit behind "See all"). */
-export function ProductRow({ title, eyebrow, href, products }: { title: string; eyebrow?: string; href?: string; products: ShopProduct[] }) {
+export function ProductRow({ title, eyebrow, href, products, morph }: { title: string; eyebrow?: string; href?: string; products: ShopProduct[]; morph?: boolean }) {
   if (!products.length) return null;
   return (
-    <section className="mx-auto max-w-6xl px-4 py-4">
+    <section className="reveal mx-auto max-w-6xl px-4 py-4">
       <SectionHeader title={title} eyebrow={eyebrow} href={href} />
       <ul className="scrollbar-none -mx-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-4 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 lg:grid-cols-6 md:[&>li:nth-child(n+9)]:hidden lg:[&>li:nth-child(n+7)]:hidden">
         {products.slice(0, 12).map((p) => (
           <li key={p.id} className="w-[42%] shrink-0 snap-start sm:w-[29%] md:w-auto">
-            <ProductCard p={p} />
+            <ProductCard p={p} morph={morph} />
           </li>
         ))}
       </ul>
@@ -41,8 +51,8 @@ export function ProductGrid({ products }: { products: ShopProduct[] }) {
   return (
     <ul className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {products.map((p) => (
-        <li key={p.id}>
-          <ProductCard p={p} />
+        <li key={p.id} className="reveal">
+          <ProductCard p={p} morph />
         </li>
       ))}
     </ul>
@@ -75,10 +85,10 @@ export function CategoryTiles({ categories }: { categories: ShopCategory[] }) {
     <ul className="grid grid-cols-4 gap-x-2.5 gap-y-4 sm:grid-cols-6 lg:grid-cols-8">
       {categories
         .filter((c) => c.productCount !== 0)
-        .map((c) => (
-          <li key={c.id}>
+        .map((c, i) => (
+          <li key={c.id} className="rise" style={{ "--i": i } as React.CSSProperties}>
             <Link href={`/c/${c.slug}`} className="group flex flex-col items-center gap-1.5 text-center">
-              <span className="relative grid aspect-square w-full place-items-center overflow-hidden rounded-2xl bg-[var(--color-tile)] transition-transform duration-200 group-hover:scale-[1.03] group-active:scale-[0.98] motion-reduce:transform-none">
+              <span className="relative grid aspect-square w-full place-items-center overflow-hidden rounded-2xl bg-[var(--color-tile)] transition-[scale,background-color] duration-300 group-hover:bg-saffron-50 group-active:scale-[0.96] *:transition-transform *:duration-500 *:ease-out group-hover:*:-translate-y-1 group-hover:*:scale-110 group-hover:*:-rotate-3 motion-reduce:*:transform-none">
                 <CategoryArt c={c} />
               </span>
               <span className="line-clamp-2 text-xs font-semibold leading-tight text-ink-900 sm:text-[13px]">{c.name}</span>

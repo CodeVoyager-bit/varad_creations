@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, ViewTransition } from "react";
 import { rupees, percentOff } from "@/lib/money";
 import { inStock, type ShopProduct, type ShopVariant } from "@/lib/shop-types";
 import { cart, MAX_QTY, qtyOf, useCart } from "./cart-store";
+import { flyToCart } from "./fly-to-cart";
 import { cx, Icon } from "./ui";
 
 /** Stand-in pack illustration until real product photography is uploaded. */
@@ -41,6 +42,7 @@ export function ProductImage({ p, sizes = "(max-width:640px) 45vw, 220px", class
 export function Stepper({ product, variant, size = "md" }: { product: ShopProduct; variant: ShopVariant; size?: "sm" | "md" }) {
   const state = useCart();
   const qty = qtyOf(state, variant.id);
+  const [touched, setTouched] = useState(false);
   const line = {
     variantId: variant.id,
     name: product.name,
@@ -57,7 +59,11 @@ export function Stepper({ product, variant, size = "md" }: { product: ShopProduc
   if (!qty)
     return (
       <button
-        onClick={() => cart.setQty(line, 1)}
+        onClick={(e) => {
+          setTouched(true);
+          cart.setQty(line, 1);
+          flyToCart(e.currentTarget.closest("article")?.querySelector("img"));
+        }}
         className={cx(h, "min-w-[4.75rem] cursor-pointer rounded-xl border-[1.5px] border-burgundy-600 bg-white px-4 text-sm font-bold text-burgundy-700 transition-transform hover:bg-burgundy-50 active:scale-[0.97] motion-reduce:active:scale-100")}
         aria-label={`Add ${product.name} ${variant.label} to cart`}
       >
@@ -65,14 +71,16 @@ export function Stepper({ product, variant, size = "md" }: { product: ShopProduc
       </button>
     );
   return (
-    <div className={cx(h, "inline-flex min-w-[5.5rem] items-center justify-between rounded-xl bg-burgundy-600 text-white")} role="group" aria-label={`${product.name} ${variant.label} quantity`}>
-      <button className="grid h-full w-10 cursor-pointer place-items-center rounded-l-xl active:bg-burgundy-700" onClick={() => cart.setQty(line, qty - 1)} aria-label="Decrease quantity">
+    <div className={cx(h, "inline-flex min-w-[5.5rem] items-center justify-between rounded-xl bg-burgundy-600 text-white", touched && "animate-[pop_260ms_cubic-bezier(.3,1.5,.5,1)]")} role="group" aria-label={`${product.name} ${variant.label} quantity`}>
+      <button className="grid h-full w-10 cursor-pointer place-items-center rounded-l-xl active:bg-burgundy-700" onClick={() => (setTouched(true), cart.setQty(line, qty - 1))} aria-label="Decrease quantity">
         <Icon name="minus" className="size-4" />
       </button>
-      <span className="min-w-5 text-center text-sm font-bold tabular-nums" aria-live="polite">
-        {qty}
+      <span className="min-w-5 overflow-hidden text-center text-sm font-bold tabular-nums" aria-live="polite">
+        <span key={qty} className={cx("block", touched && "animate-[tick_200ms_ease-out]")}>
+          {qty}
+        </span>
       </span>
-      <button className="grid h-full w-10 cursor-pointer place-items-center rounded-r-xl active:bg-burgundy-700 disabled:opacity-40" onClick={() => cart.setQty(line, qty + 1)} disabled={qty >= MAX_QTY} aria-label="Increase quantity">
+      <button className="grid h-full w-10 cursor-pointer place-items-center rounded-r-xl active:bg-burgundy-700 disabled:opacity-40" onClick={() => (setTouched(true), cart.setQty(line, qty + 1))} disabled={qty >= MAX_QTY} aria-label="Increase quantity">
         <Icon name="plus" className="size-4" />
       </button>
     </div>
@@ -94,8 +102,22 @@ function Price({ v }: { v: ShopVariant }) {
   );
 }
 
+/**
+ * The pack photo morphs into the product page's photo. View-transition names must be unique on a
+ * page, so only lists where a product appears once (grids, category shelves) opt in.
+ */
+export function PackMorph({ id, on = true, children }: { id: string; on?: boolean; children: React.ReactElement }) {
+  return on ? (
+    <ViewTransition name={`pack-${id}`} share="morph" default="none">
+      {children}
+    </ViewTransition>
+  ) : (
+    children
+  );
+}
+
 /** Multiple pack sizes open a compact bottom sheet built on native <dialog> (focus trap + Esc for free). */
-export function ProductCard({ p }: { p: ShopProduct }) {
+export function ProductCard({ p, morph }: { p: ShopProduct; morph?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
   const state = useCart();
   const v0 = p.variants.find((v) => v.inStock) ?? p.variants[0];
@@ -103,14 +125,16 @@ export function ProductCard({ p }: { p: ShopProduct }) {
   const inCart = p.variants.reduce((a, v) => a + qtyOf(state, v.id), 0);
   const off = percentOff(v0.mrpPaise, v0.pricePaise);
   return (
-    <article className="group relative flex h-full flex-col rounded-2xl bg-white p-2 ring-1 ring-black/[0.06] transition-shadow duration-200 hover:shadow-[0_12px_32px_-16px_rgb(36_23_15/0.35)]">
+    <article className="group relative flex h-full flex-col rounded-2xl bg-white p-2 ring-1 ring-black/[0.06] transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_18px_36px_-18px_rgb(36_23_15/0.4)] motion-reduce:hover:translate-y-0">
       <div className="relative">
         <Link href={`/p/${p.slug}`} className="block rounded-xl" aria-label={`${p.brand.name} ${p.name}`}>
-          <div className="relative aspect-square overflow-hidden rounded-xl bg-[var(--color-tile)]">
-            <ProductImage p={p} className={cx(p.image && "p-3 mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.05] motion-reduce:transform-none", !inStock(p) && "opacity-50 grayscale")} />
-            {off > 0 && <span className="absolute left-0 top-2.5 rounded-r-md bg-leaf-600 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-white">{off}% OFF</span>}
-            {!inStock(p) && <span className="absolute inset-x-2 bottom-2 rounded-lg bg-ink-900/80 py-1 text-center text-xs font-semibold text-white">Out of stock</span>}
-          </div>
+          <PackMorph id={p.id} on={!!morph}>
+            <div className="relative aspect-square overflow-hidden rounded-xl bg-[var(--color-tile)]">
+              <ProductImage p={p} className={cx(p.image && "p-3 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.07] group-hover:-rotate-2 motion-reduce:transform-none", !inStock(p) && "opacity-50 grayscale")} />
+              {off > 0 && <span className="absolute left-0 top-2.5 rounded-r-md bg-leaf-600 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-white">{off}% OFF</span>}
+              {!inStock(p) && <span className="absolute inset-x-2 bottom-2 rounded-lg bg-ink-900/80 py-1 text-center text-xs font-semibold text-white">Out of stock</span>}
+            </div>
+          </PackMorph>
         </Link>
         {inStock(p) && (
           <div className="absolute -bottom-3 right-1.5 drop-shadow-[0_4px_10px_rgb(36_23_15/0.18)]">

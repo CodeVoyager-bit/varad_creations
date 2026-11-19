@@ -5,10 +5,11 @@ import { percentOff, rupees } from "@/lib/money";
 import type { ShopProduct } from "@/lib/shop-types";
 import Link from "next/link";
 import { cart, qtyOf, useCart } from "./cart-store";
-import { PackArt, Stepper } from "./product-card";
+import { flyToCart } from "./fly-to-cart";
+import { PackArt, PackMorph, Stepper } from "./product-card";
 import { Badge, cx } from "./ui";
 
-export function Gallery({ images, labels, name, brand }: { images: string[]; labels: string[]; name: string; brand: string }) {
+export function Gallery({ id, images, labels, name, brand }: { id: string; images: string[]; labels: string[]; name: string; brand: string }) {
   const all = [...images.map((src) => ({ src, alt: `${brand} ${name} pack` })), ...labels.map((src, i) => ({ src, alt: `${brand} ${name} label ${i + 1}` }))];
   const [i, setI] = useState(0);
   if (!all.length)
@@ -22,9 +23,11 @@ export function Gallery({ images, labels, name, brand }: { images: string[]; lab
     );
   return (
     <div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-[var(--color-tile)] sm:aspect-square">
-        <Image src={all[i].src} alt={all[i].alt} fill priority sizes="(max-width:768px) 100vw, 520px" className="object-contain p-8 mix-blend-multiply" />
-      </div>
+      <PackMorph id={id}>
+        <div data-gallery className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-[var(--color-tile)] sm:aspect-square">
+          <Image key={all[i].src} src={all[i].src} alt={all[i].alt} fill priority sizes="(max-width:768px) 100vw, 520px" className="animate-[fade-in_300ms_ease-out] object-contain p-8 mix-blend-multiply" />
+        </div>
+      </PackMorph>
       {all.length > 1 && (
         <ul className="mt-2 flex gap-2 overflow-x-auto" aria-label="Product images">
           {all.map((im, k) => (
@@ -104,14 +107,17 @@ function AddToCart({ p, v }: { p: ShopProduct; v: ShopProduct["variants"][number
   if (!qty)
     return (
       <button
-        onClick={() => cart.setQty({ variantId: v.id, name: p.name, brand: p.brand.name, label: v.label, pricePaise: v.pricePaise, mrpPaise: v.mrpPaise, image: p.image, slug: p.slug }, 1)}
+        onClick={() => {
+          cart.setQty({ variantId: v.id, name: p.name, brand: p.brand.name, label: v.label, pricePaise: v.pricePaise, mrpPaise: v.mrpPaise, image: p.image, slug: p.slug }, 1);
+          flyToCart(document.querySelector("[data-gallery] img"));
+        }}
         className="flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-burgundy-600 text-base font-semibold text-white transition-[transform,background-color] hover:bg-burgundy-700 active:scale-[0.99] motion-reduce:active:scale-100 sm:max-w-sm"
       >
         Add to cart · {rupees(v.pricePaise)}
       </button>
     );
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex animate-[pop_260ms_cubic-bezier(.3,1.5,.5,1)] items-center gap-3">
       <Stepper product={p} variant={v} />
       <Link href="/cart" className="inline-flex h-11 items-center rounded-xl px-4 font-semibold text-burgundy-700 ring-1 ring-burgundy-600/30 hover:bg-burgundy-50">
         View cart

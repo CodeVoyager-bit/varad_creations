@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { BuyBox, Gallery } from "@/components/buy-box";
-import { Breadcrumbs, JsonLd, ProductRow } from "@/components/catalog";
+import { Breadcrumbs, JsonLd, PageMotion, ProductRow } from "@/components/catalog";
 import { Badge, Icon } from "@/components/ui";
 import { rupees } from "@/lib/money";
 import type { ShopProductDetail } from "@/lib/shop-types";
@@ -135,77 +135,79 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
   const url = `${siteUrl}/p/${p.slug}`;
   const discontinued = p.status === "discontinued";
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4">
-      <JsonLd
-        data={[
-          {
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: `${p.brand.name} ${p.name}`,
-            brand: { "@type": "Brand", name: p.brand.name },
-            category: p.category.name,
-            ...(p.images.length ? { image: p.images } : {}),
-            ...(p.description ? { description: p.description } : {}),
-            offers: p.variants.map((v) => ({
-              "@type": "Offer",
-              name: v.label,
-              url,
-              price: (v.pricePaise / 100).toFixed(2),
-              priceCurrency: "INR",
-              itemCondition: "https://schema.org/NewCondition",
-              availability: discontinued ? "https://schema.org/Discontinued" : v.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-              seller: { "@type": "Organization", name: s.businessName },
-            })),
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
-              { "@type": "ListItem", position: 2, name: p.category.name, item: `${siteUrl}/c/${p.category.slug}` },
-              { "@type": "ListItem", position: 3, name: p.name, item: url },
-            ],
-          },
-        ]}
-      />
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: p.category.name, href: `/c/${p.category.slug}` }, { name: p.name }]} />
-      <div className="grid gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-10">
-        <Gallery images={p.images} labels={p.labelImages} name={p.name} brand={p.brand.name} />
-        <div className="space-y-5">
-          <div>
-            <Link href={`/b/${p.brand.slug}`} className="text-sm font-bold uppercase tracking-wide text-burgundy-600 hover:underline">
-              {p.brand.name}
-            </Link>
-            <h1 className="mt-1 font-display text-2xl font-extrabold leading-tight tracking-[-0.02em] md:text-[1.75rem]">{p.name}</h1>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {p.isDemo && <Badge>Sample product — demonstration price</Badge>}
-              {p.bestseller && <Badge tone="warn">Bestseller</Badge>}
+    <PageMotion>
+      <div className="mx-auto max-w-6xl px-4 py-4">
+        <JsonLd
+          data={[
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: `${p.brand.name} ${p.name}`,
+              brand: { "@type": "Brand", name: p.brand.name },
+              category: p.category.name,
+              ...(p.images.length ? { image: p.images } : {}),
+              ...(p.description ? { description: p.description } : {}),
+              offers: p.variants.map((v) => ({
+                "@type": "Offer",
+                name: v.label,
+                url,
+                price: (v.pricePaise / 100).toFixed(2),
+                priceCurrency: "INR",
+                itemCondition: "https://schema.org/NewCondition",
+                availability: discontinued ? "https://schema.org/Discontinued" : v.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                seller: { "@type": "Organization", name: s.businessName },
+              })),
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+                { "@type": "ListItem", position: 2, name: p.category.name, item: `${siteUrl}/c/${p.category.slug}` },
+                { "@type": "ListItem", position: 3, name: p.name, item: url },
+              ],
+            },
+          ]}
+        />
+        <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: p.category.name, href: `/c/${p.category.slug}` }, { name: p.name }]} />
+        <div className="grid gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-10">
+          <Gallery id={p.id} images={p.images} labels={p.labelImages} name={p.name} brand={p.brand.name} />
+          <div className="space-y-5">
+            <div>
+              <Link href={`/b/${p.brand.slug}`} className="text-sm font-bold uppercase tracking-wide text-burgundy-600 hover:underline">
+                {p.brand.name}
+              </Link>
+              <h1 className="mt-1 font-display text-2xl font-extrabold leading-tight tracking-[-0.02em] md:text-[1.75rem]">{p.name}</h1>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {p.isDemo && <Badge>Sample product — demonstration price</Badge>}
+                {p.bestseller && <Badge tone="warn">Bestseller</Badge>}
+              </div>
             </div>
+            {discontinued && (
+              <p className="rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">This product is no longer available. Have a look at similar products below.</p>
+            )}
+            <BuyBox p={toCard(p)} discontinued={discontinued} />
+            <ul className="space-y-2 rounded-2xl bg-white p-4 text-sm text-ink-700 shadow-[var(--shadow-card)]">
+              <li className="flex gap-2">
+                <Icon name="truck" className="size-5 shrink-0 text-burgundy-600" />
+                Delivered across {s.service.areasLabel} within {s.delivery.windowHours} hours of order confirmation.
+              </li>
+              <li className="flex gap-2">
+                <Icon name="tag" className="size-5 shrink-0 text-burgundy-600" />
+                {rupees(s.delivery.feePaise)} delivery below {rupees(s.delivery.freeAbovePaise)}; free at {rupees(s.delivery.freeAbovePaise)}+ after discounts. No other fees.
+              </li>
+              <li className="flex gap-2">
+                <Icon name="wallet" className="size-5 shrink-0 text-burgundy-600" />
+                Pay by UPI or cash on delivery.
+              </li>
+            </ul>
+            <Details p={p} />
           </div>
-          {discontinued && (
-            <p className="rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">This product is no longer available. Have a look at similar products below.</p>
-          )}
-          <BuyBox p={toCard(p)} discontinued={discontinued} />
-          <ul className="space-y-2 rounded-2xl bg-white p-4 text-sm text-ink-700 shadow-[var(--shadow-card)]">
-            <li className="flex gap-2">
-              <Icon name="truck" className="size-5 shrink-0 text-burgundy-600" />
-              Delivered across {s.service.areasLabel} within {s.delivery.windowHours} hours of order confirmation.
-            </li>
-            <li className="flex gap-2">
-              <Icon name="tag" className="size-5 shrink-0 text-burgundy-600" />
-              {rupees(s.delivery.feePaise)} delivery below {rupees(s.delivery.freeAbovePaise)}; free at {rupees(s.delivery.freeAbovePaise)}+ after discounts. No other fees.
-            </li>
-            <li className="flex gap-2">
-              <Icon name="wallet" className="size-5 shrink-0 text-burgundy-600" />
-              Pay by UPI or cash on delivery.
-            </li>
-          </ul>
-          <Details p={p} />
+        </div>
+        <div className="-mx-4 mt-6">
+          <ProductRow title="You may also like" products={related.map(toCard)} />
         </div>
       </div>
-      <div className="-mx-4 mt-6">
-        <ProductRow title="You may also like" products={related.map(toCard)} />
-      </div>
-    </div>
+    </PageMotion>
   );
 }

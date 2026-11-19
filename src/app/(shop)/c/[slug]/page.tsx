@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { Breadcrumbs, JsonLd } from "@/components/catalog";
+import { Breadcrumbs, JsonLd, PageMotion } from "@/components/catalog";
 import { ProductBrowser } from "@/components/product-browser";
 import { siteUrl } from "@/lib/site";
 import { getCatalog, getRedirect, toCard } from "@/server/storefront";
@@ -36,24 +36,26 @@ export async function generateMetadata({ params }: PageProps<"/c/[slug]">): Prom
 export default async function CategoryPage({ params }: PageProps<"/c/[slug]">) {
   const { cat, products } = await load((await params).slug);
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4">
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
-            { "@type": "ListItem", position: 2, name: "Categories", item: `${siteUrl}/categories` },
-            { "@type": "ListItem", position: 3, name: cat.name, item: `${siteUrl}/c/${cat.slug}` },
-          ],
-        }}
-      />
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Categories", href: "/categories" }, { name: cat.name }]} />
-      <h1 className="font-display text-[1.75rem] font-extrabold tracking-[-0.02em] text-ink-900">{cat.name}</h1>
-      {cat.description && <p className="mt-1 max-w-2xl text-sm text-ink-500">{cat.description}</p>}
-      <div className="mt-4">
-        <ProductBrowser products={products} facet="brand" />
+    <PageMotion>
+      <div className="mx-auto max-w-6xl px-4 py-4">
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+              { "@type": "ListItem", position: 2, name: "Categories", item: `${siteUrl}/categories` },
+              { "@type": "ListItem", position: 3, name: cat.name, item: `${siteUrl}/c/${cat.slug}` },
+            ],
+          }}
+        />
+        <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Categories", href: "/categories" }, { name: cat.name }]} />
+        <h1 className="font-display text-[1.75rem] font-extrabold tracking-[-0.02em] text-ink-900">{cat.name}</h1>
+        {cat.description && <p className="mt-1 max-w-2xl text-sm text-ink-500">{cat.description}</p>}
+        <div className="mt-4">
+          <ProductBrowser products={products} facet="brand" />
+        </div>
       </div>
-    </div>
+    </PageMotion>
   );
 }

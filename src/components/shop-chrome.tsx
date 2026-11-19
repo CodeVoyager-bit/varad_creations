@@ -90,9 +90,13 @@ export function CartButton() {
   const s = useCart();
   const n = countOf(s);
   return (
-    <Link href="/cart" className="relative grid size-11 place-items-center rounded-full text-ink-900 hover:bg-cream-200" aria-label={`Cart, ${n} item${n === 1 ? "" : "s"}`}>
+    <Link href="/cart" data-cart-target className="relative grid size-11 place-items-center rounded-full text-ink-900 hover:bg-cream-200" aria-label={`Cart, ${n} item${n === 1 ? "" : "s"}`}>
       <Icon name="cart" className="size-6" />
-      {n > 0 && <span className="absolute right-0.5 top-0.5 grid min-w-5 place-items-center rounded-full bg-burgundy-600 px-1 text-[11px] font-bold text-white">{n}</span>}
+      {n > 0 && (
+        <span key={n} className="absolute right-0.5 top-0.5 grid min-w-5 animate-[pop_300ms_cubic-bezier(.3,1.6,.5,1)] place-items-center rounded-full bg-burgundy-600 px-1 text-[11px] font-bold text-white tabular-nums">
+          {n}
+        </span>
+      )}
     </Link>
   );
 }
@@ -119,8 +123,8 @@ export function BottomNav() {
   const path = usePathname();
   const { pending, user } = useAccount();
   return (
-    <nav aria-label="Primary" className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-cream-300 bg-white/95 pb-[var(--safe-bottom)] backdrop-blur md:hidden">
-      <ul className="grid grid-cols-4">
+    <nav aria-label="Primary" style={{ viewTransitionName: "bottom-nav" }} className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-black/[0.06] bg-white/95 pb-[var(--safe-bottom)] backdrop-blur md:hidden">
+      <ul className="grid grid-cols-4 pt-1">
         {NAV.map((n) => {
           const active = n.href === "/" ? path === "/" : path.startsWith(n.href) || (n.href === "/account" && AUTH_PAGES.some((p) => path.startsWith(p)));
           const signedOut = n.href === "/account" && !pending && !user;
@@ -129,9 +133,11 @@ export function BottomNav() {
               <Link
                 href={signedOut ? signInHref(path) : n.href}
                 aria-current={active ? "page" : undefined}
-                className={cx("flex h-14 flex-col items-center justify-center gap-0.5 text-[11px] font-medium", active ? "text-burgundy-600" : "text-ink-500")}
+                className={cx("group flex h-[3.25rem] flex-col items-center justify-center gap-0.5 text-[11px]", active ? "font-semibold text-burgundy-700" : "font-medium text-ink-500")}
               >
-                <Icon name={n.icon} className="size-[22px]" />
+                <span className={cx("grid h-7 w-12 place-items-center rounded-full transition-[background-color,scale] duration-300 group-active:scale-90", active && "bg-burgundy-50")}>
+                  <Icon name={n.icon} className="size-[22px]" />
+                </span>
                 {signedOut ? "Sign in" : n.label}
               </Link>
             </li>
@@ -192,14 +198,14 @@ export function CartBar() {
   const n = countOf(s);
   if (!n || HIDE_BAR.some((p) => path.startsWith(p)) || path.startsWith("/orders/")) return null;
   return (
-    <div className="no-print fixed inset-x-0 bottom-[calc(3.5rem+var(--safe-bottom))] z-20 px-3 pb-2 md:bottom-4 md:left-auto md:right-4 md:w-96">
-      <Link href="/cart" className="flex h-14 items-center justify-between rounded-2xl bg-burgundy-600 px-4 text-white shadow-lg shadow-burgundy-800/30">
+    <div style={{ viewTransitionName: "cart-bar" }} className="no-print fixed inset-x-0 bottom-[calc(3.5rem+var(--safe-bottom))] z-20 animate-[bar-in_420ms_cubic-bezier(.2,.9,.3,1.15)] px-3 pb-2 md:bottom-4 md:left-auto md:right-4 md:w-96">
+      <Link href="/cart" className="flex h-14 items-center justify-between rounded-2xl bg-burgundy-600 px-4 text-white shadow-lg shadow-burgundy-800/30 transition-transform active:scale-[0.98]">
         <span className="flex items-center gap-3 font-semibold">
           <Icon name="cart" className="size-5" />
           {n} item{n === 1 ? "" : "s"} · {rupees(estimateOf(s))}
         </span>
         <span className="flex items-center gap-1 font-semibold">
-          View cart <Icon name="chevron" className="size-4" />
+          View cart <Icon name="chevron" className="size-4 animate-[nudge_1.6s_ease-in-out_infinite]" />
         </span>
       </Link>
     </div>

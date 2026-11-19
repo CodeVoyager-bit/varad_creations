@@ -4,16 +4,19 @@ import { Suspense } from "react";
 import { ProductBrowser } from "@/components/product-browser";
 import { EmptyState, PageLoading } from "@/components/ui";
 import { getCatalog, toCard } from "@/server/storefront";
+import { PageMotion } from "@/components/catalog";
 
 export const metadata: Metadata = { title: "Search", robots: { index: false, follow: true } };
 
 export default function SearchPage(props: PageProps<"/search">) {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-4">
-      <Suspense fallback={<PageLoading />}>
-        <Results {...props} />
-      </Suspense>
-    </div>
+    <PageMotion>
+      <div className="mx-auto max-w-6xl px-4 py-4">
+        <Suspense fallback={<PageLoading />}>
+          <Results {...props} />
+        </Suspense>
+      </div>
+    </PageMotion>
   );
 }
 
@@ -33,30 +36,32 @@ async function Results({ searchParams }: PageProps<"/search">) {
   const brandHits = terms.length ? brands.filter((b) => terms.every((t) => norm(b.name).includes(t))) : [];
   const catHits = terms.length ? categories.filter((c) => terms.every((t) => norm(c.name).includes(t))) : [];
   return (
-    <>
-      <h1 className="mb-3 font-display text-2xl font-extrabold tracking-[-0.02em] text-ink-900">{q ? <>Results for “{q}”</> : "Search"}</h1>
-      {(brandHits.length > 0 || catHits.length > 0) && (
-        <div className="mb-4 flex flex-wrap gap-2">
-          {brandHits.map((b) => (
-            <Link key={b.id} href={`/b/${b.slug}`} className="rounded-full bg-burgundy-50 px-3 py-1.5 text-sm font-semibold text-burgundy-700">
-              Brand: {b.name}
-            </Link>
-          ))}
-          {catHits.map((c) => (
-            <Link key={c.id} href={`/c/${c.slug}`} className="rounded-full bg-saffron-50 px-3 py-1.5 text-sm font-semibold text-saffron-700">
-              Category: {c.name}
-            </Link>
-          ))}
-        </div>
-      )}
-      {hits.length ? (
-        <ProductBrowser products={hits.map(toCard)} facet="brand" />
-      ) : (
-        <EmptyState
-          title={q ? "No products found" : "What are you looking for?"}
-          body={q ? "Check the spelling or try a brand name like “Agrawal 420”." : "Type a product or brand in the search box above."}
-        />
-      )}
-    </>
+    <PageMotion>
+      <>
+        <h1 className="mb-3 font-display text-2xl font-extrabold tracking-[-0.02em] text-ink-900">{q ? <>Results for “{q}”</> : "Search"}</h1>
+        {(brandHits.length > 0 || catHits.length > 0) && (
+          <div className="mb-4 flex flex-wrap gap-2">
+            {brandHits.map((b) => (
+              <Link key={b.id} href={`/b/${b.slug}`} className="rounded-full bg-burgundy-50 px-3 py-1.5 text-sm font-semibold text-burgundy-700">
+                Brand: {b.name}
+              </Link>
+            ))}
+            {catHits.map((c) => (
+              <Link key={c.id} href={`/c/${c.slug}`} className="rounded-full bg-saffron-50 px-3 py-1.5 text-sm font-semibold text-saffron-700">
+                Category: {c.name}
+              </Link>
+            ))}
+          </div>
+        )}
+        {hits.length ? (
+          <ProductBrowser products={hits.map(toCard)} facet="brand" />
+        ) : (
+          <EmptyState
+            title={q ? "No products found" : "What are you looking for?"}
+            body={q ? "Check the spelling or try a brand name like “Agrawal 420”." : "Type a product or brand in the search box above."}
+          />
+        )}
+      </>
+    </PageMotion>
   );
 }
