@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BrandCards, CategoryTiles, JsonLd, PageMotion, ProductRow, SectionHeader } from "@/components/catalog";
 import { LocationPill } from "@/components/shop-chrome";
+import { BuyAgainRow, RecentRow } from "@/components/shopper-extras";
 import { Icon } from "@/components/ui";
 import { rupees } from "@/lib/money";
 import { siteUrl } from "@/lib/site";
@@ -89,6 +90,9 @@ export default async function HomePage() {
         <SectionHeader title="Shop by category" href="/categories" />
         <CategoryTiles categories={categories} />
       </section>
+
+      <BuyAgainRow products={cards} />
+      <RecentRow products={cards} />
 
       <ProductRow title="Bestsellers" href="/products" products={cards.filter((p) => p.bestseller)} />
 

@@ -48,8 +48,8 @@ export interface ShopCategory {
   name: string;
   description?: string;
   image?: string;
-  /** a pack shot from one of its products, used when no category/brand image is uploaded */
-  packImage?: string;
+  /** up to three pack shots from its products (different brands first), used when no image is uploaded */
+  packImages?: string[];
   productCount?: number;
   seo?: { title?: string; description?: string };
 }

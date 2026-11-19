@@ -19,13 +19,16 @@ import {
 } from "@/app/actions/admin";
 import { ActionButton, ActionForm, Disclosure } from "@/components/admin-ui";
 import { addressLines, Bill, ItemList, StatusBadges } from "@/components/order-bits";
-import { Button, Card, Field, fmtDate, Input, Notice, Select, Textarea } from "@/components/ui";
+import { Button, Card, Field, fmtDate, Icon, Input, Notice, Select, Textarea } from "@/components/ui";
 import { C, plain } from "@/lib/db";
 import { rupees } from "@/lib/money";
+import { orderUpdateMessages } from "@/lib/order-messages";
 import { canMoveOrder, ORDER_LABEL } from "@/lib/order-rules";
 import { requireAdmin } from "@/lib/session";
+import { siteUrl } from "@/lib/site";
 import { FAILURE_REASONS } from "@/server/delivery";
 import { lapseIfDue } from "@/server/orders";
+import { loadSettings } from "@/server/settings";
 import { signFileUrl } from "@/server/storage";
 
 export const metadata = { title: "Order" };
@@ -38,11 +41,12 @@ export default async function AdminOrder({ params }: PageProps<"/admin/orders/[i
   const doc = await C.orders.findOne({ _id: new ObjectId(id) });
   if (!doc) notFound();
   const o = plain(doc);
-  const [events, customer, batch, variants] = await Promise.all([
+  const [events, customer, batch, variants, settings] = await Promise.all([
     C.paymentEvents.find({ orderId: doc._id }).sort({ at: 1 }).toArray(),
     C.users.findOne({ _id: new ObjectId(o.userId) }, { projection: { name: 1, phoneNumber: 1 } }).catch(() => null),
     doc.delivery.batchId ? C.deliveryBatches.findOne({ _id: doc.delivery.batchId }) : null,
     ["confirmed", "packing"].includes(o.status) ? C.variants.find({ active: true }).project<{ _id: ObjectId; label: string; productId: ObjectId; pricePaise: number; available: number }>({ label: 1, productId: 1, pricePaise: 1, available: 1 }).toArray() : [],
+    loadSettings(),
   ]);
   const products = variants.length ? await C.products.find({ _id: { $in: variants.map((v) => v.productId) } }, { projection: { name: 1 } }).toArray() : [];
   const proof = o.upi?.proofFileId ? signFileUrl(o.upi.proofFileId) : null;
@@ -332,6 +336,21 @@ export default async function AdminOrder({ params }: PageProps<"/admin/orders/[i
               <Link href={`/admin/customers/${o.userId}`} className="rounded-lg bg-cream-200 px-3 py-1.5 font-semibold">
                 Profile
               </Link>
+            </div>
+            <div className="pt-3">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">WhatsApp updates</h3>
+              <ul className="mt-1.5 space-y-1.5">
+                {orderUpdateMessages(o, settings.businessName, `${siteUrl}/orders/${o._id}`).map((m) => (
+                  <li key={m.label}>
+                    <a href={`https://wa.me/${phone}?text=${encodeURIComponent(m.text)}`} target="_blank" rel="noopener" className="block rounded-xl bg-leaf-50 px-3 py-2 hover:bg-leaf-100">
+                      <span className="flex items-center gap-1.5 font-semibold text-leaf-700">
+                        <Icon name="whatsapp" className="size-4" /> {m.label}
+                      </span>
+                      <span className="line-clamp-2 text-xs text-ink-500">{m.text}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </Card>
           {batch && (

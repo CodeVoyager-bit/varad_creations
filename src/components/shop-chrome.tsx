@@ -104,6 +104,7 @@ export function CartButton() {
 const NAV = [
   { href: "/", label: "Home", icon: "home" as const },
   { href: "/categories", label: "Categories", icon: "grid" as const },
+  { href: "/saved", label: "Saved", icon: "heart" as const },
   { href: "/orders", label: "Orders", icon: "box" as const },
   { href: "/account", label: "Account", icon: "user" as const },
 ];
@@ -124,7 +125,7 @@ export function BottomNav() {
   const { pending, user } = useAccount();
   return (
     <nav aria-label="Primary" style={{ viewTransitionName: "bottom-nav" }} className="no-print fixed inset-x-0 bottom-0 z-30 border-t border-black/[0.06] bg-white/95 pb-[var(--safe-bottom)] backdrop-blur md:hidden">
-      <ul className="grid grid-cols-4 pt-1">
+      <ul className="grid grid-cols-5 pt-1">
         {NAV.map((n) => {
           const active = n.href === "/" ? path === "/" : path.startsWith(n.href) || (n.href === "/account" && AUTH_PAGES.some((p) => path.startsWith(p)));
           const signedOut = n.href === "/account" && !pending && !user;
@@ -151,7 +152,7 @@ export function BottomNav() {
 export function DesktopNav() {
   return (
     <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
-      {NAV.slice(1, 3).map((n) => (
+      {NAV.filter((n) => n.href === "/categories" || n.href === "/orders").map((n) => (
         <Link key={n.href} href={n.href} className="rounded-lg px-3 py-2 text-sm font-semibold text-ink-700 hover:bg-cream-200">
           {n.label}
         </Link>

@@ -5,10 +5,12 @@ import { DEFAULT_SETTINGS } from "@/lib/settings-defaults";
 import { renderPolicy } from "@/lib/policy-render";
 import type { Actor } from "@/server/core";
 import { expireBatches, moveBatch, receiveStock } from "@/server/inventory";
-import { buildQuote, cancelOrder, confirmOrder, decideSubstitution, placeOrder, proposeSubstitution } from "@/server/orders";
+import { buildQuote, cancelOrder, confirmOrder, decideSubstitution, placeOrder, proposeSubstitution, reorderItems } from "@/server/orders";
 import { verifyUpiPayment } from "@/server/payments";
 import { cloudinarySignature, readPrivateFile, savePrivateFile, signFileUrl, verifyFileSig } from "@/server/storage";
 import imageLoader from "@/lib/image-loader";
+import { orderUpdateMessages } from "@/lib/order-messages";
+import { markRestockNotified, requestRestock, restockWaitlist } from "@/server/restock";
 
 const admin: Actor = { id: "admin1", role: "admin", name: "Admin" };
 let n = 0;
@@ -60,6 +62,63 @@ describe("substitution", () => {
     expect(after!.refundPendingPaise).toBe(80000 - 55000);
     expect(await C.variants.findOne({ _id: new ObjectId(big) })).toMatchObject({ available: 5, reserved: 0 });
     expect(await C.variants.findOne({ _id: new ObjectId(small) })).toMatchObject({ available: 3, reserved: 2 });
+  });
+});
+
+describe("order again", () => {
+  it("uses today's price, caps at stock, skips what's gone, and only for the owner", async () => {
+    const s = await setup(10);
+    const a = await s.mk(30000);
+    const b = await s.mk(20000);
+    const o = await order(s, [
+      { variantId: a, qty: 3 },
+      { variantId: b, qty: 1 },
+    ]);
+    const id = o._id.toHexString();
+    await cancelOrder(s.actor, id, "changed my mind");
+    await C.variants.updateOne({ _id: new ObjectId(a) }, { $set: { pricePaise: 28000, available: 2 } });
+    await C.variants.updateOne({ _id: new ObjectId(b) }, { $set: { active: false } });
+    const r = await reorderItems(s.user.id, id);
+    expect(r.unavailable).toBe(1);
+    expect(r.lines).toHaveLength(1);
+    expect(r.lines[0]).toMatchObject({ variantId: a, qty: 2, pricePaise: 28000 });
+    await expect(reorderItems("someone-else", id)).rejects.toThrow(/not found/i);
+  });
+});
+
+describe("notify me when it's back", () => {
+  it("only for out-of-stock packs; one open request per customer; re-opens after notifying", async () => {
+    const s = await setup(1);
+    const v = await s.mk(10000);
+    await C.variants.updateOne({ _id: new ObjectId(v) }, { $set: { available: 0 } }); // sold out
+    const uid = new ObjectId();
+    await C.users.insertOne({ _id: uid, name: "Asha Patil", email: `${uid}@t.invalid`, phoneNumber: "+919800000001", role: "customer", createdAt: new Date() });
+    await requestRestock(uid.toHexString(), v);
+    await requestRestock(uid.toHexString(), v); // twice: still one request
+    let list = await restockWaitlist();
+    const mine = list.find((w) => w.variantId === v)!;
+    expect(mine.requests).toHaveLength(1);
+    expect(mine.requests[0]).toMatchObject({ name: "Asha Patil", phone: "+919800000001" });
+    expect(await markRestockNotified(admin, v)).toBe(1);
+    expect((await restockWaitlist()).some((w) => w.variantId === v)).toBe(false);
+    await requestRestock(uid.toHexString(), v);
+    list = await restockWaitlist();
+    expect(list.find((w) => w.variantId === v)?.requests).toHaveLength(1);
+    // in stock again: no request needed
+    await receiveStock(admin, { variantId: v, qty: 3, batchNo: "R" + ++n, expiryDate: new Date(Date.now() + 60 * 86400_000) });
+    await expect(requestRestock(uid.toHexString(), v)).rejects.toThrow(/in stock/i);
+  });
+});
+
+describe("WhatsApp order updates", () => {
+  const base = { number: "1042", paymentMethod: "upi" as const, paymentStatus: "awaiting_payment" as const, amountReceivedPaise: 0, address: { name: "Asha Patil" }, pricing: { totalPaise: 65000 } };
+  it("matches the order's stage", () => {
+    const placed = orderUpdateMessages({ ...base, status: "placed" }, "Varad Creation", "https://x/orders/1");
+    expect(placed.map((m) => m.label)).toEqual(["Payment reminder", "General"]);
+    expect(placed[0].text).toContain("Hi Asha");
+    expect(placed[0].text).toContain("₹650");
+    const out = orderUpdateMessages({ ...base, paymentMethod: "cod", paymentStatus: "cod_pending" as never, status: "out_for_delivery" }, "Varad Creation", "l");
+    expect(out[0].text).toMatch(/out for delivery today\. Please keep ₹650 ready\./);
   });
 });
 

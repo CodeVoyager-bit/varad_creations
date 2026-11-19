@@ -248,6 +248,24 @@ async function mustFind(id: string, s?: ClientSession, filter: Record<string, un
   return o;
 }
 
+/**
+ * "Order again": a customer's past order as cart lines at today's prices. Items no longer
+ * listed or out of stock are left out (counted in `unavailable`); quantities cap at stock.
+ */
+export async function reorderItems(userId: string, orderId: string, maxQty = 24) {
+  const o = ObjectId.isValid(orderId) ? await C.orders.findOne({ _id: new ObjectId(orderId), userId }) : null;
+  if (!o) throw new AppError("Order not found.", "not_found");
+  const variants = await C.variants.find({ _id: { $in: o.items.map((i) => i.variantId) }, active: true, available: { $gt: 0 } }).toArray();
+  const products = await C.products.find({ _id: { $in: variants.map((v) => v.productId) }, status: "active" }).toArray();
+  const lines = o.items.flatMap((i) => {
+    const v = variants.find((x) => x._id.equals(i.variantId));
+    const p = v && products.find((x) => x._id.equals(v.productId));
+    if (!v || !p) return [];
+    return [{ variantId: v._id.toHexString(), qty: Math.min(i.qty, v.available, maxQty), name: p.name, brand: i.brand, label: v.label, pricePaise: v.pricePaise, mrpPaise: v.mrpPaise, image: p.images[0], slug: p.slug }];
+  });
+  return { lines, unavailable: o.items.length - lines.length };
+}
+
 export async function releaseCoupon(o: OrderDoc, s: ClientSession) {
   if (!o.pricing.couponId) return;
   const r = await C.couponRedemptions.updateOne({ orderId: o._id, status: "active" }, { $set: { status: "released" } }, { session: s });

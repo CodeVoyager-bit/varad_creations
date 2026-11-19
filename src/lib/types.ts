@@ -362,6 +362,18 @@ export interface DeliveryInviteDoc {
   createdAt: Date;
 }
 
+/** "Notify me when it's back": one open request per customer and pack. */
+export interface RestockRequestDoc {
+  _id?: ObjectId;
+  variantId: ObjectId;
+  productId: ObjectId;
+  userId: string;
+  name: string;
+  phone: string;
+  createdAt: Date;
+  notifiedAt?: Date;
+}
+
 export interface SupportRequestDoc {
   _id: ObjectId;
   ticket: string;

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { BuyBox, Gallery } from "@/components/buy-box";
 import { Breadcrumbs, JsonLd, PageMotion, ProductRow } from "@/components/catalog";
+import { SaveButton } from "@/components/save-button";
+import { ShareButton, TrackView } from "@/components/shopper-extras";
 import { Badge, Icon } from "@/components/ui";
 import { rupees } from "@/lib/money";
 import type { ShopProductDetail } from "@/lib/shop-types";
@@ -177,7 +179,14 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
               <Link href={`/b/${p.brand.slug}`} className="text-sm font-bold uppercase tracking-wide text-burgundy-600 hover:underline">
                 {p.brand.name}
               </Link>
-              <h1 className="mt-1 font-display text-2xl font-extrabold leading-tight tracking-[-0.02em] md:text-[1.75rem]">{p.name}</h1>
+              <div className="mt-1 flex items-start justify-between gap-3">
+                <h1 className="font-display text-2xl font-extrabold leading-tight tracking-[-0.02em] md:text-[1.75rem]">{p.name}</h1>
+                <div className="flex shrink-0 gap-2">
+                  <ShareButton title={`${p.brand.name} ${p.name}`} path={`/p/${p.slug}`} store={s.businessName} />
+                  <SaveButton id={p.id} name={p.name} />
+                </div>
+              </div>
+              <TrackView id={p.id} />
               <div className="mt-2 flex flex-wrap gap-2">
                 {p.isDemo && <Badge>Sample product — demonstration price</Badge>}
                 {p.bestseller && <Badge tone="warn">Bestseller</Badge>}
@@ -186,7 +195,7 @@ export default async function ProductPage({ params }: PageProps<"/p/[slug]">) {
             {discontinued && (
               <p className="rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">This product is no longer available. Have a look at similar products below.</p>
             )}
-            <BuyBox p={toCard(p)} discontinued={discontinued} />
+            <BuyBox p={toCard(p)} discontinued={discontinued} whatsapp={s.whatsapp} />
             <ul className="space-y-2 rounded-2xl bg-white p-4 text-sm text-ink-700 shadow-[var(--shadow-card)]">
               <li className="flex gap-2">
                 <Icon name="truck" className="size-5 shrink-0 text-burgundy-600" />

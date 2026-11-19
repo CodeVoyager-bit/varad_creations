@@ -6,6 +6,7 @@ import { rupees, percentOff } from "@/lib/money";
 import { inStock, type ShopProduct, type ShopVariant } from "@/lib/shop-types";
 import { cart, MAX_QTY, qtyOf, useCart } from "./cart-store";
 import { flyToCart } from "./fly-to-cart";
+import { SaveButton } from "./save-button";
 import { cx, Icon } from "./ui";
 
 /** Stand-in pack illustration until real product photography is uploaded. */
@@ -136,6 +137,7 @@ export function ProductCard({ p, morph }: { p: ShopProduct; morph?: boolean }) {
             </div>
           </PackMorph>
         </Link>
+        <SaveButton id={p.id} name={p.name} className="absolute right-1.5 top-1.5" />
         {inStock(p) && (
           <div className="absolute -bottom-3 right-1.5 drop-shadow-[0_4px_10px_rgb(36_23_15/0.18)]">
             {multi ? (

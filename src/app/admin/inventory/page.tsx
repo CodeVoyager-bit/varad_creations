@@ -1,8 +1,13 @@
 import Link from "next/link";
-import { Badge, cx, fmtDate } from "@/components/ui";
+import { ActionButton } from "@/components/admin-ui";
+import { Badge, cx, fmtDate, Icon } from "@/components/ui";
+import { restockNotified } from "@/app/actions/admin";
 import { C } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
+import { siteUrl } from "@/lib/site";
 import { nowMs } from "@/server/core";
+import { restockWaitlist } from "@/server/restock";
+import { loadSettings } from "@/server/settings";
 
 export const metadata = { title: "Inventory" };
 
@@ -10,11 +15,13 @@ export default async function Inventory({ searchParams }: PageProps<"/admin/inve
   await requireAdmin();
   const filter = String((await searchParams).filter ?? "all");
   const in45 = new Date(nowMs() + 45 * 86400_000);
-  const [variants, products, expiring, segregated] = await Promise.all([
+  const [variants, products, expiring, segregated, waitlist, settings] = await Promise.all([
     C.variants.find(filter === "low" ? { active: true, $expr: { $lte: ["$available", "$lowStockThreshold"] } } : {}).toArray(),
     C.products.find({}, { projection: { name: 1 } }).toArray(),
     C.batches.find({ status: "sellable", qty: { $gt: 0 }, expiryDate: { $lt: in45 } }).sort({ expiryDate: 1 }).toArray(),
     C.batches.find({ status: { $in: ["damaged", "expired", "returned"] }, qty: { $gt: 0 } }).sort({ receivedAt: -1 }).toArray(),
+    restockWaitlist(),
+    loadSettings(),
   ]);
   const name = (pid: unknown) => products.find((p) => String(p._id) === String(pid))?.name ?? "?";
   const vname = (vid: unknown) => {
@@ -37,6 +44,41 @@ export default async function Inventory({ searchParams }: PageProps<"/admin/inve
           </Link>
         ))}
       </nav>
+      {waitlist.length > 0 && (
+        <section className="rounded-2xl bg-white p-4 shadow-[var(--shadow-card)]">
+          <h2 className="font-semibold">Customers waiting for restock</h2>
+          <p className="mb-3 text-sm text-ink-500">They tapped “Notify me” on an out-of-stock pack. When it’s back, message them, then mark the pack as done.</p>
+          <ul className="divide-y divide-cream-200">
+            {waitlist.map((w) => (
+              <li key={w.variantId} className="py-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="font-semibold">
+                    {w.product?.name ?? "Product"} · {w.label}{" "}
+                    {w.available > 0 ? <Badge tone="good">Back in stock ({w.available})</Badge> : <Badge tone="warn">Still out of stock</Badge>}
+                  </p>
+                  <ActionButton size="sm" variant="secondary" action={restockNotified.bind(null, w.variantId)}>
+                    Mark {w.requests.length} as told
+                  </ActionButton>
+                </div>
+                <ul className="mt-2 flex flex-wrap gap-2">
+                  {w.requests.map((r) => (
+                    <li key={String(r._id)}>
+                      <a
+                        href={`https://wa.me/${r.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Good news, ${r.name.trim().split(/\s+/)[0]}! ${w.product?.name ?? "Your item"} (${w.label}) is back in stock at ${settings.businessName}: ${siteUrl}/p/${w.product?.slug ?? ""}`)}`}
+                        target="_blank"
+                        rel="noopener"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-leaf-50 px-3 py-1.5 text-sm font-semibold text-leaf-700 hover:bg-leaf-100"
+                      >
+                        <Icon name="whatsapp" className="size-4" /> {r.name} · {fmtDate(r.createdAt)}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       {(filter === "all" || filter === "low") && (
         <div className="overflow-x-auto rounded-2xl bg-white shadow-[var(--shadow-card)]">
           <table className="w-full min-w-[600px] text-sm">

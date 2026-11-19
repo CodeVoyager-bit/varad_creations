@@ -10,6 +10,7 @@ import { saveBrand, saveCategory, saveProduct, saveRedirect, saveVariant, setPro
 import { AppError, audit } from "@/server/core";
 import { createBatch, markDelivered, markFailed, reissueInvite, revokeBatch } from "@/server/delivery";
 import { adjustStock, moveBatch, receiveStock } from "@/server/inventory";
+import { markRestockNotified } from "@/server/restock";
 import { addAdminNote, cancelOrder, confirmOrder, markReady, proposeSubstitution, rescheduleOrder, startPacking } from "@/server/orders";
 import { completeRefund, initiateRefund, markNoPayment, reconcileCod, requestClarification, verifyUpiPayment } from "@/server/payments";
 import { loadSettings } from "@/server/settings";
@@ -44,6 +45,13 @@ async function admin(fn: (a: ReturnType<typeof actorOf>) => Promise<string | voi
 }
 
 const stockChanged = () => updateTag(TAGS.catalog);
+
+// ---------- restock requests ----------
+export const restockNotified = async (variantId: string) =>
+  admin(async (a) => {
+    const n = await markRestockNotified(a, variantId);
+    return n ? `Marked ${n} customer${n === 1 ? "" : "s"} as told.` : "Nobody was waiting.";
+  });
 
 // ---------- orders ----------
 export const acceptOrder = async (id: string) => admin(async (a) => (await confirmOrder(a, id), stockChanged(), "Order confirmed. The 48-hour delivery window has started."));

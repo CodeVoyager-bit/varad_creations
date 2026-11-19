@@ -67,10 +67,28 @@ const ART: Record<string, string> = {
   sweets: "M10 30h28l-3 6H13zM14 30c0-6 4-10 10-10s10 4 10 10M18 22l2-6M28 22l-2-6",
 };
 
-/** Uploaded category photo > a real pack shot from the category > line icon. */
-export function CategoryArt({ c }: { c: Pick<ShopCategory, "slug" | "name" | "image" | "packImage"> }) {
+const FAN = [
+  { width: "62%", left: "19%", bottom: "6%", zIndex: 2 },
+  { width: "50%", left: "4%", top: "10%", rotate: "-12deg" },
+  { width: "50%", right: "4%", top: "10%", rotate: "12deg" },
+];
+
+/** Uploaded category photo > a fan of real pack shots from the category > line icon. */
+export function CategoryArt({ c }: { c: Pick<ShopCategory, "slug" | "name" | "image" | "packImages"> }) {
   if (c.image) return <Image src={c.image} alt="" fill sizes="120px" className="object-cover" />;
-  if (c.packImage) return <Image src={c.packImage} alt="" fill sizes="120px" className="object-contain p-2 mix-blend-multiply" />;
+  const packs = c.packImages ?? [];
+  if (packs.length === 1) return <Image src={packs[0]} alt="" fill sizes="120px" className="object-contain p-2 mix-blend-multiply" />;
+  if (packs.length)
+    return (
+      // multiply twice: white pack backgrounds vanish against each other and against the tile
+      <span className="absolute inset-0 mix-blend-multiply">
+        {packs.map((src, i) => (
+          <span key={src} className="absolute aspect-square mix-blend-multiply" style={FAN[packs.length === 2 && i === 1 ? 2 : i]}>
+            <Image src={src} alt="" fill sizes="100px" className="object-contain" />
+          </span>
+        ))}
+      </span>
+    );
   const d = ART[c.slug] ?? "M10 18 24 10l14 8v14l-14 8-14-8zM10 18l14 8 14-8M24 26v14";
   return (
     <svg aria-hidden viewBox="0 0 48 48" className="size-full p-4 text-burgundy-600">
@@ -110,8 +128,8 @@ export function BrandCards({ brands, grid }: { brands: ShopBrand[]; grid?: boole
               <span className="relative grid aspect-[4/3] w-full place-items-center">
                 {b.logo ? (
                   <Image src={b.logo} alt="" fill sizes="140px" className="object-contain p-1" />
-                ) : b.packImage ? (
-                  <Image src={b.packImage} alt="" fill sizes="140px" className="object-contain" />
+                ) : b.packImages?.[0] ? (
+                  <Image src={b.packImages[0]} alt="" fill sizes="140px" className="object-contain" />
                 ) : (
                   <span className="font-display text-3xl font-bold text-burgundy-600">{b.name[0]}</span>
                 )}

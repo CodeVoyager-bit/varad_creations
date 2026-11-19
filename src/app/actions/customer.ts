@@ -4,10 +4,11 @@ import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { C, nextSeq } from "@/lib/db";
 import { clientIp } from "@/lib/request";
-import { actorOf, requireUser } from "@/lib/session";
+import { actorOf, getSession, requireUser } from "@/lib/session";
 import { AppError, normalizePhone, rateLimit } from "@/server/core";
-import { cancelOrder, decideSubstitution, placeOrder } from "@/server/orders";
+import { cancelOrder, decideSubstitution, placeOrder, reorderItems } from "@/server/orders";
 import { submitUpiReference } from "@/server/payments";
+import { requestRestock } from "@/server/restock";
 import { loadSettings, serviceability } from "@/server/settings";
 import { savePrivateFile } from "@/server/storage";
 import { TAGS } from "@/server/storefront";
@@ -97,6 +98,27 @@ export async function placeOrderAction(input: z.input<typeof orderSchema>) {
     revalidateTag(TAGS.catalog, "max"); // stock changed
     return { orderId: o._id.toHexString() };
   });
+}
+
+export async function reorderLines(orderId: string) {
+  return run(async () => reorderItems((await requireUser("/orders")).id, orderId));
+}
+
+/** "Notify me when it's back" — signing in first if needed, then back to the product. */
+export async function notifyWhenBack(variantId: string, slug: string) {
+  return run(async () => {
+    const user = await requireUser(`/p/${slug}`);
+    await requestRestock(user.id, variantId);
+    return {};
+  });
+}
+
+/** Products from the signed-in customer's recent orders, newest first (empty when signed out). */
+export async function buyAgainProductIds(): Promise<string[]> {
+  const s = await getSession();
+  if (!s) return [];
+  const orders = await C.orders.find({ userId: s.user.id, status: { $ne: "cancelled" } }, { projection: { "items.productId": 1 } }).sort({ createdAt: -1 }).limit(15).toArray();
+  return [...new Set(orders.flatMap((o) => o.items.map((i) => i.productId.toHexString())))].slice(0, 12);
 }
 
 export async function cancelMyOrder(id: string, reason: string) {

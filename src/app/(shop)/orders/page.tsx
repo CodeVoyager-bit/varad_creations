@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { StatusBadges } from "@/components/order-bits";
+import { ReorderButton } from "@/components/shopper-extras";
 import { ButtonLink, EmptyState, fmtDate, Icon, PageLoading } from "@/components/ui";
 import { C, plain } from "@/lib/db";
 import { rupees } from "@/lib/money";
@@ -27,8 +28,8 @@ async function List() {
   return (
     <ul className="space-y-3">
       {orders.map((o) => (
-        <li key={o._id}>
-          <Link href={`/orders/${o._id}`} className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[var(--shadow-card)]">
+        <li key={o._id} className="rounded-2xl bg-white shadow-[var(--shadow-card)]">
+          <Link href={`/orders/${o._id}`} className="flex items-center gap-3 p-4">
             <div className="min-w-0 flex-1">
               <p className="font-semibold">
                 #{o.number} · {rupees(o.pricing.totalPaise)}
@@ -42,6 +43,7 @@ async function List() {
             </div>
             <Icon name="chevron" className="size-5 text-ink-300" />
           </Link>
+          {["delivered", "cancelled"].includes(o.status) && <ReorderButton orderId={o._id} className="-mt-1 px-4 pb-4" />}
         </li>
       ))}
     </ul>

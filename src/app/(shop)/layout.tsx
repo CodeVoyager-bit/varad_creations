@@ -2,6 +2,7 @@ import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Logo } from "@/components/logo";
+import { SearchBox } from "@/components/search-box";
 import { AccountMenu, BottomNav, CartBar, CartButton, DesktopNav, LocationPill } from "@/components/shop-chrome";
 import { Icon } from "@/components/ui";
 import { Skyline } from "@/components/skyline";
@@ -32,6 +33,9 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
             <Suspense fallback={<span aria-hidden className="block h-9 w-9 rounded-full bg-cream-200 md:w-24 md:rounded-lg" />}>
               <AccountMenu />
             </Suspense>
+            <Link href="/saved" aria-label="Saved items" className="hidden size-11 place-items-center rounded-full text-ink-900 hover:bg-cream-200 md:grid">
+              <Icon name="heart" className="size-6" />
+            </Link>
             <CartButton />
           </div>
         </div>
@@ -49,30 +53,6 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
         <BottomNav />
       </Suspense>
     </>
-  );
-}
-
-const HINTS = ["ratlami sev", "khari", "poha masala", "bhujia", "chivda"];
-
-function SearchBox({ className = "flex" }: { className?: string }) {
-  return (
-    <form action="/search" role="search" className={`${className} relative h-11 items-center gap-2.5 rounded-xl border border-transparent bg-cream-100 px-3.5 transition-colors focus-within:border-burgundy-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-burgundy-500/15`}>
-      <Icon name="search" className="size-5 shrink-0 text-ink-500" />
-      <input name="q" type="search" placeholder=" " aria-label="Search products and brands" autoComplete="off" className="peer h-full w-full bg-transparent text-base outline-none md:text-[15px]" enterKeyHint="search" />
-      {/* animated placeholder: hidden as soon as there's text */}
-      <span aria-hidden className="pointer-events-none absolute inset-y-0 left-11 flex items-center gap-1 text-base text-ink-500 peer-[:not(:placeholder-shown)]:hidden md:text-[15px]">
-        Search
-        <span className="relative h-6 overflow-hidden">
-          <span className="block animate-[hints_12s_cubic-bezier(.7,0,.3,1)_infinite]">
-            {[...HINTS, HINTS[0]].map((h, i) => (
-              <span key={i} className="block h-6 leading-6">
-                “{h}”
-              </span>
-            ))}
-          </span>
-        </span>
-      </span>
-    </form>
   );
 }
 

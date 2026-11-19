@@ -171,6 +171,8 @@ const paths = {
   doc: <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h5" />,
   store: <path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6" />,
   history: <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2" />,
+  heart: <path d="M12 20s-7.5-4.6-9.2-9.4A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 9.2 4C19.5 15.4 12 20 12 20z" />,
+  share: <path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" />,
 };
 
 export const fmtDate = (d: string | Date | undefined | null, withTime = true) =>

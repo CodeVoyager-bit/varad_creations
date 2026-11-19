@@ -13,6 +13,7 @@ import { requireUser } from "@/lib/session";
 import { lapseIfDue } from "@/server/orders";
 import { loadSettings } from "@/server/settings";
 import { upiLink, upiQrSvg } from "@/server/upi";
+import { ReorderButton } from "@/components/shopper-extras";
 
 export const metadata: Metadata = { title: "Order details", robots: { index: false } };
 
@@ -63,6 +64,7 @@ async function OrderDetail({ params, searchParams }: PageProps<"/orders/[id]">) 
           </div>
           <StatusBadges o={o} />
         </div>
+        {["delivered", "cancelled"].includes(o.status) && <ReorderButton orderId={String(o._id)} className="mt-3" />}
         <p className="mt-3 rounded-xl bg-cream-100 px-3 py-2 text-sm">
           {o.expectedBy && !["delivered", "cancelled"].includes(o.status) ? (
             <>

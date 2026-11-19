@@ -90,14 +90,21 @@ export async function getCatalog() {
   for (const c of categories) {
     const mine = ranked.filter((p) => p.category.slug === c.slug);
     c.productCount = mine.length;
-    c.packImage = mine.find((p) => p.image)?.image;
+    c.packImages = packShots(mine);
   }
   for (const b of shopBrands) {
     const mine = ranked.filter((p) => p.brand.slug === b.slug);
     b.productCount = mine.length;
-    b.packImage = mine.find((p) => p.image)?.image;
+    b.packImages = packShots(mine);
   }
   return { categories, brands: shopBrands, products: details };
+}
+
+/** Up to three pack photos, one per brand first so a tile shows the range. */
+function packShots(list: ShopProduct[]) {
+  const withImage = list.filter((p) => p.image);
+  const byBrand = [...new Map(withImage.map((p) => [p.brand.slug, p.image!])).values()];
+  return [...new Set([...byBrand, ...withImage.map((p) => p.image!)])].slice(0, 3);
 }
 
 export function unitPrice(v: Pick<VariantDoc, "pricePaise" | "netQty" | "netUnit">) {

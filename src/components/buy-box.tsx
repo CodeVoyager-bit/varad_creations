@@ -1,13 +1,14 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { notifyWhenBack } from "@/app/actions/customer";
 import { percentOff, rupees } from "@/lib/money";
 import type { ShopProduct } from "@/lib/shop-types";
 import Link from "next/link";
 import { cart, qtyOf, useCart } from "./cart-store";
 import { flyToCart } from "./fly-to-cart";
 import { PackArt, PackMorph, Stepper } from "./product-card";
-import { Badge, cx } from "./ui";
+import { Badge, cx, Icon } from "./ui";
 
 export function Gallery({ id, images, labels, name, brand }: { id: string; images: string[]; labels: string[]; name: string; brand: string }) {
   const all = [...images.map((src) => ({ src, alt: `${brand} ${name} pack` })), ...labels.map((src, i) => ({ src, alt: `${brand} ${name} label ${i + 1}` }))];
@@ -43,7 +44,7 @@ export function Gallery({ id, images, labels, name, brand }: { id: string; image
   );
 }
 
-export function BuyBox({ p, discontinued }: { p: ShopProduct; discontinued: boolean }) {
+export function BuyBox({ p, discontinued, whatsapp }: { p: ShopProduct; discontinued: boolean; whatsapp?: string }) {
   const [vid, setVid] = useState((p.variants.find((v) => v.inStock) ?? p.variants[0]).id);
   const v = p.variants.find((x) => x.id === vid)!;
   const off = percentOff(v.mrpPaise, v.pricePaise);
@@ -94,7 +95,48 @@ export function BuyBox({ p, discontinued }: { p: ShopProduct; discontinued: bool
             {v.inStock ? (v.fewLeft ? `In stock — only ${v.fewLeft} left` : "In stock") : "Out of stock"}
           </p>
           <AddToCart p={p} v={v} />
+          {!v.inStock && <NotifyMe key={v.id} variantId={v.id} slug={p.slug} />}
+          {!v.inStock && whatsapp && (
+            <a
+              href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hi! When will ${p.brand.name} ${p.name} (${v.label}) be back in stock?`)}`}
+              target="_blank"
+              rel="noopener"
+              className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-leaf-600/40 bg-white px-4 font-semibold text-leaf-700 hover:bg-leaf-50 sm:max-w-sm"
+            >
+              <Icon name="whatsapp" className="size-5" /> Ask on WhatsApp when it’s back
+            </a>
+          )}
         </div>
+      )}
+    </div>
+  );
+}
+
+/** Out of stock: leave a request the shop sees on its inventory page (signs in first if needed). */
+function NotifyMe({ variantId, slug }: { variantId: string; slug: string }) {
+  const [pending, start] = useTransition();
+  const [result, setResult] = useState<{ ok: boolean; error?: string } | null>(null);
+  if (result?.ok)
+    return (
+      <p role="status" className="flex items-center gap-2 rounded-2xl bg-leaf-50 px-4 py-3 text-sm font-medium text-leaf-700 sm:max-w-sm">
+        <Icon name="check" className="size-4" /> Done — we’ll message you when it’s back in stock.
+      </p>
+    );
+  return (
+    <div className="sm:max-w-sm">
+      <button
+        type="button"
+        disabled={pending}
+        onClick={() => start(async () => setResult(await notifyWhenBack(variantId, slug)))}
+        className="flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-burgundy-600 text-base font-semibold text-white transition-[transform,background-color] hover:bg-burgundy-700 active:scale-[0.99] disabled:opacity-60"
+      >
+        <Icon name="bell" className="size-5" />
+        {pending ? "Saving…" : "Notify me when it’s back"}
+      </button>
+      {result && !result.ok && (
+        <p role="alert" className="mt-2 text-sm text-danger-600">
+          {result.error}
+        </p>
       )}
     </div>
   );

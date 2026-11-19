@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import { quoteCart, type CartQuote } from "@/app/actions/public";
 import { rupees } from "@/lib/money";
-import { cart, MAX_QTY, useCart, type CartLine } from "./cart-store";
-import { PackArt } from "./product-card";
+import { fromPrice, type ShopProduct } from "@/lib/shop-types";
+import { cart, MAX_QTY, useCart, type CartLine, type CartState } from "./cart-store";
+import { PackArt, ProductCard } from "./product-card";
 import { Button, ButtonLink, cx, EmptyState, Icon, Input, Notice } from "./ui";
 
 /** Server quote for the current cart; refetches when lines or coupon change. */
@@ -127,7 +128,34 @@ function LineRow({ l, issue }: { l: CartLine; issue?: { kind: "unavailable" | "i
   );
 }
 
-export function CartView() {
+/**
+ * "Complete your order": products not yet in the cart. While free delivery is still out of
+ * reach, the ones that would just cover the gap come first.
+ */
+function Suggestions({ products, s, left }: { products: ShopProduct[]; s: CartState; left?: number }) {
+  const inCart = new Set(s.lines.map((l) => l.variantId));
+  const pool = products.filter((p) => !p.variants.some((v) => inCart.has(v.id)));
+  const list = left
+    ? [...pool.filter((p) => fromPrice(p) >= left).sort((a, b) => fromPrice(a) - fromPrice(b)), ...pool.filter((p) => fromPrice(p) < left).sort((a, b) => fromPrice(b) - fromPrice(a))]
+    : [...pool].sort((a, b) => Number(b.bestseller) - Number(a.bestseller));
+  if (!list.length) return null;
+  return (
+    <section aria-labelledby="suggest-h" className="pt-2">
+      <h2 id="suggest-h" className="mb-2 font-display text-lg font-bold text-ink-900">
+        {left ? "Top up for free delivery" : "Complete your order"}
+      </h2>
+      <ul className="scrollbar-none -mx-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-4 md:mx-0 md:px-0">
+        {list.slice(0, 10).map((p) => (
+          <li key={p.id} className="w-[42%] shrink-0 snap-start sm:w-[30%] lg:w-[23%]">
+            <ProductCard p={p} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+export function CartView({ suggestions = [] }: { suggestions?: ShopProduct[] }) {
   const { s, q, pending, error, retry } = useQuote();
   const [code, setCode] = useState("");
   // keep display snapshots in sync with server prices
@@ -143,8 +171,8 @@ export function CartView() {
   const issues = new Map(q?.lines.filter((l) => l.issue).map((l) => [l.variantId, { kind: l.issue!, available: l.available }]));
   const blocked = !q || issues.size > 0 || (q.quote.coupon && !q.quote.coupon.ok);
   return (
-    <div className="grid gap-4 md:grid-cols-[1fr_360px] md:items-start">
-      <div className="space-y-3">
+    <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_360px] md:items-start">
+      <div className="min-w-0 space-y-3">
         {q && <FreeDeliveryBar q={q} />}
         <section className="rounded-2xl bg-white px-4 shadow-[var(--shadow-card)]">
           <ul className="divide-y divide-cream-200">
@@ -153,6 +181,7 @@ export function CartView() {
             ))}
           </ul>
         </section>
+        <Suggestions products={suggestions} s={s} left={q?.quote.freeDeliveryRemainingPaise} />
       </div>
       <aside className="space-y-3 md:sticky md:top-28">
         <section className="rounded-2xl bg-white p-4 shadow-[var(--shadow-card)]">
